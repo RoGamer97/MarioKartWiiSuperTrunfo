@@ -1,0 +1,298 @@
+package view;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+
+import controle.ControleJogo;
+import modelo.Jogador;
+import modelo.Jogo;
+
+public class ViewJogo extends JFrame {
+
+	private Jogador humano = new Jogador();
+	private Jogador maquina = new Jogador();
+	
+	private Jogo jogo = new Jogo(humano, maquina);
+	
+	private ViewMenuPrincipal viewMenuPrincipal;
+	
+	private ControleJogo controleJogo = new ControleJogo(this);
+	
+	private static final long serialVersionUID = 1L;
+	private JPanel contentPane;
+	private JTextField textFieldSpeedHumano;
+	private JTextField textFieldWeightHumano;
+	private JTextField textFieldAccelerationHumano;
+	private JTextField textFieldHandlingHumano;
+	private JTextField textFieldDriftHumano;
+	private JTextField textFieldOffroadHumano;
+	private JTextField textFieldMTHumano;
+	private JTextField textFieldSpeedMaquina;
+	private JTextField textFieldWeightMaquina;
+	private JTextField textFieldAccelerationMaquina;
+	private JTextField textFieldHandlingMaquina;
+	private JTextField textFieldDriftMaquina;
+	private JTextField textFieldOffroadMaquina;
+	private JTextField textFieldMTMaquina;
+	
+	private JLabel textLabelRodadaAtual;
+	private JLabel textFim;
+	private JLabel textVencedor;
+	private JButton btnJogar;
+	
+//	public static void main(String[] args) {
+//		
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					ViewJogo frame = new ViewJogo();
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
+
+	/**
+	 * Create the frame.
+	 */
+	public ViewJogo(ViewMenuPrincipal viewMenuPrincipal, int totalRodadas, boolean mostrarCartasMaquina) 
+	{
+		controleJogo.setTotalRodadas(totalRodadas);
+		controleJogo.setMostrarCartaMaquina(mostrarCartasMaquina);
+		viewMenuPrincipal.setVisible(false);
+		
+		this.viewMenuPrincipal = viewMenuPrincipal;
+		
+		setTitle("Super Mario Kart Trunfo");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 510, 510);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JLabel textSpeedHumano = new JLabel("Speed");
+		textSpeedHumano.setBounds(30, 65, 46, 14);
+		contentPane.add(textSpeedHumano);
+		
+		textFieldSpeedHumano = new JTextField();
+		textFieldSpeedHumano.setBounds(86, 62, 86, 20);
+		contentPane.add(textFieldSpeedHumano);
+		textFieldSpeedHumano.setColumns(10);
+		
+		JLabel textWeightHumano = new JLabel("Weight");
+		textWeightHumano.setBounds(30, 102, 46, 14);
+		contentPane.add(textWeightHumano);
+		
+		textFieldWeightHumano = new JTextField();
+		textFieldWeightHumano.setColumns(10);
+		textFieldWeightHumano.setBounds(86, 99, 86, 20);
+		contentPane.add(textFieldWeightHumano);
+		
+		JLabel textAccelerationHumano = new JLabel("Acceleration");
+		textAccelerationHumano.setBounds(10, 147, 66, 14);
+		contentPane.add(textAccelerationHumano);
+		
+		textFieldAccelerationHumano = new JTextField();
+		textFieldAccelerationHumano.setColumns(10);
+		textFieldAccelerationHumano.setBounds(86, 144, 86, 20);
+		contentPane.add(textFieldAccelerationHumano);
+		
+		JLabel textHandlingHumano = new JLabel("Handling");
+		textHandlingHumano.setBounds(10, 205, 66, 14);
+		contentPane.add(textHandlingHumano);
+		
+		textFieldHandlingHumano = new JTextField();
+		textFieldHandlingHumano.setColumns(10);
+		textFieldHandlingHumano.setBounds(86, 199, 86, 20);
+		contentPane.add(textFieldHandlingHumano);
+		
+		JLabel textDriftHumano = new JLabel("Drift");
+		textDriftHumano.setBounds(10, 251, 66, 14);
+		contentPane.add(textDriftHumano);
+		
+		textFieldDriftHumano = new JTextField();
+		textFieldDriftHumano.setColumns(10);
+		textFieldDriftHumano.setBounds(86, 248, 86, 20);
+		contentPane.add(textFieldDriftHumano);
+		
+		JLabel textOffRoadHumano = new JLabel("Off-Road");
+		textOffRoadHumano.setBounds(10, 314, 66, 14);
+		contentPane.add(textOffRoadHumano);
+		
+		textFieldOffroadHumano = new JTextField();
+		textFieldOffroadHumano.setColumns(10);
+		textFieldOffroadHumano.setBounds(86, 311, 86, 20);
+		contentPane.add(textFieldOffroadHumano);
+		
+		JLabel textMTHumano = new JLabel("Mini-Turbo");
+		textMTHumano.setBounds(10, 364, 66, 14);
+		contentPane.add(textMTHumano);
+		
+		textFieldMTHumano = new JTextField();
+		textFieldMTHumano.setColumns(10);
+		textFieldMTHumano.setBounds(86, 361, 86, 20);
+		contentPane.add(textFieldMTHumano);
+		
+		JLabel textSpeedMaquina = new JLabel("Speed");
+		textSpeedMaquina.setBounds(438, 65, 46, 14);
+		contentPane.add(textSpeedMaquina);
+		
+		textFieldSpeedMaquina = new JTextField();
+		textFieldSpeedMaquina.setColumns(10);
+		textFieldSpeedMaquina.setBounds(346, 62, 86, 20);
+		contentPane.add(textFieldSpeedMaquina);
+		
+		JLabel textWeightMaquina = new JLabel("Weight");
+		textWeightMaquina.setBounds(438, 102, 46, 14);
+		contentPane.add(textWeightMaquina);
+		
+		textFieldWeightMaquina = new JTextField();
+		textFieldWeightMaquina.setColumns(10);
+		textFieldWeightMaquina.setBounds(346, 99, 86, 20);
+		contentPane.add(textFieldWeightMaquina);
+		
+		JLabel textAccelerationMaquina = new JLabel("Acceleration");
+		textAccelerationMaquina.setBounds(438, 147, 66, 14);
+		contentPane.add(textAccelerationMaquina);
+		
+		textFieldAccelerationMaquina = new JTextField();
+		textFieldAccelerationMaquina.setColumns(10);
+		textFieldAccelerationMaquina.setBounds(346, 144, 86, 20);
+		contentPane.add(textFieldAccelerationMaquina);
+		
+		JLabel textHandlingMaquina = new JLabel("Handling");
+		textHandlingMaquina.setBounds(438, 205, 66, 14);
+		contentPane.add(textHandlingMaquina);
+		
+		textFieldHandlingMaquina = new JTextField();
+		textFieldHandlingMaquina.setColumns(10);
+		textFieldHandlingMaquina.setBounds(346, 199, 86, 20);
+		contentPane.add(textFieldHandlingMaquina);
+		
+		JLabel textDriftMaquina = new JLabel("Drift");
+		textDriftMaquina.setBounds(438, 248, 66, 14);
+		contentPane.add(textDriftMaquina);
+		
+		textFieldDriftMaquina = new JTextField();
+		textFieldDriftMaquina.setColumns(10);
+		textFieldDriftMaquina.setBounds(346, 245, 86, 20);
+		contentPane.add(textFieldDriftMaquina);
+		
+		JLabel textOffroadMaquina = new JLabel("Off-Road");
+		textOffroadMaquina.setBounds(438, 311, 66, 14);
+		contentPane.add(textOffroadMaquina);
+		
+		textFieldOffroadMaquina = new JTextField();
+		textFieldOffroadMaquina.setColumns(10);
+		textFieldOffroadMaquina.setBounds(346, 308, 86, 20);
+		contentPane.add(textFieldOffroadMaquina);
+		
+		JLabel textMTMaquina = new JLabel("Mini-Turbo");
+		textMTMaquina.setBounds(438, 376, 66, 14);
+		contentPane.add(textMTMaquina);
+		
+		textFieldMTMaquina = new JTextField();
+		textFieldMTMaquina.setColumns(10);
+		textFieldMTMaquina.setBounds(346, 373, 86, 20);
+		contentPane.add(textFieldMTMaquina);
+		
+		JLabel textLabelRodada = new JLabel("Rodada");
+		textLabelRodada.setBounds(225, 11, 46, 14);
+		contentPane.add(textLabelRodada);
+		
+		textLabelRodadaAtual = new JLabel("0");
+		textLabelRodadaAtual.setBounds(225, 36, 46, 14);
+		contentPane.add(textLabelRodadaAtual);
+		
+		JLabel textTotalRodadas = new JLabel(Integer.toString(totalRodadas));
+		textTotalRodadas.setBounds(256, 36, 46, 14);
+		contentPane.add(textTotalRodadas);
+		
+		JLabel textDash = new JLabel("/");
+		textDash.setBounds(246, 36, 46, 14);
+		contentPane.add(textDash);
+		
+		textFim = new JLabel("FIM!");
+		textFim.setBounds(235, 224, 46, 14);
+		contentPane.add(textFim);
+		textFim.setVisible(false);
+	
+		btnJogar = new JButton("Jogar");
+		btnJogar.setBounds(172, 424, 169, 36);
+		contentPane.add(btnJogar);
+		
+		btnJogar.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				if (controleJogo.isPartidaFinalizada())
+				{
+					voltarMenuTitulo();
+					return;
+				}
+				
+				controleJogo.proximaRodada();
+				controleJogo.finalizarPartidaSeNecessario();
+			}
+			
+		});
+		
+		textVencedor = new JLabel("Vencedor: (TipoResultado)");
+		textVencedor.setBounds(190, 399, 128, 14);
+		contentPane.add(textVencedor);
+		textVencedor.setVisible(false);
+		
+		JButton btnAbandonarPartida = new JButton("Abandonar Partida");
+		btnAbandonarPartida.setBounds(10, 440, 152, 20);
+		contentPane.add(btnAbandonarPartida);
+		btnAbandonarPartida.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+				int opcaoSelecionada = JOptionPane.showConfirmDialog(ViewJogo.this, 
+						"Tem certeza que quer abandonar a partida? Você irá retornar ao menu principal", 
+						"Abandonar partida",
+					    JOptionPane.YES_NO_OPTION // do próprio OptionPane
+					);
+
+					if (opcaoSelecionada == JOptionPane.YES_OPTION) 
+					{
+						voltarMenuTitulo();
+					}
+			}
+		});
+		
+	}
+	
+	// era função para cada um anteriormente, mas acho q é melhor assim
+	public void mostrarElementosFimPartida()
+	{
+		textFim.setVisible(true);
+
+		textVencedor.setText("Vencedor: " + controleJogo.getStringVencedor());
+		textVencedor.setVisible(true);
+		
+		btnJogar.setText("Voltar ao menu principal");
+	}
+	
+	public void atualizarTextoRodada(int rodadaAtual)
+	{
+		textLabelRodadaAtual.setText(Integer.toString(rodadaAtual));
+	}
+	
+	public void voltarMenuTitulo()
+	{
+		viewMenuPrincipal.setVisible(true);
+	    this.setVisible(false);
+	}
+}
