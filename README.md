@@ -26,4 +26,4 @@ Ter arquivo .jar disponível para jogar, mas tbm mostrar como clonar e rodar o p
 
 - **Rodrigo de Moraes Lorenzatto**  
 - **Roger Gomes Viana**  
-- **Carlos Augusto**  
+- **Carlos Augusto**

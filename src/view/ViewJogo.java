@@ -11,20 +11,18 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import controle.ControleCarta;
 import controle.ControleJogo;
-import modelo.Jogador;
-import modelo.Jogo;
+import modelo.TipoJogador;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
-public class ViewJogo extends JFrame {
-
-	private Jogador humano = new Jogador();
-	private Jogador maquina = new Jogador();
-	
-	private Jogo jogo = new Jogo(humano, maquina);
-	
+public class ViewJogo extends JFrame 
+{	
 	private ViewMenuPrincipal viewMenuPrincipal;
 	
 	private ControleJogo controleJogo = new ControleJogo(this);
+	// private ControleCarta controleCarta = new ControleCarta();
 	
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -47,6 +45,12 @@ public class ViewJogo extends JFrame {
 	private JLabel textFim;
 	private JLabel textVencedor;
 	private JButton btnJogar;
+	
+	private JLabel textPontosPartidaHumano;
+	private JLabel textPontosPartidaMaquina;
+	
+	private JLabel textPontosRodadaHumano;
+	private JLabel textPontosRodadaMaquina;
 	
 //	public static void main(String[] args) {
 //		
@@ -243,6 +247,10 @@ public class ViewJogo extends JFrame {
 				}
 				
 				controleJogo.proximaRodada();
+				
+				debugSetAtributosCarta();
+				controleJogo.atualizarPontos();
+				
 				controleJogo.finalizarPartidaSeNecessario();
 			}
 			
@@ -256,6 +264,47 @@ public class ViewJogo extends JFrame {
 		JButton btnAbandonarPartida = new JButton("Abandonar Partida");
 		btnAbandonarPartida.setBounds(10, 440, 152, 20);
 		contentPane.add(btnAbandonarPartida);
+		
+		JLabel textPontosRodada = new JLabel("Pontos Rodada");
+		textPontosRodada.setBounds(207, 308, 120, 26);
+		contentPane.add(textPontosRodada);
+		
+		JLabel textVoce = new JLabel("Você");
+		textVoce.setBounds(172, 373, 74, 20);
+		contentPane.add(textVoce);
+		
+		JLabel textMaquina = new JLabel("Maquina");
+		textMaquina.setBounds(300, 333, 80, 14);
+		contentPane.add(textMaquina);
+		
+		JLabel textVoce1 = new JLabel("Você");
+		textVoce1.setBounds(172, 330, 74, 20);
+		contentPane.add(textVoce1);
+		
+		JLabel textMaquina1 = new JLabel("Maquina");
+		textMaquina1.setBounds(300, 376, 80, 14);
+		contentPane.add(textMaquina1);
+		
+		JLabel textPontosPartida = new JLabel("Pontos Partida");
+		textPontosPartida.setBounds(217, 345, 120, 26);
+		contentPane.add(textPontosPartida);
+		
+		textPontosRodadaHumano = new JLabel("0");
+		textPontosRodadaHumano.setBounds(200, 333, 46, 14);
+		contentPane.add(textPontosRodadaHumano);
+		
+		textPontosRodadaMaquina = new JLabel("0");
+		textPontosRodadaMaquina.setBounds(272, 333, 46, 14);
+		contentPane.add(textPontosRodadaMaquina);
+		
+		textPontosPartidaHumano = new JLabel("0");
+		textPontosPartidaHumano.setBounds(200, 376, 46, 14);
+		contentPane.add(textPontosPartidaHumano);
+		
+		textPontosPartidaMaquina = new JLabel("0");
+		textPontosPartidaMaquina.setBounds(272, 376, 46, 14);
+		contentPane.add(textPontosPartidaMaquina);
+		
 		btnAbandonarPartida.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
@@ -294,5 +343,40 @@ public class ViewJogo extends JFrame {
 	{
 		viewMenuPrincipal.setVisible(true);
 	    this.setVisible(false);
+	}
+	
+	public void atualizarTextoPontos()
+	{
+		textPontosPartidaHumano.setText(Integer.toString(controleJogo.getPontosPartidaPorTipoJogador(TipoJogador.HUMANO)));
+		textPontosPartidaMaquina.setText(Integer.toString(controleJogo.getPontosPartidaPorTipoJogador(TipoJogador.MAQUINA)));
+		
+		textPontosRodadaHumano.setText(Integer.toString(controleJogo.getPontosRodadaPorTipoJogador(TipoJogador.HUMANO)));
+		textPontosRodadaMaquina.setText(Integer.toString(controleJogo.getPontosRodadaPorTipoJogador(TipoJogador.MAQUINA)));
+	}
+
+	// DEBUG: Setar os valores escritos nos text fields por enquanto
+	public void debugSetAtributosCarta()
+	{
+		
+		// se o text field estiver vazio, usa valor 0 pra evitar erro
+		int speed = textFieldSpeedHumano.getText().trim().isEmpty() ? 0 : Integer.parseInt(textFieldSpeedHumano.getText().trim());
+		int weight = textFieldWeightHumano.getText().trim().isEmpty() ? 0 : Integer.parseInt(textFieldWeightHumano.getText().trim());
+		int accel = textFieldAccelerationHumano.getText().trim().isEmpty() ? 0 : Integer.parseInt(textFieldAccelerationHumano.getText().trim());
+		int handling = textFieldHandlingHumano.getText().trim().isEmpty() ? 0 : Integer.parseInt(textFieldHandlingHumano.getText().trim());
+		int drift = textFieldDriftHumano.getText().trim().isEmpty() ? 0 : Integer.parseInt(textFieldDriftHumano.getText().trim());
+		int offroad = textFieldOffroadHumano.getText().trim().isEmpty() ? 0 : Integer.parseInt(textFieldOffroadHumano.getText().trim());
+		int mt = textFieldMTHumano.getText().trim().isEmpty() ? 0 : Integer.parseInt(textFieldMTHumano.getText().trim());
+
+		controleJogo.setAtributosCartasHumano(speed, weight, accel, handling, drift, offroad, mt);
+
+		speed = textFieldSpeedMaquina.getText().trim().isEmpty() ? 0 : Integer.parseInt(textFieldSpeedMaquina.getText().trim());
+		weight = textFieldWeightMaquina.getText().trim().isEmpty() ? 0 : Integer.parseInt(textFieldWeightMaquina.getText().trim());
+		accel = textFieldAccelerationMaquina.getText().trim().isEmpty() ? 0 : Integer.parseInt(textFieldAccelerationMaquina.getText().trim());
+		handling = textFieldHandlingMaquina.getText().trim().isEmpty() ? 0 : Integer.parseInt(textFieldHandlingMaquina.getText().trim());
+		drift = textFieldDriftMaquina.getText().trim().isEmpty() ? 0 : Integer.parseInt(textFieldDriftMaquina.getText().trim());
+		offroad = textFieldOffroadMaquina.getText().trim().isEmpty() ? 0 : Integer.parseInt(textFieldOffroadMaquina.getText().trim());
+		mt = textFieldMTMaquina.getText().trim().isEmpty() ? 0 : Integer.parseInt(textFieldMTMaquina.getText().trim());
+
+		controleJogo.setAtributosCartasMaquina(speed, weight, accel, handling, drift, offroad, mt);
 	}
 }

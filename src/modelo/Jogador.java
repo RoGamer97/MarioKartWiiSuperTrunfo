@@ -21,12 +21,12 @@ public class Jogador
 		this.pontosPartida += this.pontosRodada;
 	}
 	
-	public void adicionarPontoRodada(int pontos)
+	public void adicionarPontosRodada(int pontos)
 	{
 		this.pontosRodada += pontos;
 	}
 	
-	public void resetPontoRodada()
+	public void resetPontosRodada()
 	{
 		this.pontosRodada = 0;
 	}

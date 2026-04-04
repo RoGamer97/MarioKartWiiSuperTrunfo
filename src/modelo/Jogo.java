@@ -39,20 +39,16 @@ public class Jogo
 	{
 		for (Jogador jogador : jogadores)
 		{
-			jogador.resetPontoRodada();
-			jogador.adicionarPontosPartida();
+			// jogador.adicionarPontosPartida();
+			jogador.resetPontosRodada();
 		}
 		rodadaAtual++;
 	}
 	
 	public TipoJogador getTipoJogadorVencedor()
 	{
-		int pontoPartidaHumano = humano.getPontosPartida();
-		int pontoPartidaMaquina = maquina.getPontosPartida();
-
-		return (pontoPartidaHumano > pontoPartidaMaquina) ? TipoJogador.HUMANO : TipoJogador.MAQUINA;
+		return (humano.getPontosPartida() > maquina.getPontosPartida()) ? TipoJogador.HUMANO : TipoJogador.MAQUINA;
 	}
-		
 	
 	public boolean isUltimaRodada()
 	{
@@ -68,8 +64,6 @@ public class Jogo
 	{
 		this.mostrarCartaMaquina = deveMostrar;
 	}
-	
-	
 }
 
 
