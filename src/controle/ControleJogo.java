@@ -12,26 +12,31 @@ public class ControleJogo
 	Jogador humano = new Jogador();
 	Jogador maquina = new Jogador();
 	
-	private Carta cartaHumano = new Carta(humano);
-	private Carta cartaMaquina = new Carta(maquina);
-	
 	private Jogo jogo = new Jogo(humano, maquina);
 	private TipoJogadorString tjString = new TipoJogadorString();
 	
 	private ViewJogo viewJogo;
+	private ControleCarta controleCarta;
 	
-	public ControleJogo(ViewJogo viewJogo)
+	public ControleJogo(ViewJogo viewJogo, ControleCarta controleCarta)
 	{
 		this.viewJogo = viewJogo;
+		this.controleCarta = controleCarta;
 	}
 	
-	public void proximaRodada()
+	public Jogador getJogadorPorTipo(TipoJogador tipoJogador)
+	{
+		return (tipoJogador == TipoJogador.HUMANO) ? humano : maquina;
+	}
+	
+	public void iniciarRodada()
 	{	
-		jogo.proximaRodada();
-		viewJogo.atualizarTextoRodada(jogo.getRodadaAtual());
+		humano.resetPontosRodada();
+		maquina.resetPontosRodada();
+		jogo.incrementarRodadaAtual();
 	}
 	
-	public void finalizarPartidaSeNecessario()
+	public void checarFinalizarPartida()
 	{
 		if (!isPartidaFinalizada())
 		{
@@ -41,6 +46,28 @@ public class ControleJogo
 		viewJogo.mostrarElementosFimPartida();
 	}
 	
+	
+	public void finalizarRodada()
+	{
+		int totalAtribMaiorHumano = controleCarta.getTotalAtributosMaiores(TipoJogador.HUMANO);
+		int totalAtribMaiorMaquina = controleCarta.getTotalAtributosMaiores(TipoJogador.MAQUINA);
+		
+		Carta cartaHumano = controleCarta.getCartaPorTipoJogador(TipoJogador.HUMANO);
+		Carta cartaMaquina = controleCarta.getCartaPorTipoJogador(TipoJogador.MAQUINA);
+		
+		humano.adicionarPontosRodada(totalAtribMaiorHumano);
+		maquina.adicionarPontosRodada(totalAtribMaiorMaquina);
+		
+		getJogadorPorTipo(controleCarta.getJogadorVencedorAtributos()).adicionarPontoPartida();
+		
+		viewJogo.atualizarElementosRodada();
+	}
+	
+	public boolean isPartidaFinalizada()
+	{
+		return jogo.isUltimaRodada();
+	}
+	
 	public int getRodadaAtual()
 	{
 		return jogo.getRodadaAtual();
@@ -48,7 +75,7 @@ public class ControleJogo
 	
 	public String getStringVencedor()
 	{	
-		return tjString.getTipoJogadorString(jogo.getTipoJogadorVencedor());
+		return tjString.getTipoJogadorString(jogo.getVencedorRodada());
 	}
 	
 	public void setTotalRodadas(int quantidade)
@@ -66,46 +93,14 @@ public class ControleJogo
 		jogo.setMostrarCartaMaquina(deveMostrar);
 	}
 	
-	public boolean isPartidaFinalizada()
-	{
-		return jogo.isUltimaRodada();
+	public int getPontosRodada(TipoJogador tipoJogador)
+	{	
+		return getJogadorPorTipo(tipoJogador).getPontosRodada();
 	}
 	
-	public int getPontosRodadaPorTipoJogador(TipoJogador tipoJogador)
+	public int getPontosPartida(TipoJogador tipoJogador)
 	{
-		Jogador jogador = tipoJogador == TipoJogador.HUMANO ? humano : maquina;
-		
-		return jogador.getPontosRodada();
-	}
-	
-	public int getPontosPartidaPorTipoJogador(TipoJogador tipoJogador)
-	{
-		Jogador jogador = tipoJogador == TipoJogador.HUMANO ? humano : maquina;
-		
-		return jogador.getPontosPartida();
-	}
-	
-	// na ControleJogo temporariamente
-	public void setAtributosCartasHumano(int speed, int weight, int accel, int handling, int drift, int offroad, int mt)
-	{
-		cartaHumano.setAtributos(speed, weight, accel, handling, drift, offroad, mt);
-	}
-	
-	// na ControleJogo temporariamente
-	public void setAtributosCartasMaquina(int speed, int weight, int accel, int handling, int drift, int offroad, int mt)
-	{
-		cartaMaquina.setAtributos(speed, weight, accel, handling, drift, offroad, mt);
-	}
-	
-	public void atualizarPontos()
-	{
-		humano.adicionarPontosRodada(cartaHumano.getSomaAtributos());
-		maquina.adicionarPontosRodada(cartaMaquina.getSomaAtributos());
-		
-		humano.adicionarPontosPartida();
-		maquina.adicionarPontosPartida();
-		
-		viewJogo.atualizarTextoPontos();
+		return getJogadorPorTipo(tipoJogador).getPontosPartida();
 	}
 	
 }

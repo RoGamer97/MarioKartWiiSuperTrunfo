@@ -2,6 +2,7 @@ package view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -14,14 +15,15 @@ import javax.swing.border.EmptyBorder;
 import controle.ControleCarta;
 import controle.ControleJogo;
 import modelo.TipoJogador;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class ViewJogo extends JFrame 
 {	
 	private ViewMenuPrincipal viewMenuPrincipal;
 	
-	private ControleJogo controleJogo = new ControleJogo(this);
+	private ControleCarta controleCarta = new ControleCarta();
+	
+	private ControleJogo controleJogo = new ControleJogo(this, controleCarta);
+	
 	// private ControleCarta controleCarta = new ControleCarta();
 	
 	private static final long serialVersionUID = 1L;
@@ -51,6 +53,8 @@ public class ViewJogo extends JFrame
 	
 	private JLabel textPontosRodadaHumano;
 	private JLabel textPontosRodadaMaquina;
+	
+	private JButton btnAbandonarPartida;
 	
 //	public static void main(String[] args) {
 //		
@@ -232,7 +236,7 @@ public class ViewJogo extends JFrame
 		contentPane.add(textFim);
 		textFim.setVisible(false);
 	
-		btnJogar = new JButton("Jogar");
+		btnJogar = new JButton("Iniciar");
 		btnJogar.setBounds(172, 424, 169, 36);
 		contentPane.add(btnJogar);
 		
@@ -246,12 +250,19 @@ public class ViewJogo extends JFrame
 					return;
 				}
 				
-				controleJogo.proximaRodada();
+				if (btnJogar.getText().equals("Iniciar"))
+				{
+					btnJogar.setText("Jogar");
+				}
 				
-				debugSetAtributosCarta();
-				controleJogo.atualizarPontos();
+				controleJogo.iniciarRodada();
 				
-				controleJogo.finalizarPartidaSeNecessario();
+				// Temporáriamente gerando valores aleatorios pros atributos e setando eles
+				controleCarta.debugSetAtributosAleatorios();
+				
+				controleJogo.finalizarRodada();
+				
+				controleJogo.checarFinalizarPartida();
 			}
 			
 		});
@@ -261,7 +272,7 @@ public class ViewJogo extends JFrame
 		contentPane.add(textVencedor);
 		textVencedor.setVisible(false);
 		
-		JButton btnAbandonarPartida = new JButton("Abandonar Partida");
+		btnAbandonarPartida = new JButton("Abandonar Partida");
 		btnAbandonarPartida.setBounds(10, 440, 152, 20);
 		contentPane.add(btnAbandonarPartida);
 		
@@ -323,20 +334,29 @@ public class ViewJogo extends JFrame
 		
 	}
 	
-	// era função para cada um anteriormente, mas acho q é melhor assim
+	public void atualizarElementosRodada()
+	{
+		atualizarTextoRodada();
+		atualizarTextoAtributosCarta();
+		atualizarTextoPontos();
+	}
+	
 	public void mostrarElementosFimPartida()
 	{
 		textFim.setVisible(true);
 
 		textVencedor.setText("Vencedor: " + controleJogo.getStringVencedor());
 		textVencedor.setVisible(true);
+		btnAbandonarPartida.setVisible(false);
 		
 		btnJogar.setText("Voltar ao menu principal");
+		
+		JOptionPane.showMessageDialog(null, controleJogo.getStringVencedor() + " venceu!", "Fim!", JOptionPane.INFORMATION_MESSAGE);
 	}
 	
-	public void atualizarTextoRodada(int rodadaAtual)
+	public void atualizarTextoRodada()
 	{
-		textLabelRodadaAtual.setText(Integer.toString(rodadaAtual));
+		textLabelRodadaAtual.setText(Integer.toString(controleJogo.getRodadaAtual()));
 	}
 	
 	public void voltarMenuTitulo()
@@ -347,36 +367,29 @@ public class ViewJogo extends JFrame
 	
 	public void atualizarTextoPontos()
 	{
-		textPontosPartidaHumano.setText(Integer.toString(controleJogo.getPontosPartidaPorTipoJogador(TipoJogador.HUMANO)));
-		textPontosPartidaMaquina.setText(Integer.toString(controleJogo.getPontosPartidaPorTipoJogador(TipoJogador.MAQUINA)));
+		textPontosPartidaHumano.setText(Integer.toString(controleJogo.getPontosPartida(TipoJogador.HUMANO)));
+		textPontosPartidaMaquina.setText(Integer.toString(controleJogo.getPontosPartida(TipoJogador.MAQUINA)));
 		
-		textPontosRodadaHumano.setText(Integer.toString(controleJogo.getPontosRodadaPorTipoJogador(TipoJogador.HUMANO)));
-		textPontosRodadaMaquina.setText(Integer.toString(controleJogo.getPontosRodadaPorTipoJogador(TipoJogador.MAQUINA)));
+		textPontosRodadaHumano.setText(Integer.toString(controleJogo.getPontosRodada(TipoJogador.HUMANO)));
+		textPontosRodadaMaquina.setText(Integer.toString(controleJogo.getPontosRodada(TipoJogador.MAQUINA)));
 	}
-
-	// DEBUG: Setar os valores escritos nos text fields por enquanto
-	public void debugSetAtributosCarta()
+	
+	public void atualizarTextoAtributosCarta()
 	{
-		
-		// se o text field estiver vazio, usa valor 0 pra evitar erro
-		int speed = textFieldSpeedHumano.getText().trim().isEmpty() ? 0 : Integer.parseInt(textFieldSpeedHumano.getText().trim());
-		int weight = textFieldWeightHumano.getText().trim().isEmpty() ? 0 : Integer.parseInt(textFieldWeightHumano.getText().trim());
-		int accel = textFieldAccelerationHumano.getText().trim().isEmpty() ? 0 : Integer.parseInt(textFieldAccelerationHumano.getText().trim());
-		int handling = textFieldHandlingHumano.getText().trim().isEmpty() ? 0 : Integer.parseInt(textFieldHandlingHumano.getText().trim());
-		int drift = textFieldDriftHumano.getText().trim().isEmpty() ? 0 : Integer.parseInt(textFieldDriftHumano.getText().trim());
-		int offroad = textFieldOffroadHumano.getText().trim().isEmpty() ? 0 : Integer.parseInt(textFieldOffroadHumano.getText().trim());
-		int mt = textFieldMTHumano.getText().trim().isEmpty() ? 0 : Integer.parseInt(textFieldMTHumano.getText().trim());
+		textFieldSpeedHumano.setText(Integer.toString(controleCarta.getSpeed(TipoJogador.HUMANO)));
+		textFieldWeightHumano.setText(Integer.toString(controleCarta.getWeight(TipoJogador.HUMANO)));
+		textFieldAccelerationHumano.setText(Integer.toString(controleCarta.getAcceleration(TipoJogador.HUMANO)));
+		textFieldHandlingHumano.setText(Integer.toString(controleCarta.getHandling(TipoJogador.HUMANO)));
+		textFieldDriftHumano.setText(Integer.toString(controleCarta.getDrift(TipoJogador.HUMANO)));
+		textFieldOffroadHumano.setText(Integer.toString(controleCarta.getOffroad(TipoJogador.HUMANO)));
+		textFieldMTHumano.setText(Integer.toString(controleCarta.getMiniturbo(TipoJogador.HUMANO)));
 
-		controleJogo.setAtributosCartasHumano(speed, weight, accel, handling, drift, offroad, mt);
-
-		speed = textFieldSpeedMaquina.getText().trim().isEmpty() ? 0 : Integer.parseInt(textFieldSpeedMaquina.getText().trim());
-		weight = textFieldWeightMaquina.getText().trim().isEmpty() ? 0 : Integer.parseInt(textFieldWeightMaquina.getText().trim());
-		accel = textFieldAccelerationMaquina.getText().trim().isEmpty() ? 0 : Integer.parseInt(textFieldAccelerationMaquina.getText().trim());
-		handling = textFieldHandlingMaquina.getText().trim().isEmpty() ? 0 : Integer.parseInt(textFieldHandlingMaquina.getText().trim());
-		drift = textFieldDriftMaquina.getText().trim().isEmpty() ? 0 : Integer.parseInt(textFieldDriftMaquina.getText().trim());
-		offroad = textFieldOffroadMaquina.getText().trim().isEmpty() ? 0 : Integer.parseInt(textFieldOffroadMaquina.getText().trim());
-		mt = textFieldMTMaquina.getText().trim().isEmpty() ? 0 : Integer.parseInt(textFieldMTMaquina.getText().trim());
-
-		controleJogo.setAtributosCartasMaquina(speed, weight, accel, handling, drift, offroad, mt);
+		textFieldSpeedMaquina.setText(Integer.toString(controleCarta.getSpeed(TipoJogador.MAQUINA)));
+		textFieldWeightMaquina.setText(Integer.toString(controleCarta.getWeight(TipoJogador.MAQUINA)));
+		textFieldAccelerationMaquina.setText(Integer.toString(controleCarta.getAcceleration(TipoJogador.MAQUINA)));
+		textFieldHandlingMaquina.setText(Integer.toString(controleCarta.getHandling(TipoJogador.MAQUINA)));
+		textFieldDriftMaquina.setText(Integer.toString(controleCarta.getDrift(TipoJogador.MAQUINA)));
+		textFieldOffroadMaquina.setText(Integer.toString(controleCarta.getOffroad(TipoJogador.MAQUINA)));
+		textFieldMTMaquina.setText(Integer.toString(controleCarta.getMiniturbo(TipoJogador.MAQUINA)));
 	}
 }

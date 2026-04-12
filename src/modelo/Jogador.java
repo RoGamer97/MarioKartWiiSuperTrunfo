@@ -2,7 +2,6 @@ package modelo;
 
 public class Jogador 
 {
-	private Carta carta;
 	private int pontosPartida;
 	private int pontosRodada;
 	
@@ -16,18 +15,18 @@ public class Jogador
 		return pontosRodada;
 	}
 	
-	public void adicionarPontosPartida()
+	public void adicionarPontoPartida()
 	{
-		this.pontosPartida += this.pontosRodada;
+		pontosPartida++;
 	}
 	
 	public void adicionarPontosRodada(int pontos)
 	{
-		this.pontosRodada += pontos;
+		pontosRodada += pontos;
 	}
 	
 	public void resetPontosRodada()
 	{
-		this.pontosRodada = 0;
+		pontosRodada = 0;
 	}
 }

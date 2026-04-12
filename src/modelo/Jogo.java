@@ -6,8 +6,7 @@ public class Jogo
 {
 	private Jogador humano;
 	private Jogador maquina;
-	private List<Jogador> jogadores;
-	
+
 	private int rodadaAtual;
 	private int totalRodadas;
 	
@@ -17,7 +16,6 @@ public class Jogo
 	{
 		this.humano = humano;
 		this.maquina = maquina;
-		jogadores = List.of(humano, maquina);
 	}
 	
 	public int getRodadaAtual()
@@ -35,17 +33,17 @@ public class Jogo
 		this.totalRodadas = quantidade;
 	}
 	
-	public void proximaRodada()
-	{
-		for (Jogador jogador : jogadores)
-		{
-			// jogador.adicionarPontosPartida();
-			jogador.resetPontosRodada();
-		}
+	public void incrementarRodadaAtual()
+	{		
 		rodadaAtual++;
 	}
 	
-	public TipoJogador getTipoJogadorVencedor()
+	public TipoJogador getVencedorRodada()
+	{
+		return (humano.getPontosRodada() > maquina.getPontosRodada()) ? TipoJogador.HUMANO : TipoJogador.MAQUINA;
+	}
+	
+	public TipoJogador getVencedorPartida()
 	{
 		return (humano.getPontosPartida() > maquina.getPontosPartida()) ? TipoJogador.HUMANO : TipoJogador.MAQUINA;
 	}
