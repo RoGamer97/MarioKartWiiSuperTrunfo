@@ -52,7 +52,7 @@ public class ViewMenuPrincipal extends JFrame {
 		
 		JComboBox<String> totalCartas = new JComboBox<>
 		(
-			new String[] {"6", "8", "10", "12", "14", "16", "18"}
+			new String[] {"4", "6", "10", "14", "16", "18"}
 		);
 		totalCartas.setBounds(187, 138, 62, 22);
 		contentPane.add(totalCartas);

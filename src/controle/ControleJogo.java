@@ -75,7 +75,7 @@ public class ControleJogo
 	
 	public String getStringVencedor()
 	{	
-		return tjString.getTipoJogadorString(jogo.getVencedorRodada());
+		return tjString.getTipoJogadorString(jogo.getVencedorPartida());
 	}
 	
 	public void setTotalRodadas(int quantidade)

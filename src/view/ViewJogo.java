@@ -1,9 +1,10 @@
 package view;
 
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Random;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -73,8 +74,9 @@ public class ViewJogo extends JFrame
 	/**
 	 * Create the frame.
 	 */
-	public ViewJogo(ViewMenuPrincipal viewMenuPrincipal, int totalRodadas, boolean mostrarCartasMaquina) 
+	public ViewJogo(ViewMenuPrincipal viewMenuPrincipal, int cartasPorJogador, boolean mostrarCartasMaquina) 
 	{
+		int totalRodadas = cartasPorJogador *  2;
 		controleJogo.setTotalRodadas(totalRodadas);
 		controleJogo.setMostrarCartaMaquina(mostrarCartasMaquina);
 		viewMenuPrincipal.setVisible(false);
