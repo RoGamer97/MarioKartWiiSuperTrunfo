@@ -2,6 +2,7 @@ package controle;
 
 import java.util.Random;
 
+import dao.DaoCarta;
 import modelo.Carta;
 import modelo.TipoAtributoCarta;
 import modelo.TipoJogador;
@@ -10,6 +11,8 @@ public class ControleCarta
 {
 	Carta cartaHumano = new Carta();
 	Carta cartaMaquina = new Carta();
+	
+	DaoCarta daoCarta = new DaoCarta();
 	
 	public Carta getCartaPorTipoJogador(TipoJogador tipoJogador)
 	{
@@ -51,6 +54,11 @@ public class ControleCarta
 		return getCartaPorTipoJogador(tipoJogador).getHandling();
 	}
 	
+	public String getNome(TipoJogador tipoJogador)
+	{
+		return getCartaPorTipoJogador(tipoJogador).getNome();
+	}
+	
 	public float getSomaTodosAtributos(TipoJogador tipoJogador)
 	{
 		return getCartaPorTipoJogador(tipoJogador).getSomaTodosAtributos();
@@ -63,10 +71,25 @@ public class ControleCarta
 	
 	public void debugSetAtributosAleatorios()
 	{
+		
+		final int QUANTIDADE_CARTAS = 36;
+		
+		int idCartaHumano;
+		int idCartaMaquina;
+		
 		Random random = new Random();
 		
-		cartaHumano.setTodosAtributos(random.nextFloat() * 10, random.nextFloat() * 10, random.nextFloat() * 10, random.nextFloat() * 10, random.nextFloat() * 10, random.nextFloat() * 10, random.nextFloat() * 10);
-		cartaMaquina.setTodosAtributos(random.nextFloat() * 10, random.nextFloat() * 10, random.nextFloat() * 10, random.nextFloat() * 10, random.nextFloat() * 10, random.nextFloat() * 10, random.nextFloat() * 10);
+		do
+		{
+			idCartaHumano = random.nextInt(QUANTIDADE_CARTAS - 1) + 1;
+			idCartaMaquina = random.nextInt(QUANTIDADE_CARTAS - 1) + 1;
+		}
+		while (idCartaHumano == idCartaMaquina);
+		
+		daoCarta.sortearCarta(cartaHumano, idCartaHumano);
+		daoCarta.sortearCarta(cartaMaquina, idCartaMaquina);
+		
+		
 	}
 	
 	public int getTotalAtributosMaiores(TipoJogador tipoJogador)

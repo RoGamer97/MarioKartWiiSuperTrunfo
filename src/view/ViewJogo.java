@@ -57,23 +57,9 @@ public class ViewJogo extends JFrame
 	
 	private JButton btnAbandonarPartida;
 	
-//	public static void main(String[] args) {
-//		
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					ViewJogo frame = new ViewJogo();
-//					frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
-
-	/**
-	 * Create the frame.
-	 */
+	private JLabel textNomeCartaHumano;
+	private JLabel textNomeCartaMaquina;
+	
 	public ViewJogo(ViewMenuPrincipal viewMenuPrincipal, int cartasPorJogador, boolean mostrarCartasMaquina) 
 	{
 		int totalRodadas = cartasPorJogador *  2;
@@ -255,6 +241,7 @@ public class ViewJogo extends JFrame
 				if (btnJogar.getText().equals("Iniciar"))
 				{
 					btnJogar.setText("Jogar");
+					setNomeCartaVisible();
 				}
 				
 				controleJogo.iniciarRodada();
@@ -318,6 +305,16 @@ public class ViewJogo extends JFrame
 		textPontosPartidaMaquina.setBounds(272, 376, 46, 14);
 		contentPane.add(textPontosPartidaMaquina);
 		
+		textNomeCartaHumano = new JLabel("(Nome Carta Humano)");
+		textNomeCartaHumano.setBounds(30, 23, 152, 14);
+		contentPane.add(textNomeCartaHumano);
+		textNomeCartaHumano.setVisible(false);
+		
+		textNomeCartaMaquina = new JLabel("(Nome Carta Maquina)");
+		textNomeCartaMaquina.setBounds(332, 23, 152, 14);
+		contentPane.add(textNomeCartaMaquina);
+		textNomeCartaMaquina.setVisible(false);
+		
 		btnAbandonarPartida.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
@@ -338,8 +335,9 @@ public class ViewJogo extends JFrame
 	
 	public void atualizarElementosRodada()
 	{
-		atualizarTextoRodada();
+		atualizarTextoNomeCarta();
 		atualizarTextoAtributosCarta();
+		atualizarTextoRodada();
 		atualizarTextoPontos();
 	}
 	
@@ -376,6 +374,12 @@ public class ViewJogo extends JFrame
 		textPontosRodadaMaquina.setText(Integer.toString(controleJogo.getPontosRodada(TipoJogador.MAQUINA)));
 	}
 	
+	public void atualizarTextoNomeCarta()
+	{
+		textNomeCartaHumano.setText(controleCarta.getNome(TipoJogador.HUMANO));
+		textNomeCartaMaquina.setText(controleCarta.getNome(TipoJogador.MAQUINA));
+	}
+	
 	public void atualizarTextoAtributosCarta()
 	{
 		textFieldSpeedHumano.setText(Float.toString(controleCarta.getSpeed(TipoJogador.HUMANO)));
@@ -393,5 +397,11 @@ public class ViewJogo extends JFrame
 		textFieldDriftMaquina.setText(Float.toString(controleCarta.getDrift(TipoJogador.MAQUINA)));
 		textFieldOffroadMaquina.setText(Float.toString(controleCarta.getOffroad(TipoJogador.MAQUINA)));
 		textFieldMTMaquina.setText(Float.toString(controleCarta.getMiniturbo(TipoJogador.MAQUINA)));
+	}
+	
+	public void setNomeCartaVisible()
+	{
+		textNomeCartaHumano.setVisible(true);
+		textNomeCartaMaquina.setVisible(true);
 	}
 }
