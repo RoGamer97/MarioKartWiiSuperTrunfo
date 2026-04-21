@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JRadioButton;
+import java.awt.Window.Type;
 
 public class ViewMenuPrincipal extends JFrame {
 
@@ -58,7 +59,7 @@ public class ViewMenuPrincipal extends JFrame {
 		contentPane.add(totalCartas);
 		
 		// 12 selecionado por padrão
-		totalCartas.setSelectedItem("12");
+		totalCartas.setSelectedItem("10");
 		
 		JRadioButton rdbtnMostrarCartaMaquina = new JRadioButton("Mostrar cartas da Maquina");
 		rdbtnMostrarCartaMaquina.setBounds(136, 167, 205, 24);
@@ -83,8 +84,5 @@ public class ViewMenuPrincipal extends JFrame {
 		JLabel textInfoQtdCartas = new JLabel("Quantidade de cartas por jogador");
 		textInfoQtdCartas.setBounds(136, 120, 205, 18);
 		contentPane.add(textInfoQtdCartas);
-		
-		
-
 	}
 }

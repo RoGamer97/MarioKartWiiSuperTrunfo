@@ -2,86 +2,87 @@ package modelo;
 
 public class Carta 
 {
-	private int speed;
-	private int weight;
-	private int acceleration;
-	private int handling;
-	private int drift;
-	private int offroad;
-	private int miniturbo;
+	private float speed;
+	private float weight;
+	private float acceleration;
+	private float handling;
+	private float drift;
+	private float offroad;
+	private float miniturbo;
 
 	private Jogador jogador;
 	
-	public int getSomaTodosAtributos()
+	public float getSomaTodosAtributos()
 	{
 		return this.speed +  this.weight +  this.handling +  this.acceleration +  this.drift +  this.offroad +  this.miniturbo;
 	}
 	
-	public int getSpeed() 
+	public float getSpeed() 
 	{
 		return speed;
 	}
 
-	public void setSpeed(int speed) 
+	public void setSpeed(float speed) 
 	{
 		this.speed = speed;
 	}
 
-	public int getWeight() 
+	public float getWeight() 
 	{
 		return weight;
 	}
 
-	public void setWeight(int weight) 
+	public void setWeight(float weight) 
 	{
 		this.weight = weight;
 	}
 
-	public int getAcceleration() 
+	public float getAcceleration() 
 	{
 		return acceleration;
 	}
 
-	public void setAcceleration(int acceleration) 
+	public void setAcceleration(float acceleration) 
 	{
 		this.acceleration = acceleration;
 	}
 
-	public int getHandling() 
+	public float getHandling() 
 	{
 		return handling;
 	}
 
-	public void setHandling(int handling) 
+	public void setHandling(float handling) 
 	{
 		this.handling = handling;
 	}
 
-	public int getDrift() {
+	public float getDrift() 
+	{
 		return drift;
 	}
 
-	public void setDrift(int drift) 
+	public void setDrift(float drift) 
 	{
 		this.drift = drift;
 	}
 
-	public int getOffroad() 
+	public float getOffroad() 
 	{
 		return offroad;
 	}
 
-	public void setOffroad(int offroad) 
+	public void setOffroad(float offroad) 
 	{
 		this.offroad = offroad;
 	}
 
-	public int getMiniturbo() 
+	public float getMiniturbo() 
 	{
 		return miniturbo;
 	}
 
-	public void setMiniturbo(int miniturbo) 
+	public void setMiniturbo(float miniturbo) 
 	{
 		this.miniturbo = miniturbo;
 	}
@@ -96,7 +97,7 @@ public class Carta
 		this.jogador = jogador;
 	}
 
-	public void setTodosAtributos(int speed, int weight, int handling, int acceleration, int drift, int offroad, int miniturbo)
+	public void setTodosAtributos(float speed, float weight, float handling, float acceleration, float drift, float offroad, float miniturbo)
 	{
 		this.speed = speed;
 		this.weight = weight;
@@ -107,7 +108,7 @@ public class Carta
 		this.miniturbo = miniturbo;
 	}
 	
-	public int getValorAtributoPorTipo(TipoAtributoCarta tipoAtribCarta)
+	public float getValorAtributoPorTipo(TipoAtributoCarta tipoAtribCarta)
 	{
 		switch (tipoAtribCarta)
 		{

@@ -378,20 +378,20 @@ public class ViewJogo extends JFrame
 	
 	public void atualizarTextoAtributosCarta()
 	{
-		textFieldSpeedHumano.setText(Integer.toString(controleCarta.getSpeed(TipoJogador.HUMANO)));
-		textFieldWeightHumano.setText(Integer.toString(controleCarta.getWeight(TipoJogador.HUMANO)));
-		textFieldAccelerationHumano.setText(Integer.toString(controleCarta.getAcceleration(TipoJogador.HUMANO)));
-		textFieldHandlingHumano.setText(Integer.toString(controleCarta.getHandling(TipoJogador.HUMANO)));
-		textFieldDriftHumano.setText(Integer.toString(controleCarta.getDrift(TipoJogador.HUMANO)));
-		textFieldOffroadHumano.setText(Integer.toString(controleCarta.getOffroad(TipoJogador.HUMANO)));
-		textFieldMTHumano.setText(Integer.toString(controleCarta.getMiniturbo(TipoJogador.HUMANO)));
+		textFieldSpeedHumano.setText(Float.toString(controleCarta.getSpeed(TipoJogador.HUMANO)));
+		textFieldWeightHumano.setText(Float.toString(controleCarta.getWeight(TipoJogador.HUMANO)));
+		textFieldAccelerationHumano.setText(Float.toString(controleCarta.getAcceleration(TipoJogador.HUMANO)));
+		textFieldHandlingHumano.setText(Float.toString(controleCarta.getHandling(TipoJogador.HUMANO)));
+		textFieldDriftHumano.setText(Float.toString(controleCarta.getDrift(TipoJogador.HUMANO)));
+		textFieldOffroadHumano.setText(Float.toString(controleCarta.getOffroad(TipoJogador.HUMANO)));
+		textFieldMTHumano.setText(Float.toString(controleCarta.getMiniturbo(TipoJogador.HUMANO)));
 
-		textFieldSpeedMaquina.setText(Integer.toString(controleCarta.getSpeed(TipoJogador.MAQUINA)));
-		textFieldWeightMaquina.setText(Integer.toString(controleCarta.getWeight(TipoJogador.MAQUINA)));
-		textFieldAccelerationMaquina.setText(Integer.toString(controleCarta.getAcceleration(TipoJogador.MAQUINA)));
-		textFieldHandlingMaquina.setText(Integer.toString(controleCarta.getHandling(TipoJogador.MAQUINA)));
-		textFieldDriftMaquina.setText(Integer.toString(controleCarta.getDrift(TipoJogador.MAQUINA)));
-		textFieldOffroadMaquina.setText(Integer.toString(controleCarta.getOffroad(TipoJogador.MAQUINA)));
-		textFieldMTMaquina.setText(Integer.toString(controleCarta.getMiniturbo(TipoJogador.MAQUINA)));
+		textFieldSpeedMaquina.setText(Float.toString(controleCarta.getSpeed(TipoJogador.MAQUINA)));
+		textFieldWeightMaquina.setText(Float.toString(controleCarta.getWeight(TipoJogador.MAQUINA)));
+		textFieldAccelerationMaquina.setText(Float.toString(controleCarta.getAcceleration(TipoJogador.MAQUINA)));
+		textFieldHandlingMaquina.setText(Float.toString(controleCarta.getHandling(TipoJogador.MAQUINA)));
+		textFieldDriftMaquina.setText(Float.toString(controleCarta.getDrift(TipoJogador.MAQUINA)));
+		textFieldOffroadMaquina.setText(Float.toString(controleCarta.getOffroad(TipoJogador.MAQUINA)));
+		textFieldMTMaquina.setText(Float.toString(controleCarta.getMiniturbo(TipoJogador.MAQUINA)));
 	}
 }

@@ -16,47 +16,47 @@ public class ControleCarta
 		return (tipoJogador == TipoJogador.HUMANO) ? cartaHumano : cartaMaquina;
 	}
 
-	public int getSpeed(TipoJogador tipoJogador)
+	public float getSpeed(TipoJogador tipoJogador)
 	{
 		return getCartaPorTipoJogador(tipoJogador).getSpeed();
 	}
 	
-	public int getAcceleration(TipoJogador tipoJogador)
+	public float getAcceleration(TipoJogador tipoJogador)
 	{
 		return getCartaPorTipoJogador(tipoJogador).getAcceleration();
 	}
 	
-	public int getDrift(TipoJogador tipoJogador)
+	public float getDrift(TipoJogador tipoJogador)
 	{
 		return getCartaPorTipoJogador(tipoJogador).getDrift();
 	}
 	
-	public int getMiniturbo(TipoJogador tipoJogador)
+	public float getMiniturbo(TipoJogador tipoJogador)
 	{
 		return getCartaPorTipoJogador(tipoJogador).getMiniturbo();
 	}
 	
-	public int getWeight(TipoJogador tipoJogador)
+	public float getWeight(TipoJogador tipoJogador)
 	{
 		return getCartaPorTipoJogador(tipoJogador).getWeight();
 	}
 	
-	public int getOffroad(TipoJogador tipoJogador)
+	public float getOffroad(TipoJogador tipoJogador)
 	{
 		return getCartaPorTipoJogador(tipoJogador).getOffroad();
 	}
 	
-	public int getHandling(TipoJogador tipoJogador)
+	public float getHandling(TipoJogador tipoJogador)
 	{
 		return getCartaPorTipoJogador(tipoJogador).getHandling();
 	}
 	
-	public int getSomaTodosAtributos(TipoJogador tipoJogador)
+	public float getSomaTodosAtributos(TipoJogador tipoJogador)
 	{
 		return getCartaPorTipoJogador(tipoJogador).getSomaTodosAtributos();
 	}
 	
-	public void setTodosAtributos(TipoJogador tipoJogador, int speed, int weight, int handling, int accel, int drift, int offroad, int mt)
+	public void setTodosAtributos(TipoJogador tipoJogador, float speed, float weight, float handling, float accel, float drift, float offroad, float mt)
 	{
 		getCartaPorTipoJogador(tipoJogador).setTodosAtributos(speed, weight, handling, accel, drift, offroad, mt);
 	}
@@ -65,8 +65,8 @@ public class ControleCarta
 	{
 		Random random = new Random();
 		
-		cartaHumano.setTodosAtributos(random.nextInt(11), random.nextInt(11), random.nextInt(11), random.nextInt(11), random.nextInt(11), random.nextInt(11), random.nextInt(11));
-		cartaMaquina.setTodosAtributos(random.nextInt(11), random.nextInt(11), random.nextInt(11), random.nextInt(11), random.nextInt(11), random.nextInt(11), random.nextInt(11));
+		cartaHumano.setTodosAtributos(random.nextFloat() * 10, random.nextFloat() * 10, random.nextFloat() * 10, random.nextFloat() * 10, random.nextFloat() * 10, random.nextFloat() * 10, random.nextFloat() * 10);
+		cartaMaquina.setTodosAtributos(random.nextFloat() * 10, random.nextFloat() * 10, random.nextFloat() * 10, random.nextFloat() * 10, random.nextFloat() * 10, random.nextFloat() * 10, random.nextFloat() * 10);
 	}
 	
 	public int getTotalAtributosMaiores(TipoJogador tipoJogador)
