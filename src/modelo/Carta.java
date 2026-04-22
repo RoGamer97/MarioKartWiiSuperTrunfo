@@ -12,8 +12,6 @@ public class Carta
 	
 	private String nome;
 	private int id;
-
-	private Jogador jogador;
 	
 	public void setNome(String nome)
 	{
@@ -35,19 +33,9 @@ public class Carta
 		return speed;
 	}
 
-	public void setSpeed(float speed) 
-	{
-		this.speed = speed;
-	}
-
 	public float getWeight() 
 	{
 		return weight;
-	}
-
-	public void setWeight(float weight) 
-	{
-		this.weight = weight;
 	}
 
 	public float getAcceleration() 
@@ -55,19 +43,9 @@ public class Carta
 		return acceleration;
 	}
 
-	public void setAcceleration(float acceleration) 
-	{
-		this.acceleration = acceleration;
-	}
-
 	public float getHandling() 
 	{
 		return handling;
-	}
-
-	public void setHandling(float handling) 
-	{
-		this.handling = handling;
 	}
 
 	public float getDrift() 
@@ -75,19 +53,9 @@ public class Carta
 		return drift;
 	}
 
-	public void setDrift(float drift) 
-	{
-		this.drift = drift;
-	}
-
 	public float getOffroad() 
 	{
 		return offroad;
-	}
-
-	public void setOffroad(float offroad) 
-	{
-		this.offroad = offroad;
 	}
 
 	public float getMiniturbo() 
@@ -95,22 +63,7 @@ public class Carta
 		return miniturbo;
 	}
 
-	public void setMiniturbo(float miniturbo) 
-	{
-		this.miniturbo = miniturbo;
-	}
-	
-	public Jogador getJogador() 
-	{
-		return jogador;
-	}
-
-	public void setJogador(Jogador jogador) 
-	{
-		this.jogador = jogador;
-	}
-
-	public void setTodosAtributos(float speed, float weight, float acceleration, float handling, float drift, float offroad, float miniturbo)
+	public void setAtributos(float speed, float weight, float acceleration, float handling, float drift, float offroad, float miniturbo)
 	{
 		this.speed = speed;
 		this.weight = weight;

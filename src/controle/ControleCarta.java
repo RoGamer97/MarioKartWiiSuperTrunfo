@@ -64,11 +64,6 @@ public class ControleCarta
 		return getCartaPorTipoJogador(tipoJogador).getSomaTodosAtributos();
 	}
 	
-	public void setTodosAtributos(TipoJogador tipoJogador, float speed, float weight, float handling, float accel, float drift, float offroad, float mt)
-	{
-		getCartaPorTipoJogador(tipoJogador).setTodosAtributos(speed, weight, handling, accel, drift, offroad, mt);
-	}
-	
 	public void debugSetAtributosAleatorios()
 	{
 		

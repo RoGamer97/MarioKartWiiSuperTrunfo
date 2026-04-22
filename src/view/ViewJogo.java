@@ -232,26 +232,7 @@ public class ViewJogo extends JFrame
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				if (controleJogo.isPartidaFinalizada())
-				{
-					voltarMenuTitulo();
-					return;
-				}
-				
-				if (btnJogar.getText().equals("Iniciar"))
-				{
-					btnJogar.setText("Jogar");
-					setNomeCartaVisible();
-				}
-				
-				controleJogo.iniciarRodada();
-				
-				// Temporáriamente gerando valores aleatorios pros atributos e setando eles
-				controleCarta.debugSetAtributosAleatorios();
-				
-				controleJogo.finalizarRodada();
-				
-				controleJogo.checarFinalizarPartida();
+				controleJogo.jogar();
 			}
 			
 		});
@@ -331,6 +312,12 @@ public class ViewJogo extends JFrame
 			}
 		});
 		
+	}
+	
+	public void iniciarElementosPartida()
+	{
+		btnJogar.setText("Jogar");
+		setNomeCartaVisible();
 	}
 	
 	public void atualizarElementosRodada()

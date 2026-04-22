@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 import modelo.Carta;
+import modelo.TipoJogador;
 
 public class DaoCarta 
 {	
@@ -43,7 +44,7 @@ public class DaoCarta
 				float offroad = resultado.getFloat(8);
 				float miniturbo = resultado.getFloat(9);
 				
-				carta.setTodosAtributos(speed, weight, acceleration, handling, drift, offroad, miniturbo);
+				carta.setAtributos(speed, weight, acceleration, handling, drift, offroad, miniturbo);
 				
 				String nome = resultado.getString(2);
 				

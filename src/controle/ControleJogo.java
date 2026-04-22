@@ -29,6 +29,25 @@ public class ControleJogo
 		return (tipoJogador == TipoJogador.HUMANO) ? humano : maquina;
 	}
 	
+	public void jogar()
+	{
+		if (isPartidaFinalizada())
+		{
+			viewJogo.voltarMenuTitulo();
+			return;
+		}
+		
+		if (getRodadaAtual() == 0)
+		{
+			viewJogo.iniciarElementosPartida();
+		}
+		
+		iniciarRodada();
+		controleCarta.debugSetAtributosAleatorios();
+		finalizarRodada();
+		checarFinalizarPartida();
+	}
+	
 	public void iniciarRodada()
 	{	
 		humano.resetPontosRodada();
