@@ -39,7 +39,7 @@ public class ControleMao
 			
 			// DEBUG
 			TipoJogadorString tjString = new TipoJogadorString();
-			System.out.println("[ControleBaralho] " + i + ") Carta removida do baralho e adicionada a mão para " + tjString.getTipoJogadorString(tipoJogador) + " (" + cartaSorteada.getNome() + " | ID Array: " + cartaSorteada.getId() + ")");
+			System.out.println("[ControleBaralho] " + (i + 1) + ") Carta removida do baralho e adicionada a mão para " + tjString.getTipoJogadorString(tipoJogador) + " (" + cartaSorteada.getNome() + " | ID Array: " + cartaSorteada.getId() + ")");
 		}
 	}
 	

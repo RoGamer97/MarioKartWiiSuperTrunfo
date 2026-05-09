@@ -23,7 +23,7 @@ public class Baralho
 	
 	public void setTotalCartas(int qtdCartas)
 	{
-		totalCartas = qtdCartas - 1;
+		totalCartas = qtdCartas;
 	}
 	
     public void adicionarCarta(Carta carta)

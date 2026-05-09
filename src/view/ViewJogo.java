@@ -63,14 +63,13 @@ public class ViewJogo extends JFrame
 	private JLabel textNomeCartaHumano;
 	private JLabel textNomeCartaMaquina;
 
-	public ViewJogo(ViewMenuPrincipal viewMenuPrincipal, int cartasPorJogador, boolean mostrarCartasMaquina) 
+	public ViewJogo(ViewMenuPrincipal viewMenuPrincipal, int totalRodadas, boolean mostrarCartasMaquina) 
 	{
-		int totalRodadas = cartasPorJogador *  2;
 		controleJogo.setTotalRodadas(totalRodadas);
 		controleJogo.setMostrarCartaMaquina(mostrarCartasMaquina);
 		viewMenuPrincipal.setVisible(false);
 		
-		controleBaralho.setTotalCartas(cartasPorJogador);
+		controleBaralho.setTotalCartas(totalRodadas);
 		controleBaralho.prepararBaralho();
 		controleMao.distribuirCartasMao(TipoJogador.HUMANO);
 		controleMao.distribuirCartasMao(TipoJogador.MAQUINA);
@@ -311,7 +310,7 @@ public class ViewJogo extends JFrame
 				int opcaoSelecionada = JOptionPane.showConfirmDialog(ViewJogo.this, 
 						"Tem certeza que quer abandonar a partida? Você irá retornar ao menu principal", 
 						"Abandonar partida",
-					    JOptionPane.YES_NO_OPTION // do próprio OptionPane
+					    JOptionPane.YES_NO_OPTION
 					);
 
 					if (opcaoSelecionada == JOptionPane.YES_OPTION) 
