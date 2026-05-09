@@ -9,6 +9,12 @@ public class Baralho
 	private List<Carta> cartas = new ArrayList<>();
 	
 	private int totalCartas;
+	private int numCartasBaralho;
+	
+	public int getNumCartasBaralho()
+	{
+		return cartas.size();
+	}
 	
 	public int getTotalCartas()
 	{
@@ -17,7 +23,7 @@ public class Baralho
 	
 	public void setTotalCartas(int qtdCartas)
 	{
-		totalCartas = qtdCartas;
+		totalCartas = qtdCartas - 1;
 	}
 	
     public void adicionarCarta(Carta carta)
@@ -25,7 +31,7 @@ public class Baralho
         cartas.add(carta);
     }
     
-    
+ 
     public void removerCarta(Carta carta)
     {
     	cartas.remove(carta);

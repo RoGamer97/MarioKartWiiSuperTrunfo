@@ -18,6 +18,11 @@ public class ControleBaralho
 	
 	Random random = new Random();
 	
+	public int getNumCartasBaralho()
+	{
+		return baralho.getNumCartasBaralho();
+	}
+	
 	public int getTotalCartas()
 	{
 		return baralho.getTotalCartas();
