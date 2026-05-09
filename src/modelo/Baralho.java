@@ -2,19 +2,11 @@ package modelo;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public class Baralho 
 {
-	private ArrayList<Carta> cartas = new ArrayList<>();
-	
-	private Carta cartaEscolhida;
-	
-	private TipoJogador tipoJogador;
-	
-	public Baralho(TipoJogador tipoJogador)
-	{
-		this.tipoJogador = tipoJogador;
-	}
+	private List<Carta> cartas = new ArrayList<>();
 	
 	private int totalCartas;
 	
@@ -28,19 +20,15 @@ public class Baralho
 		totalCartas = qtdCartas;
 	}
 	
-	public Carta getCartaEscolhida()
-	{
-		return cartaEscolhida;
-	}
-	
-	public void setCartaEscolhida(Carta carta)
-	{
-		cartaEscolhida = carta;
-	}
-	
     public void adicionarCarta(Carta carta)
     {
         cartas.add(carta);
+    }
+    
+    
+    public void removerCarta(Carta carta)
+    {
+    	cartas.remove(carta);
     }
     
     public Carta getCartaPorId(int id)
@@ -53,7 +41,6 @@ public class Baralho
     	Collections.shuffle(cartas);   	
     	
     	// DEBUG
-    	
     	int idx = 0;
     	
     	for (Carta carta : cartas)
@@ -62,7 +49,5 @@ public class Baralho
             
             idx++;
     	}
-    	
-    	
     }
 }

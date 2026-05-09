@@ -14,18 +14,20 @@ import javax.swing.border.EmptyBorder;
 import controle.ControleBaralho;
 import controle.ControleCarta;
 import controle.ControleJogo;
+import controle.ControleMao;
 import modelo.TipoJogador;
 
 public class ViewJogo extends JFrame 
 {	
 	private ViewMenuPrincipal viewMenuPrincipal;
 	
-//	private ControleCarta controleCarta = new ControleCarta();
 	private ControleBaralho controleBaralho = new ControleBaralho();
 	
-	private ControleCarta controleCarta = new ControleCarta(controleBaralho);
+	private ControleMao controleMao = new ControleMao(controleBaralho);
 	
-	private ControleJogo controleJogo = new ControleJogo(this, controleBaralho, controleCarta);
+	private ControleCarta controleCarta = new ControleCarta(controleMao);
+	
+	private ControleJogo controleJogo = new ControleJogo(this, controleBaralho, controleCarta, controleMao);
 	
 	
 	private static final long serialVersionUID = 1L;
@@ -69,8 +71,9 @@ public class ViewJogo extends JFrame
 		viewMenuPrincipal.setVisible(false);
 		
 		controleBaralho.setTotalCartas(cartasPorJogador);
-		controleBaralho.sortearCartasPartida();
-		controleBaralho.embaralharCartas();
+		controleBaralho.prepararBaralho();
+		controleMao.distribuirCartasMao(TipoJogador.HUMANO);
+		controleMao.distribuirCartasMao(TipoJogador.MAQUINA);
 		
 		this.viewMenuPrincipal = viewMenuPrincipal;
 		

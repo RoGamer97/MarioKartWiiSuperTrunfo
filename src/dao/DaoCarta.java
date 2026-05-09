@@ -26,11 +26,11 @@ public class DaoCarta
         }
         catch (Exception e)
         {
-            System.out.println("Exceção: " + e.getMessage());
+            throw new RuntimeException("[DaoCarta] Erro ao iniciar Banco de Dados! " + e);
         }
     }
 
-    public void sortearCartasPartida(Baralho baralho)
+    public void adicionarCartasBaralho(Baralho baralho)
     {
         String query = "SELECT * FROM veiculos";
 
@@ -67,11 +67,11 @@ public class DaoCarta
             resultado.close();
             operacao.close();
             conexao.close();
-            System.out.println("DEBUG: Todas as cartas foram sorteadas\n");
+            System.out.println("[DaoCarta] Todas as cartas foram sorteadas\n");
         }
-        catch (SQLException e)
+        catch (Exception e)
         {
-            System.out.println("Exceção: " + e.getMessage());
+            throw new RuntimeException("[DaoCarta] Erro ao obter cartas do Banco de Dados! " + e);
         }
     }
 }

@@ -9,16 +9,16 @@ import modelo.TipoJogador;
 
 public class ControleCarta 
 {
-	private ControleBaralho controleBaralho; 
+	private ControleMao controleMao; 
 	
-	public ControleCarta(ControleBaralho controleBaralho)
+	public ControleCarta(ControleMao controleMao)
 	{
-		this.controleBaralho = controleBaralho;
+		this.controleMao = controleMao;
 	}
 	
 	public Carta getCartaEscolhidaPorTipoJogador(TipoJogador tipoJogador)
 	{
-		return controleBaralho.getCartaEscolhida(tipoJogador);
+		return controleMao.getCartaEscolhida(tipoJogador);
 	}
 
 	public float getSpeed(TipoJogador tipoJogador)
