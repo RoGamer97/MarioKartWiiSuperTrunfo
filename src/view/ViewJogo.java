@@ -1,10 +1,8 @@
 package view;
 
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -13,6 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import controle.ControleBaralho;
 import controle.ControleCarta;
 import controle.ControleJogo;
 import modelo.TipoJogador;
@@ -21,11 +20,13 @@ public class ViewJogo extends JFrame
 {	
 	private ViewMenuPrincipal viewMenuPrincipal;
 	
-	private ControleCarta controleCarta = new ControleCarta();
+//	private ControleCarta controleCarta = new ControleCarta();
+	private ControleBaralho controleBaralho = new ControleBaralho();
 	
-	private ControleJogo controleJogo = new ControleJogo(this, controleCarta);
+	private ControleCarta controleCarta = new ControleCarta(controleBaralho);
 	
-	// private ControleCarta controleCarta = new ControleCarta();
+	private ControleJogo controleJogo = new ControleJogo(this, controleBaralho, controleCarta);
+	
 	
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -66,6 +67,10 @@ public class ViewJogo extends JFrame
 		controleJogo.setTotalRodadas(totalRodadas);
 		controleJogo.setMostrarCartaMaquina(mostrarCartasMaquina);
 		viewMenuPrincipal.setVisible(false);
+		
+		controleBaralho.setTotalCartas(cartasPorJogador);
+		controleBaralho.sortearCartasPartida();
+		controleBaralho.embaralharCartas();
 		
 		this.viewMenuPrincipal = viewMenuPrincipal;
 		

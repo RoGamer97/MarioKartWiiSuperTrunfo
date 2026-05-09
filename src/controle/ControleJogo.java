@@ -17,10 +17,12 @@ public class ControleJogo
 	
 	private ViewJogo viewJogo;
 	private ControleCarta controleCarta;
+	private ControleBaralho controleBaralho;
 	
-	public ControleJogo(ViewJogo viewJogo, ControleCarta controleCarta)
+	public ControleJogo(ViewJogo viewJogo, ControleBaralho controleBaralho, ControleCarta controleCarta)
 	{
 		this.viewJogo = viewJogo;
+		this.controleBaralho = controleBaralho;
 		this.controleCarta = controleCarta;
 	}
 	
@@ -42,10 +44,16 @@ public class ControleJogo
 			viewJogo.iniciarElementosPartida();
 		}
 		
+		sortearCartaRodada();
 		iniciarRodada();
-		controleCarta.debugSetAtributosAleatorios();
 		finalizarRodada();
 		checarFinalizarPartida();
+	}
+	
+	public void sortearCartaRodada()
+	{
+		controleBaralho.sortearCartaRodada(TipoJogador.HUMANO);
+		controleBaralho.sortearCartaRodada(TipoJogador.MAQUINA);
 	}
 	
 	public void iniciarRodada()
@@ -71,8 +79,8 @@ public class ControleJogo
 		int totalAtribMaiorHumano = controleCarta.getTotalAtributosMaiores(TipoJogador.HUMANO);
 		int totalAtribMaiorMaquina = controleCarta.getTotalAtributosMaiores(TipoJogador.MAQUINA);
 		
-		Carta cartaHumano = controleCarta.getCartaPorTipoJogador(TipoJogador.HUMANO);
-		Carta cartaMaquina = controleCarta.getCartaPorTipoJogador(TipoJogador.MAQUINA);
+		Carta cartaHumano = controleCarta.getCartaEscolhidaPorTipoJogador(TipoJogador.HUMANO);
+		Carta cartaMaquina = controleCarta.getCartaEscolhidaPorTipoJogador(TipoJogador.MAQUINA);
 		
 		humano.adicionarPontosRodada(totalAtribMaiorHumano);
 		maquina.adicionarPontosRodada(totalAtribMaiorMaquina);
