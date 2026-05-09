@@ -1,73 +1,74 @@
 package dao;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Properties;
 
 import modelo.Carta;
-import modelo.TipoJogador;
 
-public class DaoCarta 
-{	
-	public void sortearCarta(Carta carta, int id) 
-	{
-		String query = "SELECT * FROM veiculos WHERE id = " + id;
-		
-		try 
-		{
-			Properties properties = new Properties();
-			FileInputStream arquivo = new FileInputStream("db.properties");
-			properties.load(arquivo);
-			
-			String driver = properties.getProperty("db.driver");
-			String url = properties.getProperty("db.url");
-			String usuario = properties.getProperty("db.usuario");
-			String senha = properties.getProperty("db.senha");
-			
-			Connection conexao = DriverManager.getConnection(url, usuario, senha);
-			PreparedStatement operacao = conexao.prepareStatement(query);
-			ResultSet resultado = operacao.executeQuery();
-			
-			if(resultado.next()) 
-			{
-				float speed = resultado.getFloat(3);
-				float weight = resultado.getFloat(4);
-				float acceleration = resultado.getFloat(5);
-				float handling = resultado.getFloat(6);
-				float drift = resultado.getFloat(7);
-				float offroad = resultado.getFloat(8);
-				float miniturbo = resultado.getFloat(9);
-				
-				carta.setAtributos(speed, weight, acceleration, handling, drift, offroad, miniturbo);
-				
-				String nome = resultado.getString(2);
-				
-				carta.setNome(nome);
-			}
-			
-			conexao.close();
-			operacao.close();
-		}
-		
-		catch(SQLException e) 
-		{
-			System.out.println("Exception: " + e.getMessage());
-		}
-		
-		catch(FileNotFoundException e) 
-		{
-			System.out.println("Exception: " + e.getMessage());
-		}
-		
-		catch(IOException e) 
-		{
-			System.out.println("Exception: " + e.getMessage());
-		}
-	}
+public class DaoCarta
+{
+    private static final Properties properties = new Properties();
+
+    static
+    {
+        try
+        {
+        	FileInputStream arquivo = new FileInputStream("db.properties");
+            properties.load(arquivo);
+
+            Class.forName(properties.getProperty("db.driver"));
+        }
+        
+        catch (Exception e)
+        {
+            System.out.println("Exceção: " + e.getMessage());
+        }
+    }
+
+    public void sortearCarta(Carta carta, int id)
+    {
+        String query = "SELECT * FROM veiculos WHERE id = ?";
+
+        try
+        {
+            Connection conexao = DriverManager.getConnection(properties.getProperty("db.url"));
+
+            PreparedStatement operacao = conexao.prepareStatement(query);
+
+            operacao.setInt(1, id);
+
+            ResultSet resultado = operacao.executeQuery();
+
+            if (resultado.next())
+            {
+                carta.setAtributos
+                (
+                        resultado.getFloat("speed"),
+                        resultado.getFloat("weight"),
+                        resultado.getFloat("acceleration"),
+                        resultado.getFloat("handling"),
+                        resultado.getFloat("drift"),
+                        resultado.getFloat("offroad"),
+                        resultado.getFloat("miniturbo")
+                );
+
+                carta.setNome(resultado.getString("nome"));
+                carta.setId(resultado.getInt("id"));
+            }
+
+            resultado.close();
+            operacao.close();
+            conexao.close();
+        }
+        
+        catch (Exception e)
+        {
+            System.out.println("Exceção: " + e.getMessage());
+        }
+    }
 }

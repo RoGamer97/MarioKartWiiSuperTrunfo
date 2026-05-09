@@ -1,18 +1,28 @@
 package modelo;
 
-public class Carta 
+public class Carta
 {
-	private float speed;
-	private float weight;
-	private float acceleration;
-	private float handling;
-	private float drift;
-	private float offroad;
-	private float miniturbo;
-	
-	private String nome;
-	private int id;
-	
+    private float speed;
+    private float weight;
+    private float acceleration;
+    private float handling;
+    private float drift;
+    private float offroad;
+    private float miniturbo;
+
+    private String nome;
+    private int id;
+    
+    public void setId(int id)
+    {
+    	this.id = id;
+    }
+    
+    public int getId(int id)
+    {
+    	return id;
+    }
+    
 	public void setNome(String nome)
 	{
 		this.nome = nome;

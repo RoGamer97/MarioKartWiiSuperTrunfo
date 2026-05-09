@@ -59,7 +59,7 @@ public class ViewJogo extends JFrame
 	
 	private JLabel textNomeCartaHumano;
 	private JLabel textNomeCartaMaquina;
-	
+
 	public ViewJogo(ViewMenuPrincipal viewMenuPrincipal, int cartasPorJogador, boolean mostrarCartasMaquina) 
 	{
 		int totalRodadas = cartasPorJogador *  2;
@@ -294,6 +294,7 @@ public class ViewJogo extends JFrame
 		textNomeCartaMaquina = new JLabel("(Nome Carta Maquina)");
 		textNomeCartaMaquina.setBounds(332, 23, 152, 14);
 		contentPane.add(textNomeCartaMaquina);
+		
 		textNomeCartaMaquina.setVisible(false);
 		
 		btnAbandonarPartida.addActionListener(new ActionListener() {
