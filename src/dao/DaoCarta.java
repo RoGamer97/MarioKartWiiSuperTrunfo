@@ -40,7 +40,7 @@ public class DaoCarta
             PreparedStatement operacao = conexao.prepareStatement(query);
             ResultSet resultado = operacao.executeQuery();
 
-            int idArray = 0;
+            int idx = 0;
             
             while (resultado.next())
             {
@@ -59,9 +59,9 @@ public class DaoCarta
                 baralho.adicionarCarta(carta);
                 
                 // DEBUG
-                System.out.println("[DaoCarta] Carta adicionada ao baralho (" + resultado.getString("nome") + " | ID BD: " + resultado.getInt("id") + " | ID Array: " + idArray);
+                System.out.println("[DaoCarta] Carta adicionada ao baralho (" + resultado.getString("nome") + " | Index BD: " + resultado.getInt("id") + " | Index Array: " + idx + ")");
                 
-                idArray++;
+                idx++;
             }
 
             resultado.close();

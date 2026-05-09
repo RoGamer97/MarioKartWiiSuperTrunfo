@@ -12,8 +12,8 @@ public class ControleBaralho
 {
 	DaoCarta daoCarta = new DaoCarta();
 	
-	Baralho baralhoHumano = new Baralho();
-	Baralho baralhoMaquina = new Baralho();
+	Baralho baralhoHumano = new Baralho(TipoJogador.HUMANO);
+	Baralho baralhoMaquina = new Baralho(TipoJogador.MAQUINA);
 	
 	public void setTotalCartas(int total)
 	{

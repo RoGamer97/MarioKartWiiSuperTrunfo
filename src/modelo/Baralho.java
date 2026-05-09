@@ -9,6 +9,13 @@ public class Baralho
 	
 	private Carta cartaEscolhida;
 	
+	private TipoJogador tipoJogador;
+	
+	public Baralho(TipoJogador tipoJogador)
+	{
+		this.tipoJogador = tipoJogador;
+	}
+	
 	private int totalCartas;
 	
 	public int getTotalCartas()
@@ -43,6 +50,19 @@ public class Baralho
     
     public void embaralharCartas()
     {
-    	Collections.shuffle(cartas);
+    	Collections.shuffle(cartas);   	
+    	
+    	// DEBUG
+    	
+    	int idx = 0;
+    	
+    	for (Carta carta : cartas)
+    	{
+            System.out.println("[Baralho] Carta embaralhada (" + carta.getNome() + " | Index Array Velho: " + (carta.getId() - 1) + " | Index Array Novo: " + idx + ")");
+            
+            idx++;
+    	}
+    	
+    	
     }
 }
