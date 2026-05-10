@@ -9,90 +9,72 @@ import modelo.TipoJogador;
 
 public class ControleCarta 
 {
-	Carta cartaHumano = new Carta();
-	Carta cartaMaquina = new Carta();
+	private ControleMao controleMao; 
 	
-	DaoCarta daoCarta = new DaoCarta();
-	
-	public Carta getCartaPorTipoJogador(TipoJogador tipoJogador)
+	public ControleCarta(ControleMao controleMao)
 	{
-		return (tipoJogador == TipoJogador.HUMANO) ? cartaHumano : cartaMaquina;
+		this.controleMao = controleMao;
+	}
+	
+	public Carta getCartaEscolhidaPorTipoJogador(TipoJogador tipoJogador)
+	{
+		return controleMao.getCartaEscolhida(tipoJogador);
 	}
 
 	public float getSpeed(TipoJogador tipoJogador)
 	{
-		return getCartaPorTipoJogador(tipoJogador).getSpeed();
+		return getCartaEscolhidaPorTipoJogador(tipoJogador).getSpeed();
 	}
 	
 	public float getAcceleration(TipoJogador tipoJogador)
 	{
-		return getCartaPorTipoJogador(tipoJogador).getAcceleration();
+		return getCartaEscolhidaPorTipoJogador(tipoJogador).getAcceleration();
 	}
 	
 	public float getDrift(TipoJogador tipoJogador)
 	{
-		return getCartaPorTipoJogador(tipoJogador).getDrift();
+		return getCartaEscolhidaPorTipoJogador(tipoJogador).getDrift();
 	}
 	
 	public float getMiniturbo(TipoJogador tipoJogador)
 	{
-		return getCartaPorTipoJogador(tipoJogador).getMiniturbo();
+		return getCartaEscolhidaPorTipoJogador(tipoJogador).getMiniturbo();
 	}
 	
 	public float getWeight(TipoJogador tipoJogador)
 	{
-		return getCartaPorTipoJogador(tipoJogador).getWeight();
+		return getCartaEscolhidaPorTipoJogador(tipoJogador).getWeight();
 	}
 	
 	public float getOffroad(TipoJogador tipoJogador)
 	{
-		return getCartaPorTipoJogador(tipoJogador).getOffroad();
+		return getCartaEscolhidaPorTipoJogador(tipoJogador).getOffroad();
 	}
 	
 	public float getHandling(TipoJogador tipoJogador)
 	{
-		return getCartaPorTipoJogador(tipoJogador).getHandling();
+		return getCartaEscolhidaPorTipoJogador(tipoJogador).getHandling();
 	}
 	
 	public String getNome(TipoJogador tipoJogador)
 	{
-		return getCartaPorTipoJogador(tipoJogador).getNome();
+		return getCartaEscolhidaPorTipoJogador(tipoJogador).getNome();
 	}
 	
 	public float getSomaTodosAtributos(TipoJogador tipoJogador)
 	{
-		return getCartaPorTipoJogador(tipoJogador).getSomaTodosAtributos();
-	}
-	
-	public void debugSetAtributosAleatorios()
-	{
-		
-		final int QUANTIDADE_CARTAS = 36;
-		
-		int idCartaHumano;
-		int idCartaMaquina;
-		
-		Random random = new Random();
-		
-		do
-		{
-			idCartaHumano = random.nextInt(QUANTIDADE_CARTAS - 1) + 1;
-			idCartaMaquina = random.nextInt(QUANTIDADE_CARTAS - 1) + 1;
-		}
-		while (idCartaHumano == idCartaMaquina);
-		
-		daoCarta.sortearCarta(cartaHumano, idCartaHumano);
-		daoCarta.sortearCarta(cartaMaquina, idCartaMaquina);
-		
-		
+		return getCartaEscolhidaPorTipoJogador(tipoJogador).getSomaTodosAtributos();
 	}
 	
 	public int getTotalAtributosMaiores(TipoJogador tipoJogador)
 	{
 		int totalAtribMaiores = 0;
 		
-		Carta cartaPrincipal = getCartaPorTipoJogador(tipoJogador);
-		Carta cartaOponente = (tipoJogador == tipoJogador.HUMANO) ? cartaMaquina : cartaHumano;
+		Carta cartaPrincipal = getCartaEscolhidaPorTipoJogador(tipoJogador);
+		
+		TipoJogador tipoJogadorOponente = (tipoJogador == tipoJogador.HUMANO) ? TipoJogador.MAQUINA : TipoJogador.HUMANO;
+		
+		Carta cartaOponente = getCartaEscolhidaPorTipoJogador(tipoJogadorOponente);
 		
 		for (TipoAtributoCarta tipoAtribCarta : TipoAtributoCarta.values())
 		{

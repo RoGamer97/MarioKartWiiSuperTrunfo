@@ -1,5 +1,8 @@
 package controle;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import modelo.Carta;
 import modelo.Jogador;
 import modelo.Jogo;
@@ -17,11 +20,15 @@ public class ControleJogo
 	
 	private ViewJogo viewJogo;
 	private ControleCarta controleCarta;
+	private ControleBaralho controleBaralho;
+	private ControleMao controleMao;
 	
-	public ControleJogo(ViewJogo viewJogo, ControleCarta controleCarta)
+	public ControleJogo(ViewJogo viewJogo, ControleBaralho controleBaralho, ControleCarta controleCarta, ControleMao controleMao)
 	{
 		this.viewJogo = viewJogo;
+		this.controleBaralho = controleBaralho;
 		this.controleCarta = controleCarta;
+		this.controleMao = controleMao;
 	}
 	
 	public Jogador getJogadorPorTipo(TipoJogador tipoJogador)
@@ -42,10 +49,22 @@ public class ControleJogo
 			viewJogo.iniciarElementosPartida();
 		}
 		
+		sortearCartaMao();
 		iniciarRodada();
-		controleCarta.debugSetAtributosAleatorios();
 		finalizarRodada();
 		checarFinalizarPartida();
+	}
+	
+	public void sortearCartaMao()
+	{
+		controleMao.sortearCartaMao(TipoJogador.HUMANO);
+		controleMao.sortearCartaMao(TipoJogador.MAQUINA);
+		
+		// DEBUG
+		if (controleMao.getCartaEscolhida(TipoJogador.HUMANO) == controleMao.getCartaEscolhida(TipoJogador.MAQUINA))
+		{
+			throw new RuntimeException("[ControleJogo] Carta sorteada para o Humano foi a mesma sorteada para Maquina!");
+		}
 	}
 	
 	public void iniciarRodada()
@@ -71,8 +90,8 @@ public class ControleJogo
 		int totalAtribMaiorHumano = controleCarta.getTotalAtributosMaiores(TipoJogador.HUMANO);
 		int totalAtribMaiorMaquina = controleCarta.getTotalAtributosMaiores(TipoJogador.MAQUINA);
 		
-		Carta cartaHumano = controleCarta.getCartaPorTipoJogador(TipoJogador.HUMANO);
-		Carta cartaMaquina = controleCarta.getCartaPorTipoJogador(TipoJogador.MAQUINA);
+		Carta cartaHumano = controleCarta.getCartaEscolhidaPorTipoJogador(TipoJogador.HUMANO);
+		Carta cartaMaquina = controleCarta.getCartaEscolhidaPorTipoJogador(TipoJogador.MAQUINA);
 		
 		humano.adicionarPontosRodada(totalAtribMaiorHumano);
 		maquina.adicionarPontosRodada(totalAtribMaiorMaquina);

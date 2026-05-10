@@ -1,10 +1,8 @@
 package view;
 
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -13,19 +11,24 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import controle.ControleBaralho;
 import controle.ControleCarta;
 import controle.ControleJogo;
+import controle.ControleMao;
 import modelo.TipoJogador;
 
 public class ViewJogo extends JFrame 
 {	
 	private ViewMenuPrincipal viewMenuPrincipal;
 	
-	private ControleCarta controleCarta = new ControleCarta();
+	private ControleBaralho controleBaralho = new ControleBaralho();
 	
-	private ControleJogo controleJogo = new ControleJogo(this, controleCarta);
+	private ControleMao controleMao = new ControleMao(controleBaralho);
 	
-	// private ControleCarta controleCarta = new ControleCarta();
+	private ControleCarta controleCarta = new ControleCarta(controleMao);
+	
+	private ControleJogo controleJogo = new ControleJogo(this, controleBaralho, controleCarta, controleMao);
+	
 	
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -60,12 +63,16 @@ public class ViewJogo extends JFrame
 	private JLabel textNomeCartaHumano;
 	private JLabel textNomeCartaMaquina;
 
-	public ViewJogo(ViewMenuPrincipal viewMenuPrincipal, int cartasPorJogador, boolean mostrarCartasMaquina) 
+	public ViewJogo(ViewMenuPrincipal viewMenuPrincipal, int totalRodadas, boolean mostrarCartasMaquina) 
 	{
-		int totalRodadas = cartasPorJogador *  2;
 		controleJogo.setTotalRodadas(totalRodadas);
 		controleJogo.setMostrarCartaMaquina(mostrarCartasMaquina);
 		viewMenuPrincipal.setVisible(false);
+		
+		controleBaralho.setTotalCartas(totalRodadas);
+		controleBaralho.prepararBaralho();
+		controleMao.distribuirCartasMao(TipoJogador.HUMANO);
+		controleMao.distribuirCartasMao(TipoJogador.MAQUINA);
 		
 		this.viewMenuPrincipal = viewMenuPrincipal;
 		
@@ -303,7 +310,7 @@ public class ViewJogo extends JFrame
 				int opcaoSelecionada = JOptionPane.showConfirmDialog(ViewJogo.this, 
 						"Tem certeza que quer abandonar a partida? Você irá retornar ao menu principal", 
 						"Abandonar partida",
-					    JOptionPane.YES_NO_OPTION // do próprio OptionPane
+					    JOptionPane.YES_NO_OPTION
 					);
 
 					if (opcaoSelecionada == JOptionPane.YES_OPTION) 

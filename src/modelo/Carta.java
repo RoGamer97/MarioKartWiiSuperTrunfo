@@ -13,12 +13,25 @@ public class Carta
     private String nome;
     private int id;
     
+    public Carta(String nome, int id, float speed, float weight, float acceleration, float handling, float drift, float offroad, float miniturbo)
+    {
+    	this.nome = nome;
+    	this.id = id;
+		this.speed = speed;
+		this.weight = weight;
+		this.acceleration = acceleration;
+		this.handling = handling;
+		this.drift = drift;
+		this.offroad = offroad;
+		this.miniturbo = miniturbo;
+    }
+    
     public void setId(int id)
     {
     	this.id = id;
     }
     
-    public int getId(int id)
+    public int getId()
     {
     	return id;
     }

@@ -53,13 +53,13 @@ public class ViewMenuPrincipal extends JFrame {
 		
 		JComboBox<String> totalCartas = new JComboBox<>
 		(
-			new String[] {"4", "6", "10", "14", "16", "18"}
+			new String[] {"8", "10", "12", "14", "16"}
 		);
 		totalCartas.setBounds(187, 138, 62, 22);
 		contentPane.add(totalCartas);
 		
 		// 12 selecionado por padrão
-		totalCartas.setSelectedItem("10");
+		totalCartas.setSelectedItem("12");
 		
 		JRadioButton rdbtnMostrarCartaMaquina = new JRadioButton("Mostrar cartas da Maquina");
 		rdbtnMostrarCartaMaquina.setBounds(136, 167, 205, 24);
@@ -69,10 +69,10 @@ public class ViewMenuPrincipal extends JFrame {
 		btnJogar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				int qtdCartas = Integer.parseInt(totalCartas.getSelectedItem().toString());
+				int totalRodadas = Integer.parseInt(totalCartas.getSelectedItem().toString());
 				boolean mostrarCartaMaquina = rdbtnMostrarCartaMaquina.isSelected();
 				
-				ViewJogo viewJogo = new ViewJogo(ViewMenuPrincipal.this, qtdCartas, mostrarCartaMaquina);
+				ViewJogo viewJogo = new ViewJogo(ViewMenuPrincipal.this, totalRodadas, mostrarCartaMaquina);
 				
 				viewJogo.setVisible(true);
 				ViewMenuPrincipal.this.setVisible(false);
@@ -81,7 +81,7 @@ public class ViewMenuPrincipal extends JFrame {
 		btnJogar.setBounds(151, 198, 140, 41);
 		contentPane.add(btnJogar);
 		
-		JLabel textInfoQtdCartas = new JLabel("Quantidade de cartas por jogador");
+		JLabel textInfoQtdCartas = new JLabel("Quantidade de rodadas");
 		textInfoQtdCartas.setBounds(136, 120, 205, 18);
 		contentPane.add(textInfoQtdCartas);
 	}
