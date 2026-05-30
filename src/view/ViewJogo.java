@@ -2,7 +2,6 @@ package view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Random;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -16,6 +15,7 @@ import controle.ControleBaralho;
 import controle.ControleCarta;
 import controle.ControleJogo;
 import controle.ControleMao;
+import modelo.EstadoJogo;
 import modelo.TipoJogador;
 
 public class ViewJogo extends JFrame 
@@ -63,6 +63,7 @@ public class ViewJogo extends JFrame
 
 	public ViewJogo(ViewMenuPrincipal viewMenuPrincipal, int totalRodadas, boolean mostrarCartasMaquina) 
 	{
+		controleJogo.setEstadoJogo(EstadoJogo.CARTA_NAO_ESCOLHIDA);
 		controleJogo.setTotalRodadas(totalRodadas);
 		controleJogo.setMostrarCartaMaquina(mostrarCartasMaquina);
 		viewMenuPrincipal.setVisible(false);
@@ -232,39 +233,13 @@ public class ViewJogo extends JFrame
 		btnJogar = new JButton("Jogar");
 		btnJogar.setBounds(172, 424, 169, 36);
 		contentPane.add(btnJogar);
+		btnJogar.setEnabled(false);
 		
 		btnJogar.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				if (btnJogar.getText().equals("Voltar ao menu principal")) 
-				{
-					voltarMenuTitulo();
-					return;
-				}
-				
-				if (btnJogar.getText().equals("Jogar")) 
-				{
-					if (textNomeCartaHumano.getText().equals(""))
-					{
-						JOptionPane.showMessageDialog(ViewJogo.this, "Escolha uma carta!");
-						return;
-					}
-				
-					controleJogo.jogar();
-					btnMudarCarta.setEnabled(false);
-					btnJogar.setText("Próxima Rodada");
-					
-				}
-				else if (btnJogar.getText().equals("Próxima Rodada"))
-				{
-					controleJogo.iniciarRodada();
-					limparElementosRodada();
-					btnMudarCarta.setEnabled(true);
-					btnJogar.setText("Jogar");
-					
-					abrirMenuSelecaoCarta();
-				}
+				controleJogo.processarJogo();
 			}
 		});
 		
@@ -273,12 +248,12 @@ public class ViewJogo extends JFrame
 		contentPane.add(textVencedor);
 		textVencedor.setVisible(false);
 		
-		btnAbandonarPartida = new JButton("Abandonar");
-		btnAbandonarPartida.setBounds(10, 440, 105, 20);
+		btnAbandonarPartida = new JButton("Abandonar Partida");
+		btnAbandonarPartida.setBounds(25, 432, 105, 20);
 		contentPane.add(btnAbandonarPartida);
 		
-		btnMudarCarta = new JButton("Mudar Carta");
-		btnMudarCarta.setBounds(120, 440, 115, 20);
+		btnMudarCarta = new JButton("Trocar");
+		btnMudarCarta.setBounds(57, 36, 115, 20);
 		contentPane.add(btnMudarCarta);
 		
 		btnMudarCarta.addActionListener(new ActionListener()
@@ -329,22 +304,22 @@ public class ViewJogo extends JFrame
 		textPontosPartidaMaquina.setBounds(272, 376, 46, 14);
 		contentPane.add(textPontosPartidaMaquina);
 		
-		textNomeCartaHumano = new JLabel("");
-		textNomeCartaHumano.setBounds(30, 23, 152, 14);
+		textNomeCartaHumano = new JLabel("(Nome Carta Humano)");
+		textNomeCartaHumano.setBounds(30, 11, 152, 14);
 		contentPane.add(textNomeCartaHumano);
-		textNomeCartaHumano.setVisible(true);
+		textNomeCartaHumano.setVisible(false);
 		
-		textNomeCartaMaquina = new JLabel("");
-		textNomeCartaMaquina.setBounds(332, 23, 152, 14);
+		textNomeCartaMaquina = new JLabel("(Nome Carta Maquina)");
+		textNomeCartaMaquina.setBounds(332, 11, 152, 14);
 		contentPane.add(textNomeCartaMaquina);
-		textNomeCartaMaquina.setVisible(true);
+		textNomeCartaMaquina.setVisible(false);
 		
 		btnAbandonarPartida.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
 				int opcaoSelecionada = JOptionPane.showConfirmDialog(ViewJogo.this, 
-						"Tem certeza que quer abandonar?", "Abandonar", JOptionPane.YES_NO_OPTION);
+						"Tem certeza que quer abandonar a partida? Você irá voltar ao menu principal", "Abandonar partida?", JOptionPane.YES_NO_OPTION);
 				if (opcaoSelecionada == JOptionPane.YES_OPTION) 
 				{
 					voltarMenuTitulo();
@@ -386,7 +361,7 @@ public class ViewJogo extends JFrame
 		String ptsHumano = textPontosPartidaHumano.getText();
 		String ptsMaquina = textPontosPartidaMaquina.getText();
 		
-		ViewJogoMenuCarta menuCarta = new ViewJogoMenuCarta(this, controleMao, controleCarta, rodadaAtual, totalRodadas, ptsHumano, ptsMaquina);
+		ViewJogoMenuCarta menuCarta = new ViewJogoMenuCarta(this, controleJogo, controleMao, controleCarta, rodadaAtual, totalRodadas, ptsHumano, ptsMaquina);
 		menuCarta.setVisible(true); 
 	}
 	
@@ -431,11 +406,13 @@ public class ViewJogo extends JFrame
 	public void atualizarTextoCartaHumano()
 	{
 		textNomeCartaHumano.setText(controleCarta.getNome(TipoJogador.HUMANO));
+		textNomeCartaHumano.setVisible(true);
 	}
 	
 	public void atualizarTextoCartaMaquina()
 	{
 		textNomeCartaMaquina.setText(controleCarta.getNome(TipoJogador.MAQUINA));
+		textNomeCartaMaquina.setVisible(true);
 	}
 
 	public void atualizarTextoAtributosHumano()
@@ -451,7 +428,6 @@ public class ViewJogo extends JFrame
 	
 	public void atualizarTextoAtributosMaquina()
 	{
-
 		textFieldSpeedMaquina.setText(Float.toString(controleCarta.getSpeed(TipoJogador.MAQUINA)));
 		textFieldWeightMaquina.setText(Float.toString(controleCarta.getWeight(TipoJogador.MAQUINA)));
 		textFieldAccelerationMaquina.setText(Float.toString(controleCarta.getAcceleration(TipoJogador.MAQUINA)));
@@ -461,9 +437,43 @@ public class ViewJogo extends JFrame
 		textFieldMTMaquina.setText(Float.toString(controleCarta.getMiniturbo(TipoJogador.MAQUINA)));
 	}
 	
-	public void setNomeCartaVisible()
+	public void setNomeCartaHumanoVisibility(boolean isVisible)
 	{
-		textNomeCartaHumano.setVisible(true);
-		textNomeCartaMaquina.setVisible(true);
+		textNomeCartaHumano.setVisible(isVisible);
+	}
+	
+	public void setNomeCartaMaquinaVisibility(boolean isVisible)
+	{
+		textNomeCartaMaquina.setVisible(isVisible);
+	}
+	
+	public void setTextoBotaoJogar()
+	{
+		btnJogar.setText("Jogar");
+	}
+	
+	public void setTextoBotaoProximaRodada()
+	{
+		btnJogar.setText("Próxima Rodada");
+	}
+	
+	public void setTextoBotaoFinalizarPartida()
+	{
+		btnJogar.setText("Finalizar Partida");
+	}
+	
+	public void mostrarErroEscolhaCarta()
+	{
+		// OptionPane.showMessageDialog(ViewJogo.this, "Escolha uma carta!");
+	}
+	
+	public void setIsBtnMudarCartaEnabled(boolean isEnabled)
+	{
+		btnMudarCarta.setEnabled(isEnabled);
+	}
+	
+	public void setIsBtnJogarEnabled(boolean isEnabled)
+	{
+		btnJogar.setEnabled(isEnabled);
 	}
 }

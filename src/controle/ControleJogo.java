@@ -1,9 +1,7 @@
 package controle;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import modelo.Carta;
+import modelo.EstadoJogo;
 import modelo.Jogador;
 import modelo.Jogo;
 import modelo.TipoJogador;
@@ -23,6 +21,8 @@ public class ControleJogo
 	private ControleBaralho controleBaralho;
 	private ControleMao controleMao;
 	
+	boolean mostrouMensagemVencedor = false;
+	
 	public ControleJogo(ViewJogo viewJogo, ControleBaralho controleBaralho, ControleCarta controleCarta, ControleMao controleMao)
 	{
 		this.viewJogo = viewJogo;
@@ -36,18 +36,12 @@ public class ControleJogo
 		return (tipoJogador == TipoJogador.HUMANO) ? humano : maquina;
 	}
 	
-	public void jogar()
+	public void processarRodada()
 	{
-		if (isPartidaFinalizada())
-		{
-			viewJogo.voltarMenuTitulo();
-			return;
-		}
-		
+		iniciarRodada();
 		escolherCartaMaquina();
 		removerCartaJogadaMao();
 		finalizarRodada();
-		checarFinalizarPartida();
 	}
 	
 	public void escolherCartaMaquina()
@@ -62,17 +56,6 @@ public class ControleJogo
 		jogo.incrementarRodadaAtual();
 		viewJogo.atualizarTextoRodada();
 	}
-	
-	public void checarFinalizarPartida()
-	{
-		if (!isPartidaFinalizada())
-		{
-			return;
-		}
-		
-		viewJogo.mostrarElementosFimPartida();
-	}
-	
 	
 	public void finalizarRodada()
 	{
@@ -140,4 +123,73 @@ public class ControleJogo
 		return getJogadorPorTipo(tipoJogador).getPontosPartida();
 	}
 	
+	public EstadoJogo getEstadoJogo()
+	{
+		return jogo.getEstadoJogo();
+	}
+	public void setEstadoJogo(EstadoJogo estado)
+	{
+		if (getEstadoJogo() == estado)
+		{
+			return;
+		}
+		
+		jogo.setEstadoJogo(estado);
+		System.out.println("[ControleJogo] setEstadoJogo " + estado);
+	}
+	
+	public void processarJogo()
+	{
+		EstadoJogo estadoJogo = getEstadoJogo();
+		
+		switch (estadoJogo)
+		{
+			case CARTA_NAO_ESCOLHIDA:
+				viewJogo.mostrarErroEscolhaCarta();
+				break;
+				
+			case CARTA_ESCOLHIDA:		
+				processarRodada();
+				
+				boolean isPartidaFinalizada = isPartidaFinalizada();
+				
+				if (isPartidaFinalizada)
+				{
+				    viewJogo.setTextoBotaoFinalizarPartida();
+				    estadoJogo = EstadoJogo.PARTIDA_FINALIZADA;
+				}
+				else
+				{
+				    viewJogo.setTextoBotaoProximaRodada();
+				    estadoJogo = EstadoJogo.RODADA_FINALIZADA;
+				}
+				
+				viewJogo.setIsBtnMudarCartaEnabled(false);
+				viewJogo.setIsBtnJogarEnabled(true);
+
+				setEstadoJogo(estadoJogo);
+				break;
+				
+			case RODADA_FINALIZADA:
+				viewJogo.limparElementosRodada();
+				viewJogo.setTextoBotaoJogar();
+				viewJogo.setIsBtnMudarCartaEnabled(true);
+				viewJogo.setIsBtnJogarEnabled(false);
+				viewJogo.abrirMenuSelecaoCarta();
+				break;
+				
+			case PARTIDA_FINALIZADA:
+				if (mostrouMensagemVencedor)
+				{
+					viewJogo.voltarMenuTitulo();
+					return;
+				}
+				
+				viewJogo.mostrarElementosFimPartida();
+				mostrouMensagemVencedor = true;
+			
+			default:	
+				break;
+		}
+	}
 }

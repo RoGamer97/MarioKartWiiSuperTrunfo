@@ -7,8 +7,10 @@ public class Jogo
 	private Jogador humano;
 	private Jogador maquina;
 
-	private int rodadaAtual = 1;
+	private int rodadaAtual;
 	private int totalRodadas;
+	
+	private EstadoJogo estadoJogo;
 	
 	private boolean mostrarCartaMaquina;
 	
@@ -61,6 +63,16 @@ public class Jogo
 	public void setMostrarCartaMaquina(boolean deveMostrar)
 	{
 		this.mostrarCartaMaquina = deveMostrar;
+	}
+	
+	public EstadoJogo getEstadoJogo()
+	{
+		return estadoJogo;
+	}
+	
+	public void setEstadoJogo(EstadoJogo estado)
+	{
+		estadoJogo = estado;
 	}
 }
 

@@ -15,8 +15,10 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import controle.ControleCarta;
+import controle.ControleJogo;
 import controle.ControleMao;
 import modelo.Carta;
+import modelo.EstadoJogo;
 import modelo.Mao;
 import modelo.TipoJogador;
 
@@ -26,7 +28,7 @@ public class ViewJogoMenuCarta extends JFrame
 	private JPanel contentPane;
 	private ViewJogo viewJogo;
 
-	public ViewJogoMenuCarta(ViewJogo viewJogo, ControleMao controleMao, ControleCarta controleCarta, String rodadaAtual, String totalRodadas, String pontosHumano, String pontosMaquina) 
+	public ViewJogoMenuCarta(ViewJogo viewJogo, ControleJogo controleJogo, ControleMao controleMao, ControleCarta controleCarta, String rodadaAtual, String totalRodadas, String pontosHumano, String pontosMaquina) 
 	{
 		this.viewJogo = viewJogo;
 
@@ -107,6 +109,9 @@ public class ViewJogoMenuCarta extends JFrame
 					Mao maoJogador = controleMao.getMaoPorTipoJogador(TipoJogador.HUMANO);
 					maoJogador.setCartaEscolhida(carta);
 					
+					controleJogo.setEstadoJogo(EstadoJogo.CARTA_ESCOLHIDA);
+					viewJogo.setIsBtnJogarEnabled(true);
+	
 					viewJogo.atualizarTextoCartaHumano();
 					viewJogo.atualizarTextoAtributosHumano();
 					
