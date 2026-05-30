@@ -39,4 +39,9 @@ public class Mao
 	{
 		mao.remove(carta);
 	}
+	
+	public int getNumCartasMao()
+	{
+		return mao.size();
+	}
 }
