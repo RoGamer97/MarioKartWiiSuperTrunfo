@@ -20,6 +20,11 @@ public class Jogador
 		pontosPartida++;
 	}
 	
+	public void debugAdicionarPontoPartida(int ponto)
+	{
+		pontosPartida += ponto;
+	}
+	
 	public void adicionarPontosRodada(int pontos)
 	{
 		pontosRodada += pontos;

@@ -1,14 +1,12 @@
 package controle;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import dao.DaoCarta;
 import modelo.Baralho;
 import modelo.Carta;
+import modelo.Debug;
 import modelo.TipoJogador;
-import modelo.TipoJogadorString;
 
 public class ControleBaralho 
 {
@@ -39,11 +37,6 @@ public class ControleBaralho
 		baralho.embaralharCartas();
 	}
 	
-	public void embaralharCartas()
-	{
-		baralho.embaralharCartas();
-	}
-	
 	public Carta getCartaPorId(int id, TipoJogador tipoJogador)
 	{
 		return baralho.getCartaPorId(id);
@@ -56,6 +49,11 @@ public class ControleBaralho
 	
 	public void printarCartasSobrando()
 	{
+		if (!Debug.DEBUG_PRINTS_ENABLED)
+		{
+			return;
+		}
+		
 		for (int i = 0; i < baralho.getNumCartasBaralho(); i++)
 		{
 			Carta carta = baralho.getCartaPorId(i);

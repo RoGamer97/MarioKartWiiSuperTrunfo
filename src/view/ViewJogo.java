@@ -15,8 +15,10 @@ import controle.ControleBaralho;
 import controle.ControleCarta;
 import controle.ControleJogo;
 import controle.ControleMao;
+import modelo.Debug;
 import modelo.EstadoJogo;
 import modelo.TipoJogador;
+import java.awt.Color;
 
 public class ViewJogo extends JFrame 
 {	
@@ -25,6 +27,8 @@ public class ViewJogo extends JFrame
 	private ControleMao controleMao = new ControleMao(controleBaralho);
 	private ControleCarta controleCarta = new ControleCarta(controleMao);
 	private ControleJogo controleJogo = new ControleJogo(this, controleBaralho, controleCarta, controleMao);
+	
+	private ViewJogoDebugMenu viewJogoDebugMenu = null;
 	
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -60,6 +64,7 @@ public class ViewJogo extends JFrame
 	
 	private JLabel textNomeCartaHumano;
 	private JLabel textNomeCartaMaquina;
+	private JLabel textLabelDirty;
 
 	public ViewJogo(ViewMenuPrincipal viewMenuPrincipal, int totalRodadas, boolean mostrarCartasMaquina) 
 	{
@@ -74,6 +79,12 @@ public class ViewJogo extends JFrame
 		controleMao.distribuirCartasMao(TipoJogador.MAQUINA);
 		
 		this.viewMenuPrincipal = viewMenuPrincipal;
+		
+		if (Debug.DEBUG_MENU_ENABLED)
+		{
+			viewJogoDebugMenu = new ViewJogoDebugMenu(this, controleJogo);
+			viewJogoDebugMenu.setVisible(true);
+		}
 		
 		setTitle("Super Mario Kart Trunfo");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -210,7 +221,7 @@ public class ViewJogo extends JFrame
 		contentPane.add(textFieldMTMaquina);
 		
 		JLabel textLabelRodada = new JLabel("Rodada");
-		textLabelRodada.setBounds(225, 11, 46, 14);
+		textLabelRodada.setBounds(225, 11, 116, 14);
 		contentPane.add(textLabelRodada);
 		
 		textLabelRodadaAtual = new JLabel("1");
@@ -229,8 +240,17 @@ public class ViewJogo extends JFrame
 		textFim.setBounds(235, 224, 46, 14);
 		contentPane.add(textFim);
 		textFim.setVisible(false);
+		
+		if (Debug.DEBUG_MENU_ENABLED)
+		{
+			textLabelDirty = new JLabel("(D)");
+			textLabelDirty.setForeground(new Color(255, 0, 0));
+			textLabelDirty.setBounds(10, 0, 30, 25);
+			contentPane.add(textLabelDirty);
+			textLabelDirty.setVisible(false);
+		}
 	
-		btnJogar = new JButton("Jogar");
+		btnJogar = new JButton("Selecione uma carta"); // Texto inicial, mas também é Botão Jogar, Próxima Rodada/Partida
 		btnJogar.setBounds(172, 424, 169, 36);
 		contentPane.add(btnJogar);
 		btnJogar.setEnabled(false);
@@ -354,7 +374,7 @@ public class ViewJogo extends JFrame
 
 	public void abrirMenuSelecaoCarta() 
 	{
-		this.setVisible(true); 
+		setVisible(true); 
 		
 		String rodadaAtual = textLabelRodadaAtual.getText();
 		String totalRodadas = textTotalRodadas.getText();
@@ -395,12 +415,20 @@ public class ViewJogo extends JFrame
 	{
 		viewMenuPrincipal.setVisible(true);
 	    this.setVisible(false);
+	    
+	    if (Debug.DEBUG_MENU_ENABLED)
+	    {
+	    	viewJogoDebugMenu.setVisible(false);
+	    }
 	}
 	
 	public void atualizarTextoPontos() 
 	{
 		textPontosPartidaHumano.setText(Integer.toString(controleJogo.getPontosPartida(TipoJogador.HUMANO)));
 		textPontosPartidaMaquina.setText(Integer.toString(controleJogo.getPontosPartida(TipoJogador.MAQUINA)));
+			
+		textPontosRodadaHumano.setText(Integer.toString(controleJogo.getPontosRodada(TipoJogador.HUMANO)));
+		textPontosRodadaMaquina.setText(Integer.toString(controleJogo.getPontosRodada(TipoJogador.MAQUINA)));
 	}
 	
 	public void atualizarTextoCartaHumano()
@@ -452,6 +480,11 @@ public class ViewJogo extends JFrame
 		btnJogar.setText("Jogar");
 	}
 	
+	public void setTextoBotaoNenhumaCarta()
+	{
+		btnJogar.setText("Selecione uma carta");
+	}
+	
 	public void setTextoBotaoProximaRodada()
 	{
 		btnJogar.setText("Próxima Rodada");
@@ -462,9 +495,9 @@ public class ViewJogo extends JFrame
 		btnJogar.setText("Finalizar Partida");
 	}
 	
-	public void mostrarErroEscolhaCarta()
+	public void setTextoTotalRodadasDesempate()
 	{
-		// OptionPane.showMessageDialog(ViewJogo.this, "Escolha uma carta!");
+		textTotalRodadas.setText(controleJogo.getTotalRodadas() + " (Desempate)");
 	}
 	
 	public void setIsBtnMudarCartaEnabled(boolean isEnabled)
@@ -475,5 +508,15 @@ public class ViewJogo extends JFrame
 	public void setIsBtnJogarEnabled(boolean isEnabled)
 	{
 		btnJogar.setEnabled(isEnabled);
+	}
+	
+	public void mostrarAvisoDesempate()
+	{
+		JOptionPane.showMessageDialog(null, "Por causa do empate na pontuação final, haverá mais uma rodada com cartas distribuidas do baralho", "Empate!", JOptionPane.INFORMATION_MESSAGE);
+	}
+	
+	public void displayDebugMark()
+	{
+		textLabelDirty.setVisible(true);
 	}
 }

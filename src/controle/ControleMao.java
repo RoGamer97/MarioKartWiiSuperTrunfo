@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Random;
 
 import modelo.Carta;
+import modelo.Debug;
 import modelo.Mao;
 import modelo.TipoJogador;
 import modelo.TipoJogadorString;
@@ -38,10 +39,33 @@ public class ControleMao
 			getMaoPorTipoJogador(tipoJogador).adicionarCartaMao(cartaSorteada);
 			controleBaralho.removerCarta(cartaSorteada);
 			
-			// DEBUG
+			if (!Debug.DEBUG_PRINTS_ENABLED)
+			{
+				continue;
+			}
+			
 			TipoJogadorString tjString = new TipoJogadorString();
 			System.out.println("[ControleBaralho] " + (i + 1) + ") Carta removida do baralho e adicionada a mão para " + tjString.getTipoJogadorString(tipoJogador) + " (" + cartaSorteada.getNome() + " | ID Array: " + cartaSorteada.getId() + ")");
 		}
+	}
+	
+	public void distribuirCartasDesempate()
+	{
+		Carta cartaSorteada = sortearCartaBaralho(TipoJogador.HUMANO);
+		maoHumano.adicionarCartaMao(cartaSorteada);
+		controleBaralho.removerCarta(cartaSorteada);
+		
+		cartaSorteada = sortearCartaBaralho(TipoJogador.MAQUINA);
+		maoMaquina.adicionarCartaMao(cartaSorteada);
+		controleBaralho.removerCarta(cartaSorteada);
+		
+		
+		if (!Debug.DEBUG_PRINTS_ENABLED)
+		{
+			return;
+		}
+		
+		System.out.println("[ControleBaralho] Cartas de desempate distribuidas");
 	}
 	
 	public void escolherCartaMaquina()
@@ -73,6 +97,12 @@ public class ControleMao
 	{	
 		maoHumano.removerCartaMao(maoHumano.getCartaEscolhida());
 		maoMaquina.removerCartaMao(maoMaquina.getCartaEscolhida());
+		
+		if (!Debug.DEBUG_PRINTS_ENABLED)
+		{
+			return;
+		}
+		
 		System.out.println("[ControleMao] removerCartaJogadaMao executado");
 	}
 

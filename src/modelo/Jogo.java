@@ -9,6 +9,7 @@ public class Jogo
 
 	private int rodadaAtual;
 	private int totalRodadas;
+	private boolean isRodadaDesempate = false;
 	
 	private EstadoJogo estadoJogo;
 	
@@ -73,6 +74,16 @@ public class Jogo
 	public void setEstadoJogo(EstadoJogo estado)
 	{
 		estadoJogo = estado;
+	}
+	
+	public boolean isRodadaDesempate()
+	{
+		return isRodadaDesempate;
+	}
+	
+	public void setIsRodadaDesempate(boolean isDesempate)
+	{
+		isRodadaDesempate = isDesempate;
 	}
 }
 
