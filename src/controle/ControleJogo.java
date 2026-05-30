@@ -44,27 +44,15 @@ public class ControleJogo
 			return;
 		}
 		
-		if (getRodadaAtual() == 0)
-		{
-			viewJogo.iniciarElementosPartida();
-		}
-		
-		sortearCartaMao();
-		iniciarRodada();
+		escolherCartaMaquina();
+		removerCartaJogadaMao();
 		finalizarRodada();
 		checarFinalizarPartida();
 	}
 	
-	public void sortearCartaMao()
+	public void escolherCartaMaquina()
 	{
-		controleMao.sortearCartaMao(TipoJogador.HUMANO);
-		controleMao.sortearCartaMao(TipoJogador.MAQUINA);
-		
-		// DEBUG
-		if (controleMao.getCartaEscolhida(TipoJogador.HUMANO) == controleMao.getCartaEscolhida(TipoJogador.MAQUINA))
-		{
-			throw new RuntimeException("[ControleJogo] Carta sorteada para o Humano foi a mesma sorteada para Maquina!");
-		}
+		controleMao.escolherCartaMaquina();
 	}
 	
 	public void iniciarRodada()
@@ -72,6 +60,7 @@ public class ControleJogo
 		humano.resetPontosRodada();
 		maquina.resetPontosRodada();
 		jogo.incrementarRodadaAtual();
+		viewJogo.atualizarTextoRodada();
 	}
 	
 	public void checarFinalizarPartida()
@@ -101,6 +90,11 @@ public class ControleJogo
 		viewJogo.atualizarElementosRodada();
 	}
 	
+	public void removerCartaJogadaMao()
+	{
+		controleMao.removerCartaJogadaMao();
+	}
+	
 	public boolean isPartidaFinalizada()
 	{
 		return jogo.isUltimaRodada();
@@ -114,6 +108,11 @@ public class ControleJogo
 	public String getStringVencedor()
 	{	
 		return tjString.getTipoJogadorString(jogo.getVencedorPartida());
+	}
+	
+	public int getTotalRodadas()
+	{
+		return jogo.getTotalRodadas();
 	}
 	
 	public void setTotalRodadas(int quantidade)

@@ -31,7 +31,6 @@ public class Baralho
         cartas.add(carta);
     }
     
- 
     public void removerCarta(Carta carta)
     {
     	cartas.remove(carta);

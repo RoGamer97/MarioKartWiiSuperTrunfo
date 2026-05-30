@@ -1,5 +1,6 @@
 package controle;
 
+import java.util.List;
 import java.util.Random;
 
 import modelo.Carta;
@@ -43,18 +44,17 @@ public class ControleMao
 		}
 	}
 	
-	public void sortearCartaMao(TipoJogador tipoJogador)
+	public void escolherCartaMaquina()
 	{
 		int totalCartas = controleBaralho.getTotalCartas();
 		int idCarta = random.nextInt(totalCartas);
-		Carta cartaSorteada = getMaoPorTipoJogador(tipoJogador).getCartaPorId(idCarta);
-		getMaoPorTipoJogador(tipoJogador).setCartaEscolhida(cartaSorteada);
+		Carta cartaSorteada = maoMaquina.getCartaPorId(idCarta);
+		maoMaquina.setCartaEscolhida(cartaSorteada);
 	}
 	
-
 	public Carta sortearCartaBaralho(TipoJogador tipoJogador)
 	{
-		int totalCartas = controleBaralho.getNumCartasBaralho();
+		int totalCartas = controleBaralho.getTotalCartas();
 		int idCarta = random.nextInt(totalCartas);
 		return controleBaralho.getCartaPorId(idCarta, tipoJogador);
 	}
@@ -62,6 +62,18 @@ public class ControleMao
 	public Carta getCartaEscolhida(TipoJogador tipoJogador)
 	{
 		return getMaoPorTipoJogador(tipoJogador).getCartaEscolhida();
+	}
+	
+	public List<Carta> getCartasMao(TipoJogador tipoJogador)
+	{
+		return getMaoPorTipoJogador(tipoJogador).getCartasMao();
+	}
+	
+	public void removerCartaJogadaMao()
+	{	
+		maoHumano.removerCartaMao(maoHumano.getCartaEscolhida());
+		maoMaquina.removerCartaMao(maoMaquina.getCartaEscolhida());
+		System.out.println("[ControleMao] removerCartaJogadaMao executado");
 	}
 
 }

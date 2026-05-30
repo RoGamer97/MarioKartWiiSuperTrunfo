@@ -29,4 +29,14 @@ public class Mao
 	{
 		cartaEscolhida = carta;
 	}
+	
+	public List<Carta> getCartasMao()
+	{
+		return mao;
+	}
+	
+	public void removerCartaMao(Carta carta)
+	{
+		mao.remove(carta);
+	}
 }
