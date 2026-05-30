@@ -11,7 +11,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JRadioButton;
-import java.awt.Window.Type;
 
 public class ViewMenuPrincipal extends JFrame {
 
@@ -73,16 +72,19 @@ public class ViewMenuPrincipal extends JFrame {
 				boolean mostrarCartaMaquina = rdbtnMostrarCartaMaquina.isSelected();
 				
 				ViewJogo viewJogo = new ViewJogo(ViewMenuPrincipal.this, totalRodadas, mostrarCartaMaquina);
-				
-				viewJogo.setVisible(true);
 				ViewMenuPrincipal.this.setVisible(false);
+				
+				viewJogo.abrirMenuSelecaoCarta();
 			}
 		});
+		
 		btnJogar.setBounds(151, 198, 140, 41);
 		contentPane.add(btnJogar);
 		
 		JLabel textInfoQtdCartas = new JLabel("Quantidade de rodadas");
 		textInfoQtdCartas.setBounds(136, 120, 205, 18);
 		contentPane.add(textInfoQtdCartas);
+		
+		setLocationRelativeTo(null);
 	}
 }

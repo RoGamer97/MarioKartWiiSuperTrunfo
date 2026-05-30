@@ -9,6 +9,9 @@ public class Jogo
 
 	private int rodadaAtual;
 	private int totalRodadas;
+	private boolean isRodadaDesempate = false;
+	
+	private EstadoJogo estadoJogo;
 	
 	private boolean mostrarCartaMaquina;
 	
@@ -61,6 +64,26 @@ public class Jogo
 	public void setMostrarCartaMaquina(boolean deveMostrar)
 	{
 		this.mostrarCartaMaquina = deveMostrar;
+	}
+	
+	public EstadoJogo getEstadoJogo()
+	{
+		return estadoJogo;
+	}
+	
+	public void setEstadoJogo(EstadoJogo estado)
+	{
+		estadoJogo = estado;
+	}
+	
+	public boolean isRodadaDesempate()
+	{
+		return isRodadaDesempate;
+	}
+	
+	public void setIsRodadaDesempate(boolean isDesempate)
+	{
+		isRodadaDesempate = isDesempate;
 	}
 }
 

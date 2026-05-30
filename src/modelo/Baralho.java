@@ -31,7 +31,6 @@ public class Baralho
         cartas.add(carta);
     }
     
- 
     public void removerCarta(Carta carta)
     {
     	cartas.remove(carta);
@@ -46,7 +45,11 @@ public class Baralho
     {
     	Collections.shuffle(cartas);   	
     	
-    	// DEBUG
+    	if (!Debug.DEBUG_PRINTS_ENABLED)
+    	{
+    		return;
+    	}
+    	
     	int idx = 0;
     	
     	for (Carta carta : cartas)

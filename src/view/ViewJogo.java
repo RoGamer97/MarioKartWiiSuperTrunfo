@@ -15,20 +15,20 @@ import controle.ControleBaralho;
 import controle.ControleCarta;
 import controle.ControleJogo;
 import controle.ControleMao;
+import modelo.Debug;
+import modelo.EstadoJogo;
 import modelo.TipoJogador;
+import java.awt.Color;
 
 public class ViewJogo extends JFrame 
 {	
 	private ViewMenuPrincipal viewMenuPrincipal;
-	
 	private ControleBaralho controleBaralho = new ControleBaralho();
-	
 	private ControleMao controleMao = new ControleMao(controleBaralho);
-	
 	private ControleCarta controleCarta = new ControleCarta(controleMao);
-	
 	private ControleJogo controleJogo = new ControleJogo(this, controleBaralho, controleCarta, controleMao);
 	
+	private ViewJogoDebugMenu viewJogoDebugMenu = null;
 	
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -47,6 +47,7 @@ public class ViewJogo extends JFrame
 	private JTextField textFieldOffroadMaquina;
 	private JTextField textFieldMTMaquina;
 	
+	private JLabel textTotalRodadas;
 	private JLabel textLabelRodadaAtual;
 	private JLabel textFim;
 	private JLabel textVencedor;
@@ -59,12 +60,15 @@ public class ViewJogo extends JFrame
 	private JLabel textPontosRodadaMaquina;
 	
 	private JButton btnAbandonarPartida;
+	private JButton btnMudarCarta;
 	
 	private JLabel textNomeCartaHumano;
 	private JLabel textNomeCartaMaquina;
+	private JLabel textLabelDirty;
 
 	public ViewJogo(ViewMenuPrincipal viewMenuPrincipal, int totalRodadas, boolean mostrarCartasMaquina) 
 	{
+		controleJogo.setEstadoJogo(EstadoJogo.CARTA_NAO_ESCOLHIDA);
 		controleJogo.setTotalRodadas(totalRodadas);
 		controleJogo.setMostrarCartaMaquina(mostrarCartasMaquina);
 		viewMenuPrincipal.setVisible(false);
@@ -75,6 +79,12 @@ public class ViewJogo extends JFrame
 		controleMao.distribuirCartasMao(TipoJogador.MAQUINA);
 		
 		this.viewMenuPrincipal = viewMenuPrincipal;
+		
+		if (Debug.DEBUG_MENU_ENABLED)
+		{
+			viewJogoDebugMenu = new ViewJogoDebugMenu(this, controleJogo);
+			viewJogoDebugMenu.setVisible(true);
+		}
 		
 		setTitle("Super Mario Kart Trunfo");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -211,14 +221,14 @@ public class ViewJogo extends JFrame
 		contentPane.add(textFieldMTMaquina);
 		
 		JLabel textLabelRodada = new JLabel("Rodada");
-		textLabelRodada.setBounds(225, 11, 46, 14);
+		textLabelRodada.setBounds(225, 11, 116, 14);
 		contentPane.add(textLabelRodada);
 		
-		textLabelRodadaAtual = new JLabel("0");
+		textLabelRodadaAtual = new JLabel("1");
 		textLabelRodadaAtual.setBounds(225, 36, 46, 14);
 		contentPane.add(textLabelRodadaAtual);
 		
-		JLabel textTotalRodadas = new JLabel(Integer.toString(totalRodadas));
+		textTotalRodadas = new JLabel(Integer.toString(totalRodadas));
 		textTotalRodadas.setBounds(256, 36, 46, 14);
 		contentPane.add(textTotalRodadas);
 		
@@ -230,18 +240,27 @@ public class ViewJogo extends JFrame
 		textFim.setBounds(235, 224, 46, 14);
 		contentPane.add(textFim);
 		textFim.setVisible(false);
+		
+		if (Debug.DEBUG_MENU_ENABLED)
+		{
+			textLabelDirty = new JLabel("(D)");
+			textLabelDirty.setForeground(new Color(255, 0, 0));
+			textLabelDirty.setBounds(10, 0, 30, 25);
+			contentPane.add(textLabelDirty);
+			textLabelDirty.setVisible(false);
+		}
 	
-		btnJogar = new JButton("Iniciar");
+		btnJogar = new JButton("Selecione uma carta"); // Texto inicial, mas também é Botão Jogar, Próxima Rodada/Partida
 		btnJogar.setBounds(172, 424, 169, 36);
 		contentPane.add(btnJogar);
+		btnJogar.setEnabled(false);
 		
 		btnJogar.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				controleJogo.jogar();
+				controleJogo.processarJogo();
 			}
-			
 		});
 		
 		textVencedor = new JLabel("Vencedor: (TipoResultado)");
@@ -250,8 +269,20 @@ public class ViewJogo extends JFrame
 		textVencedor.setVisible(false);
 		
 		btnAbandonarPartida = new JButton("Abandonar Partida");
-		btnAbandonarPartida.setBounds(10, 440, 152, 20);
+		btnAbandonarPartida.setBounds(25, 432, 105, 20);
 		contentPane.add(btnAbandonarPartida);
+		
+		btnMudarCarta = new JButton("Trocar");
+		btnMudarCarta.setBounds(57, 36, 115, 20);
+		contentPane.add(btnMudarCarta);
+		
+		btnMudarCarta.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				abrirMenuSelecaoCarta();
+			}
+		});
 		
 		JLabel textPontosRodada = new JLabel("Pontos Rodada");
 		textPontosRodada.setBounds(207, 308, 120, 26);
@@ -294,44 +325,70 @@ public class ViewJogo extends JFrame
 		contentPane.add(textPontosPartidaMaquina);
 		
 		textNomeCartaHumano = new JLabel("(Nome Carta Humano)");
-		textNomeCartaHumano.setBounds(30, 23, 152, 14);
+		textNomeCartaHumano.setBounds(30, 11, 152, 14);
 		contentPane.add(textNomeCartaHumano);
 		textNomeCartaHumano.setVisible(false);
 		
 		textNomeCartaMaquina = new JLabel("(Nome Carta Maquina)");
-		textNomeCartaMaquina.setBounds(332, 23, 152, 14);
+		textNomeCartaMaquina.setBounds(332, 11, 152, 14);
 		contentPane.add(textNomeCartaMaquina);
-		
 		textNomeCartaMaquina.setVisible(false);
 		
-		btnAbandonarPartida.addActionListener(new ActionListener() {
+		btnAbandonarPartida.addActionListener(new ActionListener() 
+		{
 			public void actionPerformed(ActionEvent e) 
 			{
 				int opcaoSelecionada = JOptionPane.showConfirmDialog(ViewJogo.this, 
-						"Tem certeza que quer abandonar a partida? Você irá retornar ao menu principal", 
-						"Abandonar partida",
-					    JOptionPane.YES_NO_OPTION
-					);
-
-					if (opcaoSelecionada == JOptionPane.YES_OPTION) 
-					{
-						voltarMenuTitulo();
-					}
+						"Tem certeza que quer abandonar a partida? Você irá voltar ao menu principal", "Abandonar partida?", JOptionPane.YES_NO_OPTION);
+				if (opcaoSelecionada == JOptionPane.YES_OPTION) 
+				{
+					voltarMenuTitulo();
+				}
 			}
 		});
 		
+		setLocationRelativeTo(null);
 	}
 	
-	public void iniciarElementosPartida()
+	public void limparElementosRodada()
 	{
-		btnJogar.setText("Jogar");
-		setNomeCartaVisible();
+		textNomeCartaHumano.setText("");
+		textNomeCartaMaquina.setText("");
+		
+		textFieldSpeedHumano.setText("");
+		textFieldWeightHumano.setText("");
+		textFieldAccelerationHumano.setText("");
+		textFieldHandlingHumano.setText("");
+		textFieldDriftHumano.setText("");
+		textFieldOffroadHumano.setText("");
+		textFieldMTHumano.setText("");
+		
+		textFieldSpeedMaquina.setText("");
+		textFieldWeightMaquina.setText("");
+		textFieldAccelerationMaquina.setText("");
+		textFieldHandlingMaquina.setText("");
+		textFieldDriftMaquina.setText("");
+		textFieldOffroadMaquina.setText("");
+		textFieldMTMaquina.setText("");
+	}
+
+	public void abrirMenuSelecaoCarta() 
+	{
+		setVisible(true); 
+		
+		String rodadaAtual = textLabelRodadaAtual.getText();
+		String totalRodadas = textTotalRodadas.getText();
+		String ptsHumano = textPontosPartidaHumano.getText();
+		String ptsMaquina = textPontosPartidaMaquina.getText();
+		
+		ViewJogoMenuCarta menuCarta = new ViewJogoMenuCarta(this, controleJogo, controleMao, controleCarta, rodadaAtual, totalRodadas, ptsHumano, ptsMaquina);
+		menuCarta.setVisible(true); 
 	}
 	
 	public void atualizarElementosRodada()
 	{
-		atualizarTextoNomeCarta();
-		atualizarTextoAtributosCarta();
+		atualizarTextoCartaMaquina();
+		atualizarTextoAtributosMaquina();
 		atualizarTextoRodada();
 		atualizarTextoPontos();
 	}
@@ -358,24 +415,35 @@ public class ViewJogo extends JFrame
 	{
 		viewMenuPrincipal.setVisible(true);
 	    this.setVisible(false);
+	    
+	    if (Debug.DEBUG_MENU_ENABLED)
+	    {
+	    	viewJogoDebugMenu.setVisible(false);
+	    }
 	}
 	
-	public void atualizarTextoPontos()
+	public void atualizarTextoPontos() 
 	{
 		textPontosPartidaHumano.setText(Integer.toString(controleJogo.getPontosPartida(TipoJogador.HUMANO)));
 		textPontosPartidaMaquina.setText(Integer.toString(controleJogo.getPontosPartida(TipoJogador.MAQUINA)));
-		
+			
 		textPontosRodadaHumano.setText(Integer.toString(controleJogo.getPontosRodada(TipoJogador.HUMANO)));
 		textPontosRodadaMaquina.setText(Integer.toString(controleJogo.getPontosRodada(TipoJogador.MAQUINA)));
 	}
 	
-	public void atualizarTextoNomeCarta()
+	public void atualizarTextoCartaHumano()
 	{
 		textNomeCartaHumano.setText(controleCarta.getNome(TipoJogador.HUMANO));
-		textNomeCartaMaquina.setText(controleCarta.getNome(TipoJogador.MAQUINA));
+		textNomeCartaHumano.setVisible(true);
 	}
 	
-	public void atualizarTextoAtributosCarta()
+	public void atualizarTextoCartaMaquina()
+	{
+		textNomeCartaMaquina.setText(controleCarta.getNome(TipoJogador.MAQUINA));
+		textNomeCartaMaquina.setVisible(true);
+	}
+
+	public void atualizarTextoAtributosHumano()
 	{
 		textFieldSpeedHumano.setText(Float.toString(controleCarta.getSpeed(TipoJogador.HUMANO)));
 		textFieldWeightHumano.setText(Float.toString(controleCarta.getWeight(TipoJogador.HUMANO)));
@@ -384,7 +452,10 @@ public class ViewJogo extends JFrame
 		textFieldDriftHumano.setText(Float.toString(controleCarta.getDrift(TipoJogador.HUMANO)));
 		textFieldOffroadHumano.setText(Float.toString(controleCarta.getOffroad(TipoJogador.HUMANO)));
 		textFieldMTHumano.setText(Float.toString(controleCarta.getMiniturbo(TipoJogador.HUMANO)));
-
+	}
+	
+	public void atualizarTextoAtributosMaquina()
+	{
 		textFieldSpeedMaquina.setText(Float.toString(controleCarta.getSpeed(TipoJogador.MAQUINA)));
 		textFieldWeightMaquina.setText(Float.toString(controleCarta.getWeight(TipoJogador.MAQUINA)));
 		textFieldAccelerationMaquina.setText(Float.toString(controleCarta.getAcceleration(TipoJogador.MAQUINA)));
@@ -394,9 +465,58 @@ public class ViewJogo extends JFrame
 		textFieldMTMaquina.setText(Float.toString(controleCarta.getMiniturbo(TipoJogador.MAQUINA)));
 	}
 	
-	public void setNomeCartaVisible()
+	public void setNomeCartaHumanoVisibility(boolean isVisible)
 	{
-		textNomeCartaHumano.setVisible(true);
-		textNomeCartaMaquina.setVisible(true);
+		textNomeCartaHumano.setVisible(isVisible);
+	}
+	
+	public void setNomeCartaMaquinaVisibility(boolean isVisible)
+	{
+		textNomeCartaMaquina.setVisible(isVisible);
+	}
+	
+	public void setTextoBotaoJogar()
+	{
+		btnJogar.setText("Jogar");
+	}
+	
+	public void setTextoBotaoNenhumaCarta()
+	{
+		btnJogar.setText("Selecione uma carta");
+	}
+	
+	public void setTextoBotaoProximaRodada()
+	{
+		btnJogar.setText("Próxima Rodada");
+	}
+	
+	public void setTextoBotaoFinalizarPartida()
+	{
+		btnJogar.setText("Finalizar Partida");
+	}
+	
+	public void setTextoTotalRodadasDesempate()
+	{
+		textTotalRodadas.setText(controleJogo.getTotalRodadas() + " (Desempate)");
+	}
+	
+	public void setIsBtnMudarCartaEnabled(boolean isEnabled)
+	{
+		btnMudarCarta.setEnabled(isEnabled);
+	}
+	
+	public void setIsBtnJogarEnabled(boolean isEnabled)
+	{
+		btnJogar.setEnabled(isEnabled);
+	}
+	
+	public void mostrarAvisoDesempate()
+	{
+		JOptionPane.showMessageDialog(null, "Por causa do empate na pontuação final, haverá mais uma rodada com cartas distribuidas do baralho", "Empate!", JOptionPane.INFORMATION_MESSAGE);
+	}
+	
+	public void displayDebugMark()
+	{
+		textLabelDirty.setVisible(true);
 	}
 }
