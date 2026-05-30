@@ -106,16 +106,7 @@ public class ViewJogoMenuCarta extends JFrame
 			{
 				public void actionPerformed(ActionEvent e)
 				{
-					Mao maoJogador = controleMao.getMaoPorTipoJogador(TipoJogador.HUMANO);
-					maoJogador.setCartaEscolhida(carta);
-					
-					controleJogo.setEstadoJogo(EstadoJogo.CARTA_ESCOLHIDA);
-					viewJogo.setTextoBotaoJogar();
-					viewJogo.setIsBtnJogarEnabled(true);
-	
-					viewJogo.atualizarTextoCartaHumano();
-					viewJogo.atualizarTextoAtributosHumano();
-					
+					controleJogo.selecionarCarta(carta);
 					dispose();
 				}
 			});

@@ -71,6 +71,24 @@ public class ControleJogo
 		
 		getJogadorPorTipo(controleCarta.getJogadorVencedorAtributos()).adicionarPontoPartida();
 		
+		EstadoJogo estadoJogo;
+		
+		if (isPartidaFinalizada() && !isPartidaEmpatada())
+		{
+			viewJogo.setTextoBotaoFinalizarPartida();
+			estadoJogo = EstadoJogo.PARTIDA_FINALIZADA;
+		}
+		else
+		{
+		    viewJogo.setTextoBotaoProximaRodada();
+		    estadoJogo = EstadoJogo.RODADA_FINALIZADA;
+		}
+		
+		setEstadoJogo(estadoJogo);
+		
+		viewJogo.setIsBtnMudarCartaEnabled(false);
+		viewJogo.setIsBtnJogarEnabled(true);
+		
 		viewJogo.atualizarElementosRodada();
 	}
 	
@@ -143,6 +161,7 @@ public class ControleJogo
 	{
 		return jogo.getEstadoJogo();
 	}
+	
 	public void setEstadoJogo(EstadoJogo estado)
 	{
 		if (getEstadoJogo() == estado)
@@ -153,6 +172,51 @@ public class ControleJogo
 		jogo.setEstadoJogo(estado);
 	}
 	
+	public void proximaRodada()
+	{
+		viewJogo.limparElementosRodada();
+		viewJogo.setTextoBotaoNenhumaCarta();
+		viewJogo.setIsBtnMudarCartaEnabled(true);
+		viewJogo.setIsBtnJogarEnabled(false);
+		viewJogo.abrirMenuSelecaoCarta();
+	}
+	
+	public void finalizarPartida()
+	{
+		if (mostrouMensagemVencedor)
+		{
+			viewJogo.voltarMenuTitulo();
+			return;
+		}
+		
+		if (isPartidaEmpatada())
+		{
+			viewJogo.mostrarAvisoDesempate();
+			setEstadoJogo(EstadoJogo.RODADA_FINALIZADA);
+			
+			setTotalRodadas(getTotalRodadas() + 1);
+			viewJogo.setTextoTotalRodadasDesempate();
+			viewJogo.limparElementosRodada();
+			controleMao.distribuirCartasDesempate();
+			viewJogo.abrirMenuSelecaoCarta();
+			return;
+		}
+		
+		viewJogo.mostrarElementosFimPartida();
+		mostrouMensagemVencedor = true;
+	}
+	
+	public void selecionarCarta(Carta carta)
+	{
+		controleMao.getMaoPorTipoJogador(TipoJogador.HUMANO).setCartaEscolhida(carta);
+		
+		setEstadoJogo(EstadoJogo.CARTA_ESCOLHIDA);
+		viewJogo.setTextoBotaoJogar();
+		viewJogo.setIsBtnJogarEnabled(true);
+
+		viewJogo.atualizarTextoCartaHumano();
+		viewJogo.atualizarTextoAtributosHumano();
+	}
 	
 	
 	public void processarJogo()
@@ -161,63 +225,23 @@ public class ControleJogo
 		
 		switch (estadoJogo)
 		{
-			case CARTA_ESCOLHIDA:		
+			case CARTA_ESCOLHIDA:
 				processarRodada();
-								
-				if (isPartidaFinalizada() && !isPartidaEmpatada())
-				{
-					viewJogo.setTextoBotaoFinalizarPartida();
-					estadoJogo = EstadoJogo.PARTIDA_FINALIZADA;
-				}
-				else
-				{
-				    viewJogo.setTextoBotaoProximaRodada();
-				    estadoJogo = EstadoJogo.RODADA_FINALIZADA;
-				}
-				
-				viewJogo.setIsBtnMudarCartaEnabled(false);
-				viewJogo.setIsBtnJogarEnabled(true);
-
-				setEstadoJogo(estadoJogo);
 				break;
 				
 			case RODADA_FINALIZADA:
-				viewJogo.limparElementosRodada();
-				viewJogo.setTextoBotaoNenhumaCarta();
-				viewJogo.setIsBtnMudarCartaEnabled(true);
-				viewJogo.setIsBtnJogarEnabled(false);
-				viewJogo.abrirMenuSelecaoCarta();
+				proximaRodada();
 				break;
 				
 			case PARTIDA_FINALIZADA:
-				if (mostrouMensagemVencedor)
-				{
-					viewJogo.voltarMenuTitulo();
-					return;
-				}
+				finalizarPartida();
 				
-				if (isPartidaEmpatada())
-				{
-					viewJogo.mostrarAvisoDesempate();
-					setEstadoJogo(EstadoJogo.RODADA_FINALIZADA);
-					
-					setTotalRodadas(getTotalRodadas() + 1);
-					viewJogo.setTextoTotalRodadasDesempate();
-					viewJogo.limparElementosRodada();
-					controleMao.distribuirCartasDesempate();
-					viewJogo.abrirMenuSelecaoCarta();
-					
-					return;
-				}
-				viewJogo.mostrarElementosFimPartida();
-				mostrouMensagemVencedor = true;
-			
 			default:	
-				break;
 		}
 	}
 	
 	
+	// USADAS NO DEBUG MENU!
 	public void debugMudarPontosPartida(TipoJogador tipoJogador, boolean aumentar)
 	{
 		if (!Debug.DEBUG_MENU_ENABLED)
