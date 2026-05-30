@@ -46,7 +46,7 @@ public class ControleMao
 	
 	public void escolherCartaMaquina()
 	{
-		int totalCartas = controleBaralho.getTotalCartas();
+		int totalCartas = maoMaquina.getTotalCartasMao();
 		int idCarta = random.nextInt(totalCartas);
 		Carta cartaSorteada = maoMaquina.getCartaPorId(idCarta);
 		maoMaquina.setCartaEscolhida(cartaSorteada);
@@ -54,7 +54,7 @@ public class ControleMao
 	
 	public Carta sortearCartaBaralho(TipoJogador tipoJogador)
 	{
-		int totalCartas = controleBaralho.getTotalCartas();
+		int totalCartas = controleBaralho.getNumCartasBaralho();
 		int idCarta = random.nextInt(totalCartas);
 		return controleBaralho.getCartaPorId(idCarta, tipoJogador);
 	}

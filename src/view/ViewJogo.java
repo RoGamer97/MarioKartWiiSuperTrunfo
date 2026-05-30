@@ -355,7 +355,7 @@ public class ViewJogo extends JFrame
 		setLocationRelativeTo(null);
 	}
 	
-	private void limparElementosRodada()
+	public void limparElementosRodada()
 	{
 		textNomeCartaHumano.setText("");
 		textNomeCartaMaquina.setText("");
