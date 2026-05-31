@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.EventQueue;
+import java.awt.Font; // Importado
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -36,8 +37,9 @@ public class ViewMenuPrincipal extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public ViewMenuPrincipal() {
-		setTitle("Super Mario Kart Trunfo");
+	public ViewMenuPrincipal() 
+	{
+		setTitle("Mario Kart Wii Super Trunfo");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -46,8 +48,10 @@ public class ViewMenuPrincipal extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel textTitulo = new JLabel("Super Mario Kart Trunfo PROTOTYPE");
-		textTitulo.setBounds(127, 0, 235, 52);
+		JLabel textTitulo = new JLabel("Mario Kart Wii Super Trunfo");
+		textTitulo.setBounds(73, 0, 420, 52);
+		textTitulo.setFont(new Font("Dialog", Font.PLAIN, 24)); 
+		
 		contentPane.add(textTitulo);
 		
 		JComboBox<String> totalCartas = new JComboBox<>
@@ -65,7 +69,8 @@ public class ViewMenuPrincipal extends JFrame {
 		contentPane.add(rdbtnMostrarCartaMaquina);
 		
 		JButton btnJogar = new JButton("Jogar");
-		btnJogar.addActionListener(new ActionListener() {
+		btnJogar.addActionListener(new ActionListener() 
+		{
 			public void actionPerformed(ActionEvent arg0) 
 			{
 				int totalRodadas = Integer.parseInt(totalCartas.getSelectedItem().toString());
@@ -82,7 +87,7 @@ public class ViewMenuPrincipal extends JFrame {
 		contentPane.add(btnJogar);
 		
 		JLabel textInfoQtdCartas = new JLabel("Quantidade de rodadas");
-		textInfoQtdCartas.setBounds(136, 120, 205, 18);
+		textInfoQtdCartas.setBounds(151, 120, 205, 18);
 		contentPane.add(textInfoQtdCartas);
 		
 		setLocationRelativeTo(null);

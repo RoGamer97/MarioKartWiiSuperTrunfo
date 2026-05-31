@@ -94,4 +94,9 @@ public class ControleCarta
 		
 		return (totalAtribMaioresHumano > totalAtribMaioresMaquina) ? TipoJogador.HUMANO : TipoJogador.MAQUINA;
 	}
+	
+	public byte[] getImagem(TipoJogador tipoJogador)
+	{
+	  return controleMao.getMaoPorTipoJogador(tipoJogador).getCartaEscolhida().getImagem();
+	}
 }

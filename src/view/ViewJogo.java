@@ -1,8 +1,13 @@
 package view;
 
+import java.awt.Color;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.ByteArrayInputStream;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -15,10 +20,10 @@ import controle.ControleBaralho;
 import controle.ControleCarta;
 import controle.ControleJogo;
 import controle.ControleMao;
+import modelo.Carta;
 import modelo.Debug;
 import modelo.EstadoJogo;
 import modelo.TipoJogador;
-import java.awt.Color;
 
 public class ViewJogo extends JFrame 
 {	
@@ -29,6 +34,7 @@ public class ViewJogo extends JFrame
 	private ControleJogo controleJogo = new ControleJogo(this, controleBaralho, controleCarta, controleMao);
 	
 	private ViewJogoDebugMenu viewJogoDebugMenu = null;
+	private ViewJogoMenuCarta viewJogoMenuCarta = null; // DECLARADO COMO ATRIBUTO GLOBAL AQUI
 	
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -60,11 +66,16 @@ public class ViewJogo extends JFrame
 	private JLabel textPontosRodadaMaquina;
 	
 	private JButton btnAbandonarPartida;
-	private JButton btnMudarCarta;
+	private JButton btnTrocarCarta;
 	
 	private JLabel textNomeCartaHumano;
 	private JLabel textNomeCartaMaquina;
 	private JLabel textLabelDirty;
+	
+	private JLabel imagemCartaHumano;
+	private JLabel imagemCartaMaquina;
+	
+	private JLabel textEasterEgg;
 
 	public ViewJogo(ViewMenuPrincipal viewMenuPrincipal, int totalRodadas, boolean mostrarCartasMaquina) 
 	{
@@ -86,9 +97,9 @@ public class ViewJogo extends JFrame
 			viewJogoDebugMenu.setVisible(true);
 		}
 		
-		setTitle("Super Mario Kart Trunfo");
+		setTitle("Mario Kart Wii Super Trunfo");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 510, 510);
+		setBounds(100, 100, 1280, 720);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -250,8 +261,8 @@ public class ViewJogo extends JFrame
 			textLabelDirty.setVisible(false);
 		}
 	
-		btnJogar = new JButton("Selecione uma carta"); // Texto inicial, mas também é Botão Jogar, Próxima Rodada/Partida
-		btnJogar.setBounds(172, 424, 169, 36);
+		btnJogar = new JButton("Selecione uma carta"); 
+		btnJogar.setBounds(418, 581, 221, 78);
 		contentPane.add(btnJogar);
 		btnJogar.setEnabled(false);
 		
@@ -272,11 +283,12 @@ public class ViewJogo extends JFrame
 		btnAbandonarPartida.setBounds(25, 432, 105, 20);
 		contentPane.add(btnAbandonarPartida);
 		
-		btnMudarCarta = new JButton("Trocar");
-		btnMudarCarta.setBounds(57, 36, 115, 20);
-		contentPane.add(btnMudarCarta);
+		btnTrocarCarta = new JButton("Trocar");
+		btnTrocarCarta.setBounds(57, 36, 115, 20);
+		contentPane.add(btnTrocarCarta);
+		setIsBtnTrocarCartaEnabled(false);
 		
-		btnMudarCarta.addActionListener(new ActionListener()
+		btnTrocarCarta.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
 			{
@@ -334,6 +346,25 @@ public class ViewJogo extends JFrame
 		contentPane.add(textNomeCartaMaquina);
 		textNomeCartaMaquina.setVisible(false);
 		
+		imagemCartaHumano = new JLabel("(Imagem Carta Humano)");
+		imagemCartaHumano.setBounds(200, 147, 102, 51);
+		imagemCartaHumano.setIcon(null);
+
+		contentPane.add(imagemCartaHumano);
+		
+		imagemCartaMaquina = new JLabel("(Imagem Carta Maquina)");
+		imagemCartaMaquina.setBounds(500, 147, 96, 51);
+		contentPane.add(imagemCartaMaquina);
+		
+		imagemCartaMaquina.setVisible(false);
+		imagemCartaHumano.setVisible(false);
+		
+		textEasterEgg = new JLabel("(Texto de Easter Egg)");
+		textEasterEgg.setBounds(418, 543, 202, 26);
+		contentPane.add(textEasterEgg);
+		textEasterEgg.setVisible(false);
+
+		
 		btnAbandonarPartida.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent e) 
@@ -350,6 +381,39 @@ public class ViewJogo extends JFrame
 		setLocationRelativeTo(null);
 	}
 	
+	public void atualizarImagemCarta(byte[] imagem, JLabel labelCarta)
+	{
+	    if (imagem == null || imagem.length <= 0)
+	    {
+	        labelCarta.setIcon(null);
+	        return;
+	    }
+
+	    try
+	    {
+	        ByteArrayInputStream bis = new ByteArrayInputStream(imagem);
+	        Image img = ImageIO.read(bis);
+	        Image imgRedimensionada = img.getScaledInstance(labelCarta.getWidth(), labelCarta.getHeight(), Image.SCALE_SMOOTH);
+	        labelCarta.setIcon(new ImageIcon(imgRedimensionada));
+	    }
+	    catch (Exception e)
+	    {
+	        labelCarta.setIcon(null);
+	    }
+	}
+
+	public void atualizarImagemCartaHumano(byte[] imagem)
+	{
+	    atualizarImagemCarta(imagem, imagemCartaHumano);
+		imagemCartaHumano.setVisible(true);
+	}
+
+	public void atualizarImagemCartaMaquina(byte[] imagem)
+	{
+	    atualizarImagemCarta(imagem, imagemCartaMaquina);
+		imagemCartaMaquina.setVisible(true);
+	}
+
 	public void limparElementosRodada()
 	{
 		textNomeCartaHumano.setText("");
@@ -370,25 +434,34 @@ public class ViewJogo extends JFrame
 		textFieldDriftMaquina.setText("");
 		textFieldOffroadMaquina.setText("");
 		textFieldMTMaquina.setText("");
+		
+		atualizarImagemCartaHumano(null);
+		imagemCartaHumano.setVisible(false);
+		
+		atualizarImagemCartaMaquina(null);
+		imagemCartaMaquina.setVisible(false);
+		
+		textEasterEgg.setVisible(false);
 	}
 
 	public void abrirMenuSelecaoCarta() 
 	{
-		setVisible(true); 
-		
+		setVisible(true);
 		String rodadaAtual = textLabelRodadaAtual.getText();
 		String totalRodadas = textTotalRodadas.getText();
 		String ptsHumano = textPontosPartidaHumano.getText();
 		String ptsMaquina = textPontosPartidaMaquina.getText();
 		
-		ViewJogoMenuCarta menuCarta = new ViewJogoMenuCarta(this, controleJogo, controleMao, controleCarta, rodadaAtual, totalRodadas, ptsHumano, ptsMaquina);
-		menuCarta.setVisible(true); 
+		viewJogoMenuCarta = new ViewJogoMenuCarta(this, controleJogo, controleMao, controleCarta, rodadaAtual, totalRodadas, ptsHumano, ptsMaquina);
+		viewJogoMenuCarta.setVisible(true); 
+		setIsBtnTrocarCartaEnabled(false);
 	}
 	
 	public void atualizarElementosRodada()
 	{
 		atualizarTextoCartaMaquina();
 		atualizarTextoAtributosMaquina();
+		atualizarImagemCartaMaquina(controleCarta.getImagem(TipoJogador.MAQUINA));
 		atualizarTextoRodada();
 		atualizarTextoPontos();
 	}
@@ -413,6 +486,7 @@ public class ViewJogo extends JFrame
 	
 	public void voltarMenuTitulo()
 	{
+		viewJogoMenuCarta.setVisible(false);
 		viewMenuPrincipal.setVisible(true);
 	    this.setVisible(false);
 	    
@@ -452,6 +526,8 @@ public class ViewJogo extends JFrame
 		textFieldDriftHumano.setText(Float.toString(controleCarta.getDrift(TipoJogador.HUMANO)));
 		textFieldOffroadHumano.setText(Float.toString(controleCarta.getOffroad(TipoJogador.HUMANO)));
 		textFieldMTHumano.setText(Float.toString(controleCarta.getMiniturbo(TipoJogador.HUMANO)));
+		
+		Carta cartaSelecionada = controleMao.getMaoPorTipoJogador(TipoJogador.HUMANO).getCartaEscolhida();
 	}
 	
 	public void atualizarTextoAtributosMaquina()
@@ -500,9 +576,9 @@ public class ViewJogo extends JFrame
 		textTotalRodadas.setText(controleJogo.getTotalRodadas() + " (Desempate)");
 	}
 	
-	public void setIsBtnMudarCartaEnabled(boolean isEnabled)
+	public void setIsBtnTrocarCartaEnabled(boolean isEnabled)
 	{
-		btnMudarCarta.setEnabled(isEnabled);
+		btnTrocarCarta.setEnabled(isEnabled);
 	}
 	
 	public void setIsBtnJogarEnabled(boolean isEnabled)
@@ -514,7 +590,21 @@ public class ViewJogo extends JFrame
 	{
 		JOptionPane.showMessageDialog(null, "Por causa do empate na pontuação final, haverá mais uma rodada com cartas distribuidas do baralho", "Empate!", JOptionPane.INFORMATION_MESSAGE);
 	}
+		
+	public void mostrarTextoEasterEggBumpfest()
+	{
+		textEasterEgg.setVisible(true);
+		textEasterEgg.setText("Blast off to Quacker Island!!");
+		
+		if (!Debug.DEBUG_PRINTS_ENABLED)
+		{
+			return;
+		}
+		
+		System.out.println("[ViewJogo] Easter Egg bumpfest executado!");
+	}
 	
+	// USADAS NO DEBUG MENU!
 	public void displayDebugMark()
 	{
 		textLabelDirty.setVisible(true);
