@@ -56,7 +56,6 @@ public class DaoCarta
                     resultado.getFloat("miniturbo")
                 );
                 
-                // NOVA ADIÇÃO: Obtém os bytes da imagem salvos no SQLite
                 carta.setImagem(resultado.getBytes("imagem"));
                 
                 baralho.adicionarCarta(carta);

@@ -5,6 +5,8 @@ import modelo.Debug;
 import modelo.EstadoJogo;
 import modelo.Jogador;
 import modelo.Jogo;
+import modelo.ResultadoComparacao;
+import modelo.TipoAtributoCarta;
 import modelo.TipoJogador;
 import modelo.TipoJogadorString;
 import view.ViewJogo;
@@ -42,8 +44,9 @@ public class ControleJogo
 		iniciarRodada();
 		escolherCartaMaquina();
 		removerCartaJogadaMao();
-		finalizarRodada();
 		compararKartsParaEasterEgg();
+		setImagemsComparacaoAtributos();
+		finalizarRodada();
 	}
 	
 	public void escolherCartaMaquina()
@@ -214,7 +217,6 @@ public class ControleJogo
 		viewJogo.setIsBtnTrocarCartaEnabled(true);
 	}
 	
-	
 	public void processarJogo()
 	{
 		EstadoJogo estadoJogo = getEstadoJogo();
@@ -224,14 +226,11 @@ public class ControleJogo
 			case CARTA_ESCOLHIDA:
 				processarRodada();
 				break;
-				
 			case RODADA_FINALIZADA:
 				proximaRodada();
 				break;
-				
 			case PARTIDA_FINALIZADA:
 				finalizarPartida();
-				
 			default:	
 		}
 	}
@@ -250,6 +249,65 @@ public class ControleJogo
 		}
 	}
 	
+	public void setImagemsComparacaoAtributos() 
+	{
+		compararSetarImagemComparacaoAtributos(controleCarta.getResultadoComparacaoAtrib(TipoAtributoCarta.SPEED), TipoAtributoCarta.SPEED);
+		compararSetarImagemComparacaoAtributos(controleCarta.getResultadoComparacaoAtrib(TipoAtributoCarta.WEIGHT), TipoAtributoCarta.WEIGHT);
+		compararSetarImagemComparacaoAtributos(controleCarta.getResultadoComparacaoAtrib(TipoAtributoCarta.ACCEL), TipoAtributoCarta.ACCEL);
+		compararSetarImagemComparacaoAtributos(controleCarta.getResultadoComparacaoAtrib(TipoAtributoCarta.HANDLING), TipoAtributoCarta.HANDLING);
+	    compararSetarImagemComparacaoAtributos(controleCarta.getResultadoComparacaoAtrib(TipoAtributoCarta.DRIFT), TipoAtributoCarta.DRIFT);
+	    compararSetarImagemComparacaoAtributos(controleCarta.getResultadoComparacaoAtrib(TipoAtributoCarta.OFFROAD), TipoAtributoCarta.OFFROAD);
+	    compararSetarImagemComparacaoAtributos(controleCarta.getResultadoComparacaoAtrib(TipoAtributoCarta.MINITURBO), TipoAtributoCarta.MINITURBO);
+	}
+
+	private void compararSetarImagemComparacaoAtributos(ResultadoComparacao resultado, TipoAtributoCarta tipoAtrib) 
+	{
+	    String maior = "/imagens/maior.png";
+	    String menor = "/imagens/menor.png";
+	    String empate = "/imagens/empate.png";
+
+	    String pathHumano = empate;
+	    String pathMaquina = empate;
+
+	    switch (resultado)
+		{
+	    	case MAIOR:
+	    		pathHumano = maior;
+	    		pathMaquina = menor;
+	    		break;
+	    	case MENOR:
+	    		pathHumano = menor;
+	    		pathMaquina = maior;
+	    		break;
+	    	default:
+	    		pathHumano = empate;
+	    		pathMaquina = empate;
+		}
+
+	    switch (tipoAtrib) 
+	    {
+	        case SPEED:    
+	        	viewJogo.setImagemComparacaoSpeed(pathHumano, pathMaquina); 
+	        	break;
+	        case WEIGHT:     
+	        	viewJogo.setImagemComparacaoWeight(pathHumano, pathMaquina); 
+	        	break;
+	        case ACCEL:      
+	        	viewJogo.setImagemComparacaoAccel(pathHumano, pathMaquina); 
+	        	break;
+	        case HANDLING:   
+	        	viewJogo.setImagemComparacaoHandling(pathHumano, pathMaquina); 
+	        	break;
+	        case DRIFT:      
+	        	viewJogo.setImagemComparacaoDrift(pathHumano, pathMaquina); 
+	        	break;
+	        case OFFROAD:    
+	        	viewJogo.setImagemComparacaoOffroad(pathHumano, pathMaquina); 
+	        	break;
+	        case MINITURBO:  
+	        	viewJogo.setImagemComparacaoMT(pathHumano, pathMaquina); 
+	    }
+	}
 	
 	// USADAS NO DEBUG MENU!
 	public void debugMudarPontosPartida(TipoJogador tipoJogador, boolean aumentar)

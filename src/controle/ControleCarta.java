@@ -1,9 +1,7 @@
 package controle;
 
-import java.util.Random;
-
-import dao.DaoCarta;
 import modelo.Carta;
+import modelo.ResultadoComparacao;
 import modelo.TipoAtributoCarta;
 import modelo.TipoJogador;
 
@@ -85,6 +83,19 @@ public class ControleCarta
 		}
 		
 		return totalAtribMaiores;
+	}
+	
+	public ResultadoComparacao getResultadoComparacaoAtrib(TipoAtributoCarta tipoAtrib)
+	{
+		float valorAtribHumano = getCartaEscolhidaPorTipoJogador(TipoJogador.HUMANO).getValorAtributoPorTipo(tipoAtrib);
+		float valorAtribMaquina = getCartaEscolhidaPorTipoJogador(TipoJogador.MAQUINA).getValorAtributoPorTipo(tipoAtrib);
+		
+		if (valorAtribHumano == valorAtribMaquina)
+		{
+			return ResultadoComparacao.EMPATE;
+		}
+		
+		return valorAtribHumano > valorAtribMaquina ? ResultadoComparacao.MAIOR : ResultadoComparacao.MENOR;
 	}
 	
 	public TipoJogador getJogadorVencedorAtributos()
