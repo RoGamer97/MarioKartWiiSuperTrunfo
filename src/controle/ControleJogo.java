@@ -43,6 +43,7 @@ public class ControleJogo
 		escolherCartaMaquina();
 		removerCartaJogadaMao();
 		finalizarRodada();
+		compararKartsParaEasterEgg();
 	}
 	
 	public void escolherCartaMaquina()
@@ -56,6 +57,7 @@ public class ControleJogo
 		maquina.resetPontosRodada();
 		jogo.incrementarRodadaAtual();
 		viewJogo.atualizarTextoRodada();
+		viewJogo.setIsBtnTrocarCartaEnabled(false);
 	}
 	
 	public void finalizarRodada()
@@ -86,7 +88,7 @@ public class ControleJogo
 		
 		setEstadoJogo(estadoJogo);
 		
-		viewJogo.setIsBtnMudarCartaEnabled(false);
+		viewJogo.setIsBtnTrocarCartaEnabled(false);
 		viewJogo.setIsBtnJogarEnabled(true);
 		
 		viewJogo.atualizarElementosRodada();
@@ -142,16 +144,6 @@ public class ControleJogo
 		return getJogadorPorTipo(tipoJogador).getPontosPartida();
 	}
 	
-	public boolean isRodadaDesempate()
-	{
-		return jogo.isRodadaDesempate();
-	}
-	
-	public void setIsRodadaDesempate(boolean isDesempate)
-	{
-		jogo.setIsRodadaDesempate(isDesempate);
-	}
-	
 	public boolean isPartidaEmpatada()
 	{
 		return humano.getPontosPartida() == maquina.getPontosPartida();
@@ -176,7 +168,7 @@ public class ControleJogo
 	{
 		viewJogo.limparElementosRodada();
 		viewJogo.setTextoBotaoNenhumaCarta();
-		viewJogo.setIsBtnMudarCartaEnabled(true);
+		viewJogo.setIsBtnTrocarCartaEnabled(false);
 		viewJogo.setIsBtnJogarEnabled(false);
 		viewJogo.abrirMenuSelecaoCarta();
 	}
@@ -216,6 +208,10 @@ public class ControleJogo
 
 		viewJogo.atualizarTextoCartaHumano();
 		viewJogo.atualizarTextoAtributosHumano();
+		
+		viewJogo.atualizarImagemCartaHumano(controleCarta.getImagem(TipoJogador.HUMANO));
+		
+		viewJogo.setIsBtnTrocarCartaEnabled(true);
 	}
 	
 	
@@ -237,6 +233,20 @@ public class ControleJogo
 				finalizarPartida();
 				
 			default:	
+		}
+	}
+
+	public void compararKartsParaEasterEgg()
+	{
+		String nomeCartaHumano = controleCarta.getNome(TipoJogador.HUMANO);
+		String nomeCartaMaquina = controleCarta.getNome(TipoJogador.MAQUINA);
+		
+		String quacker = "Quacker";
+		String piranhaPlowler = "Piranha Prowler";
+		
+		if ((nomeCartaHumano.equals(quacker) && nomeCartaMaquina.equals(piranhaPlowler)) || (nomeCartaHumano.equals(piranhaPlowler) && nomeCartaMaquina.equals(quacker)))
+		{
+			viewJogo.mostrarTextoEasterEggBumpfest();
 		}
 	}
 	

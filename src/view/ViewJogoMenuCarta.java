@@ -1,10 +1,14 @@
 package view;
 
 import java.awt.Color;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.ByteArrayInputStream;
 import java.util.List;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -18,8 +22,6 @@ import controle.ControleCarta;
 import controle.ControleJogo;
 import controle.ControleMao;
 import modelo.Carta;
-import modelo.EstadoJogo;
-import modelo.Mao;
 import modelo.TipoJogador;
 
 public class ViewJogoMenuCarta extends JFrame 
@@ -32,17 +34,19 @@ public class ViewJogoMenuCarta extends JFrame
 	{
 		this.viewJogo = viewJogo;
 
-		setTitle("Super Mario Kart Trunfo");
+		setTitle("Mario Kart Wii Super Trunfo");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); 
 		
 		List<Carta> listaCartas = controleMao.getCartasMao(TipoJogador.HUMANO); 
 		
-		int totalLinhas = (int) Math.ceil((double) listaCartas.size() / 4);
-		int larguraJanela = Math.max(550, (4 * 175) + 40);
-		int alturaJanela = (totalLinhas * 220) + 170;
+		int cartasPorLinha = 6;
+		int totalLinhas = (int) Math.ceil((double) listaCartas.size() / cartasPorLinha);
+		
+		int larguraJanela = (cartasPorLinha * 175) + 40; 
+		int alturaJanela = (totalLinhas * 270) + 180;
 		int larguraUtil = larguraJanela - 36;
 		
-		setBounds(150, 150, larguraJanela, alturaJanela);
+		setBounds(50, 50, larguraJanela, alturaJanela);
 		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -57,31 +61,61 @@ public class ViewJogoMenuCarta extends JFrame
 		lblRodadaTexto.setBounds(10, 42, larguraUtil, 20);
 		contentPane.add(lblRodadaTexto);
 
-		String pontosTexto = "Pontos Partida -> Você: " + pontosHumano + "  |  Máquina: " + pontosMaquina;
-		JLabel lblPoints = new JLabel(pontosTexto, SwingConstants.CENTER);
-		lblPoints.setBounds(10, 65, larguraUtil, 20);
-		contentPane.add(lblPoints);
+		JLabel lblPontosTitulo = new JLabel("Pontos da Partida", SwingConstants.CENTER);
+		lblPontosTitulo.setBounds(10, 65, larguraUtil, 20);
+		contentPane.add(lblPontosTitulo);
+
+		String placarTexto = "Humano " + pontosHumano + "  -   " + pontosMaquina + " Maquina";
+		JLabel lblPlacar = new JLabel(placarTexto, SwingConstants.CENTER);
+		lblPlacar.setBounds(10, 85, larguraUtil, 20);
+		contentPane.add(lblPlacar);
 
 		JPanel panelCartasContainer = new JPanel();
 		panelCartasContainer.setLayout(null);
-		panelCartasContainer.setBounds(10, 100, larguraUtil, alturaJanela - 145);
+
+		panelCartasContainer.setBounds(10, 115, larguraUtil, alturaJanela - 160);
 		contentPane.add(panelCartasContainer);
 
 		for (int i = 0; i < listaCartas.size(); i++)
 		{
 			Carta carta = listaCartas.get(i);
 			
-			int posX = 10 + (i % 4) * 175;
-			int posY = 10 + (i / 4) * 220;
+			int posX = 10 + (i % cartasPorLinha) * 175;
+			int posY = 10 + (i / cartasPorLinha) * 270;
 			
 			JPanel panelCarta = new JPanel();
 			panelCarta.setBorder(new LineBorder(Color.BLACK, 2));
-			panelCarta.setBounds(posX, posY, 150, 200);
+			panelCarta.setBounds(posX, posY, 150, 250);
 			panelCarta.setLayout(null);
 			
 			JLabel lblNome = new JLabel(carta.getNome(), SwingConstants.CENTER);
-			lblNome.setBounds(10, 11, 130, 14);
+			lblNome.setBounds(10, 5, 130, 14);
 			panelCarta.add(lblNome);
+			
+			JLabel lblImagem = new JLabel("", SwingConstants.CENTER);
+			lblImagem.setBounds(10, 23, 130, 60); 
+			
+			byte[] imagemBytes = carta.getImagem(); 
+			
+			if (imagemBytes != null && imagemBytes.length > 0) 
+			{
+				try 
+				{
+					ByteArrayInputStream bis = new ByteArrayInputStream(imagemBytes);
+					Image img = ImageIO.read(bis);
+					Image imgRedimensionada = img.getScaledInstance(130, 60, Image.SCALE_SMOOTH);
+					lblImagem.setIcon(new ImageIcon(imgRedimensionada));
+				} 
+				catch (Exception e) 
+				{
+					lblImagem.setIcon(null);
+				}
+			} 
+			else 
+			{
+				lblImagem.setBorder(new LineBorder(Color.LIGHT_GRAY, 1));
+			}
+			panelCarta.add(lblImagem);
 			
 			String statsTexto = "Speed: " + carta.getSpeed() + "\n"
 					+ "Weight: " + carta.getWeight() + "\n"
@@ -92,14 +126,14 @@ public class ViewJogoMenuCarta extends JFrame
 					+ "Mini-Turbo: " + carta.getMiniturbo();
 					
 			JTextArea txtStats = new JTextArea(statsTexto);
-			txtStats.setBounds(20, 35, 120, 115);
+			txtStats.setBounds(15, 88, 125, 115); 
 			txtStats.setEditable(false);
 			txtStats.setOpaque(false);
 			txtStats.setBackground(new Color(0, 0, 0, 0));
 			panelCarta.add(txtStats);
 			
 			JButton btnEscolher = new JButton("Escolher");
-			btnEscolher.setBounds(25, 160, 100, 25);
+			btnEscolher.setBounds(25, 215, 100, 25); 
 			panelCarta.add(btnEscolher);
 			
 			btnEscolher.addActionListener(new ActionListener()

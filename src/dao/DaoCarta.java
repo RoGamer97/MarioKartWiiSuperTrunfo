@@ -5,7 +5,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Properties;
 
 import modelo.Baralho;
@@ -46,7 +45,7 @@ public class DaoCarta
             while (resultado.next())
             {
                 Carta carta = new Carta(
-                	resultado.getString("nome"),
+                    resultado.getString("nome"),
                     resultado.getInt("id"),
                     resultado.getFloat("speed"),
                     resultado.getFloat("weight"),
@@ -57,11 +56,14 @@ public class DaoCarta
                     resultado.getFloat("miniturbo")
                 );
                 
+                // NOVA ADIÇÃO: Obtém os bytes da imagem salvos no SQLite
+                carta.setImagem(resultado.getBytes("imagem"));
+                
                 baralho.adicionarCarta(carta);
                 
                 if (!Debug.DEBUG_PRINTS_ENABLED)
                 {
-                	continue;
+                    continue;
                 }
                 
                 System.out.println("[DaoCarta] Carta adicionada ao baralho (" + resultado.getString("nome") + " | Index BD: " + resultado.getInt("id") + " | Index Array: " + idx + ")");
@@ -75,7 +77,7 @@ public class DaoCarta
             
             if (!Debug.DEBUG_PRINTS_ENABLED)
             {
-            	return;
+                return;
             }
             
             System.out.println("[DaoCarta] Todas as cartas foram sorteadas\n");

@@ -13,6 +13,8 @@ public class Carta
     private String nome;
     private int id;
     
+	private byte[] imagem;
+    
     public Carta(String nome, int id, float speed, float weight, float acceleration, float handling, float drift, float offroad, float miniturbo)
     {
     	this.nome = nome;
@@ -110,6 +112,15 @@ public class Carta
 			case MINITURBO: return miniturbo;
 			default: return 0;
 		}
-		
 	}
+	
+    public byte[] getImagem() 
+    {
+        return imagem;
+    }
+
+    public void setImagem(byte[] imagem) 
+    {
+        this.imagem = imagem;
+    }
 }
