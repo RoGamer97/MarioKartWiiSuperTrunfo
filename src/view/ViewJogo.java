@@ -557,7 +557,7 @@ public class ViewJogo extends JFrame
 		
 		setLocationRelativeTo(null);
 		
-		resetarElementos();
+		resetElementos();
 	}
 	
 	public void setViewJogoMenuCarta(ViewJogoMenuCarta viewJogoMenuCarta)
@@ -606,7 +606,7 @@ public class ViewJogo extends JFrame
 	    atualizarImagemCarta(imagem, imagemCartaMaquina);
 	}
 	
-	public void resetarElementos()
+	public void resetElementos()
 	{
 		limparElementosRodada();
 		labelPontoMaisHumano.setVisible(false);
@@ -706,7 +706,6 @@ public class ViewJogo extends JFrame
 		viewJogoMenuCarta.setVisible(false);
 		viewMenuPrincipal.setVisible(true);
 	    setVisible(false);
-	    controleJogo.resetarTudo();
 	}
 	
 	public void atualizarTextoPontos() 

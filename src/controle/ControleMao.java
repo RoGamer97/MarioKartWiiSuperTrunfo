@@ -70,7 +70,7 @@ public class ControleMao
 	{
 		int totalCartas = controleBaralho.getNumCartasBaralho();
 		int idCarta = random.nextInt(totalCartas);
-		return controleBaralho.getCartaPorId(idCarta, tipoJogador);
+		return controleBaralho.getCartaPorId(idCarta);
 	}
 	
 	public Carta getCartaEscolhida(TipoJogador tipoJogador)

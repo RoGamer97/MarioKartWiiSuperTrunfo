@@ -40,7 +40,7 @@ public class ControleJogo
 		return (tipoJogador == TipoJogador.HUMANO) ? humano : maquina;
 	}
 	
-	public void resetarTudo()
+	public void resetTudo()
 	{
 		controleBaralho.removerTodasCartas();
 		controleMao.removerTodasCartas();
@@ -51,7 +51,7 @@ public class ControleJogo
 	
 	public void iniciarPartida()
 	{
-		viewJogo.resetarElementos();
+		viewJogo.resetElementos();
 		controleBaralho.setTotalCartas(getTotalRodadas());
 		viewJogo.atualizarTextoTotalRodadas();
 		controleBaralho.prepararBaralho();

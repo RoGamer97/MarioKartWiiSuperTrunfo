@@ -9,7 +9,6 @@ import modelo.TipoJogador;
 
 public class ControleBaralho 
 {
-    private DaoCarta daoCarta = new DaoCarta();
     private Baralho baralho = new Baralho();
     private Random random = new Random();
 
@@ -34,17 +33,10 @@ public class ControleBaralho
 
     public void prepararBaralho()
     {
-        List<Carta> cartas = daoCarta.getTodasCartas();
-
-        for (Carta carta : cartas)
-        {
-            baralho.adicionarCarta(carta);
-        }
-
-        baralho.embaralharCartas();
+    	baralho.prepararBaralho();
     }
 
-    public Carta getCartaPorId(int id, TipoJogador tipoJogador)
+    public Carta getCartaPorId(int id)
     {
         return baralho.getCartaPorId(id);
     }

@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import dao.DaoCarta;
+
 public class Baralho 
 {
+    private DaoCarta daoCarta = new DaoCarta();
 	private List<Carta> cartas = new ArrayList<>();
 	
 	private int totalCartas;
@@ -49,5 +52,17 @@ public class Baralho
     public void embaralharCartas()
     {
     	Collections.shuffle(cartas);
+    }
+    
+    public void prepararBaralho()
+    {
+        List<Carta> cartas = daoCarta.getTodasCartas();
+
+        for (Carta carta : cartas)
+        {
+            adicionarCarta(carta);
+        }
+
+        embaralharCartas();
     }
 }
