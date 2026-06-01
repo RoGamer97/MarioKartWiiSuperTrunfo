@@ -199,7 +199,7 @@ public class ControleJogo
 			return;
 		}
 		
-		viewJogo.mostrarElementosFimPartida();
+		viewJogo.mostrarEsconderElementosFimPartida();
 		mostrouMensagemVencedor = true;
 	}
 	
@@ -341,12 +341,10 @@ public class ControleJogo
 		if (pontosRodadaHumano > pontosRodadaMaquina)
 		{
 			viewJogo.mostrarIncrementoPontoHumano();
-			System.out.println("Humano");
 		}
 		else if (pontosRodadaHumano < pontosRodadaMaquina)
 		{
 			viewJogo.mostrarIncrementoPontoMaquina();
-			System.out.println("Maquina");
 		}
 	}
 	
