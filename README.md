@@ -37,6 +37,14 @@ O jogo utiliza o arquivo `veiculos.db`, localizado na pasta `/db`, para armazena
 
 O arquivo `veiculos.sql`, presente na pasta `/db`, não é utilizado em tempo de execução e está incluído apenas como referência para futuras modificações na estrutura das tabelas.
 
+## Easter Egg
+
+O jogo tem dois textos de easter egg que aparecem quando você e a máquina jogam um combo especifico de cartas, sendo eles:
+
+* `Blast off to Quacker Island!!`: Aparece quando a carta dos veículos `Quacker` e `Piranha Prowler` são jogadas ao mesmo tempo em uma rodada. Referência de um [vídeo classico do Youtuber famoso Troy (TWD98)](https://www.youtube.com/watch?v=HVyMpJ_1YIs) onde os jogadores usam veículos pesados (Piranha Prowler) para bater e lançar veículos leves (Quacker) para partes inacessíveis das pistas.
+
+* `The Meta Duo`: Aparece quando a carta dos veículos `Flame Runner` e `Mach Bike` são jogadas ao mesmo tempo em uma rodada. Referência aos veículos meta do jogo.
+
 ## Como Rodar
 
 1. **Clone o repositório:**
