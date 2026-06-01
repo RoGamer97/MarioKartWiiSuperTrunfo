@@ -1,29 +1,48 @@
-# Super Mario Kart Trunfo
+# Mario Kart Wii Super Trunfo
 
-* TODO
-
-Explicar que o jogo foi feito em Java utilizando o padrão arquitetural MVC e banco de dados MySQL
+Mario Kart Wii Super Trunfo é um projeto desenvolvido em Java, utilizando a arquitetura MVC e banco de dados SQLite. O jogo é baseado em um baralho contendo todos os 36 veículos presentes em Mario Kart Wii.
 
 ## Objetivo
-* TODO
 
-Explicar que é um projeto e o objetivo 
+Este projeto foi desenvolvido como parte de uma avaliação da disciplina de Programação Orientada a Objetos, na universidade UniLasalle-RJ.
 
 ## Funcionalidades do Jogo
 
-* TODO
+No menu inicial, o jogador define o número de rodadas da partida. Ao início de cada rodada, você seleciona a carta da sua mão e clica em "Jogar"; a máquina escolhe uma carta automaticamente e o sistema compara os atributos, contabilizando os pontos.
 
-## Tecnologias Utilizadas
+**Regras de desempate:**
+* **Empate nos atributos:** Nenhum ponto é adicionado.
+* **Empate na partida:** Cada jogador recebe uma carta extra do baralho para uma rodada final de desempate.
 
+## Lógica dos Atributos
 
-## Como Jogar
+Os valores das cartas seguem as estatísticas oficiais do jogo. Como muitos atributos do Mario Kart Wii são formados por múltiplos dados físicos combinados, foi necessário realizar cálculos de normalização para transformá-los em índices únicos e comparáveis.
 
-* TODO
+O objetivo desses ajustes foi criar valores visualmente adequados para o jogo de cartas, mantendo a máxima fidelidade possível ao comportamento real dos veículos. Os cálculos foram baseados na engenharia reversa da física do jogo, extraindo os dados diretamente dos arquivos originais.
 
-Ter arquivo .jar disponível para jogar, mas tbm mostrar como clonar e rodar o projeto
+**Fontes:**
+* [kartParam.bin Vehicle Statistics (Custom Mario Kart Wiiki)](https://wiki.tockdom.com/wiki/KartParam.bin#Vehicle_Statistics)
+* [Kinoko - Engenharia Reversa da Física (GitHub)](https://github.com/vabold/Kinoko)
 
-# Equipe
+**Cálculos Aplicados:**
+* **Speed:** Valor original.
+* **Acceleration:** Média dos quatro estágios de arrancada (A0 a A3) multiplicada por 10.
+* **Handling:** Manual Handling Tightness multiplicado por 1000.
+* **Drift:** Manual Drift Tightness multiplicado por 1000.
+* **Offroad:** Média das três categorias de terreno (Weak, Offroad e Heavy) multiplicada por 10.
+* **Weight:** Valor original multiplicado por 10.
+* **Miniturbo:** Valor original.
 
-- **Rodrigo de Moraes Lorenzatto**  
-- **Roger Gomes Viana**  
-- **Carlos Augusto**
+## Banco de Dados
+
+O jogo utiliza o arquivo `veiculos.db`, localizado na pasta `/db`, para armazenar todas as informações dos veículos, incluindo as imagens. Para a manipulação dos dados, foi utilizado o software [DB Browser for SQLite](https://sqlitebrowser.org/), que facilitou a conversão de scripts SQL para o formato de banco de dados (`.db`).
+
+O arquivo `veiculos.sql`, presente na pasta `/db`, não é utilizado em tempo de execução e está incluído apenas como referência para futuras modificações na estrutura das tabelas.
+
+## Como Rodar
+
+1. **Clone o repositório:**
+   ```bash
+   git clone [https://github.com/RoGamer97/MarioKartWiiSuperTrunfo](https://github.com/RoGamer97/MarioKartWiiSuperTrunfo)
+2. Abra o repositório clonado em sua IDE
+3. Execute o arquivo Main.java
