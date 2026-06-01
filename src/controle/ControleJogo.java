@@ -116,7 +116,10 @@ public class ControleJogo
 		humano.adicionarPontosRodada(totalAtribMaiorHumano);
 		maquina.adicionarPontosRodada(totalAtribMaiorMaquina);
 		
-		getJogadorPorTipo(controleCarta.getJogadorVencedorAtributos()).adicionarPontoPartida();
+		if (totalAtribMaiorHumano != totalAtribMaiorMaquina)
+		{
+			getJogadorPorTipo(controleCarta.getJogadorVencedorAtributos()).adicionarPontoPartida();
+		}
 		
 		EstadoJogo estadoJogo = EstadoJogo.RODADA_FINALIZADA;
 		
