@@ -29,10 +29,10 @@ import modelo.TipoJogador;
 public class ViewJogo extends JFrame 
 {	
 	private ViewMenuPrincipal viewMenuPrincipal;
-	private ControleBaralho controleBaralho = new ControleBaralho();
-	private ControleMao controleMao = new ControleMao(controleBaralho);
-	private ControleCarta controleCarta = new ControleCarta(controleMao);
-	private ControleJogo controleJogo = new ControleJogo(this, controleBaralho, controleCarta, controleMao);
+	private ControleBaralho controleBaralho;
+	private ControleMao controleMao;
+	private ControleCarta controleCarta;
+	private ControleJogo controleJogo;
 	
 	private ViewJogoMenuCarta viewJogoMenuCarta = null; 
 	
@@ -101,18 +101,17 @@ public class ViewJogo extends JFrame
 	
 	private JLabel textLabelDesempate;
 
-	public ViewJogo(ViewMenuPrincipal viewMenuPrincipal, int totalRodadas, boolean mostrarCartasMaquina) 
+	public ViewJogo(ViewMenuPrincipal viewMenuPrincipal, ControleMao controleMao, ControleCarta controleCarta, ControleBaralho controleBaralho, ControleJogo controleJogo) 
 	{
+		this.viewMenuPrincipal = viewMenuPrincipal;
+		this.controleMao = controleMao;
+		this.controleCarta = controleCarta;
+		this.controleBaralho = controleBaralho;
+		this.controleJogo = controleJogo;
+		
 		controleJogo.setEstadoJogo(EstadoJogo.CARTA_NAO_ESCOLHIDA);
-		controleJogo.setTotalRodadas(totalRodadas);
-		controleJogo.setMostrarCartaMaquina(mostrarCartasMaquina);
 		
 		viewMenuPrincipal.setVisible(false);
-		
-		controleBaralho.setTotalCartas(totalRodadas);
-		controleBaralho.prepararBaralho();
-		controleMao.distribuirCartasMao(TipoJogador.HUMANO);
-		controleMao.distribuirCartasMao(TipoJogador.MAQUINA);
 		
 		this.viewMenuPrincipal = viewMenuPrincipal;
 		
@@ -145,7 +144,7 @@ public class ViewJogo extends JFrame
 		textDash.setBounds(386, 32, 28, 18);
 		contentPane.add(textDash);
 		
-		textTotalRodadas = new JLabel(Integer.toString(totalRodadas), SwingConstants.LEFT);
+		textTotalRodadas = new JLabel("X", SwingConstants.LEFT);
 		textTotalRodadas.setFont(FONTE_TITULO);
 		textTotalRodadas.setBounds(414, 32, 28, 18);
 		contentPane.add(textTotalRodadas);
@@ -513,17 +512,9 @@ public class ViewJogo extends JFrame
 		textLabelDesempate.setBounds(340, 52, 120, 18);
 		contentPane.add(textLabelDesempate);
 		
-		setCoroaHumanoIsVisible(false);
-		setCoroaMaquinaIsVisible(false);
-		
 		setImagemLabel(labelPontoMaisHumano, "/imagens/+1b.png");
 		setImagemLabel(labelPontoMaisMaquina, "/imagens/+1r.png");
-		
-		setIsBtnTrocarCartaEnabled(false);
-		limparElementosRodada();
-		
-		textLabelDesempate.setVisible(false);
-		
+	
 		btnTrocarCarta.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
@@ -565,6 +556,13 @@ public class ViewJogo extends JFrame
 		});
 		
 		setLocationRelativeTo(null);
+		
+		resetarElementos();
+	}
+	
+	public void setViewJogoMenuCarta(ViewJogoMenuCarta viewJogoMenuCarta)
+	{
+		this.viewJogoMenuCarta = viewJogoMenuCarta;
 	}
 	
 	public void atualizarImagemCarta(byte[] imagem, JLabel labelCarta)
@@ -607,6 +605,24 @@ public class ViewJogo extends JFrame
 	{
 	    atualizarImagemCarta(imagem, imagemCartaMaquina);
 	}
+	
+	public void resetarElementos()
+	{
+		limparElementosRodada();
+		labelPontoMaisHumano.setVisible(false);
+		labelPontoMaisMaquina.setVisible(false);
+		textFim.setVisible(false);
+		textVencedor.setVisible(false);
+		textLabelDesempate.setVisible(false);
+		atualizarTextoPontos();
+		atualizarTextoRodada();
+		btnTrocarCarta.setVisible(true);
+		btnAbandonarPartida.setVisible(true);
+		setIsBtnJogarEnabled(false);
+		crownHumano.setVisible(false);
+		crownMaquina.setVisible(false);
+		
+	}
 
 	public void limparElementosRodada()
 	{
@@ -646,13 +662,8 @@ public class ViewJogo extends JFrame
 	public void abrirMenuSelecaoCarta() 
 	{
 		setVisible(true);
-		String rodadaAtual = textLabelRodadaAtual.getText();
-		String totalRodadas = textTotalRodadas.getText();
-		String ptsHumano = textPontosPartidaHumano.getText();
-		String ptsMaquina = textPontosPartidaMaquina.getText();
-		
-		viewJogoMenuCarta = new ViewJogoMenuCarta(this, controleJogo, controleMao, controleCarta, rodadaAtual, totalRodadas, ptsHumano, ptsMaquina);
-		viewJogoMenuCarta.setVisible(true); 
+		viewJogoMenuCarta.atualizarMostrarMenu();
+		viewJogoMenuCarta.setVisible(true);
 		setIsBtnTrocarCartaEnabled(false);
 	}
 	
@@ -680,6 +691,11 @@ public class ViewJogo extends JFrame
 		textEasterEgg.setVisible(false);
 	}
 	
+	public void atualizarTextoTotalRodadas()
+	{
+		textTotalRodadas.setText(Integer.toString(controleJogo.getTotalRodadas()));
+	}
+	
 	public void atualizarTextoRodada()
 	{
 		textLabelRodadaAtual.setText(Integer.toString(controleJogo.getRodadaAtual()));
@@ -687,9 +703,10 @@ public class ViewJogo extends JFrame
 	
 	public void voltarMenuTitulo()
 	{
-		if (viewJogoMenuCarta != null) viewJogoMenuCarta.setVisible(false);
+		viewJogoMenuCarta.setVisible(false);
 		viewMenuPrincipal.setVisible(true);
-	    this.setVisible(false);
+	    setVisible(false);
+	    controleJogo.resetarTudo();
 	}
 	
 	public void atualizarTextoPontos() 

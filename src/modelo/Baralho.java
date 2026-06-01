@@ -11,6 +11,11 @@ public class Baralho
 	private int totalCartas;
 	private int numCartasBaralho;
 	
+	public void removerTodasCartas()
+	{
+		cartas.clear();
+	}
+	
 	public int getNumCartasBaralho()
 	{
 		return cartas.size();

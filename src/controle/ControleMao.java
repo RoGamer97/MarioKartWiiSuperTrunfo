@@ -23,6 +23,12 @@ public class ControleMao
 		this.controleBaralho = controleBaralho;
 	}
 	
+	public void removerTodasCartas()
+	{
+		maoHumano.removerTodasCartas();
+		maoMaquina.removerTodasCartas();
+	}
+	
 	public Mao getMaoPorTipoJogador(TipoJogador tipoJogador)
 	{
 		return (tipoJogador == TipoJogador.HUMANO) ? maoHumano : maoMaquina;

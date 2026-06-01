@@ -1,7 +1,6 @@
 package controle;
 
 import modelo.Carta;
-import modelo.Debug;
 import modelo.EstadoJogo;
 import modelo.Jogador;
 import modelo.Jogo;
@@ -24,17 +23,41 @@ public class ControleJogo
 	private ControleBaralho controleBaralho;
 	private ControleMao controleMao;
 	
-	public ControleJogo(ViewJogo viewJogo, ControleBaralho controleBaralho, ControleCarta controleCarta, ControleMao controleMao)
+	public ControleJogo(ControleBaralho controleBaralho, ControleCarta controleCarta, ControleMao controleMao)
 	{
-		this.viewJogo = viewJogo;
 		this.controleBaralho = controleBaralho;
 		this.controleCarta = controleCarta;
 		this.controleMao = controleMao;
 	}
 	
+	public void setViewJogo(ViewJogo viewJogo)
+	{
+		this.viewJogo = viewJogo;
+	}
+	
 	public Jogador getJogadorPorTipo(TipoJogador tipoJogador)
 	{
 		return (tipoJogador == TipoJogador.HUMANO) ? humano : maquina;
+	}
+	
+	public void resetarTudo()
+	{
+		controleBaralho.removerTodasCartas();
+		controleMao.removerTodasCartas();
+		jogo.resetRodadaAtual();
+		humano.resetarPontos();
+		maquina.resetarPontos();
+	}
+	
+	public void iniciarPartida()
+	{
+		viewJogo.resetarElementos();
+		controleBaralho.setTotalCartas(getTotalRodadas());
+		viewJogo.atualizarTextoTotalRodadas();
+		controleBaralho.prepararBaralho();
+		controleMao.distribuirCartasMao(TipoJogador.HUMANO);
+		controleMao.distribuirCartasMao(TipoJogador.MAQUINA);
+		viewJogo.abrirMenuSelecaoCarta();
 	}
 	
 	public void jogarRodada()
@@ -139,16 +162,6 @@ public class ControleJogo
 	public void setTotalRodadas(int quantidade)
 	{
 		jogo.setTotalRodadas(quantidade);
-	}
-	
-	public boolean isMostrarCartaMaquina()
-	{
-		return jogo.isMostrarCartaMaquina();
-	}
-	
-	public void setMostrarCartaMaquina(boolean deveMostrar)
-	{
-		jogo.setMostrarCartaMaquina(deveMostrar);
 	}
 	
 	public int getPontosRodada(TipoJogador tipoJogador)

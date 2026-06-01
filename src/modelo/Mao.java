@@ -9,6 +9,11 @@ public class Mao
 	private List<Carta> mao = new ArrayList<>();
 	
 	Carta cartaEscolhida;
+	
+	public void removerTodasCartas()
+	{
+		mao.clear();
+	}
 
 	public void adicionarCartaMao(Carta carta)
 	{
