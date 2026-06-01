@@ -201,7 +201,7 @@ public class ViewJogo extends JFrame implements IViewJogo
 		
 		lblIconSpeedHumano = new JLabel("[S]");
 		lblIconSpeedHumano.setHorizontalAlignment(SwingConstants.CENTER);
-		lblIconSpeedHumano.setBorder(new LineBorder(Color.LIGHT_GRAY));
+		// lblIconSpeedHumano.setBorder(new LineBorder(Color.LIGHT_GRAY));
 		lblIconSpeedHumano.setBounds(230, 170, 24, 24);
 		lblIconSpeedHumano.setVisible(false);
 		contentPane.add(lblIconSpeedHumano);
@@ -218,7 +218,7 @@ public class ViewJogo extends JFrame implements IViewJogo
 		
 		lblIconWeightHumano = new JLabel("[W]");
 		lblIconWeightHumano.setHorizontalAlignment(SwingConstants.CENTER);
-		lblIconWeightHumano.setBorder(new LineBorder(Color.LIGHT_GRAY));
+		// lblIconWeightHumano.setBorder(new LineBorder(Color.LIGHT_GRAY));
 		lblIconWeightHumano.setBounds(230, 205, 24, 24);
 		lblIconWeightHumano.setVisible(false);
 		contentPane.add(lblIconWeightHumano);
@@ -235,7 +235,7 @@ public class ViewJogo extends JFrame implements IViewJogo
 		
 		lblIconAccelerationHumano = new JLabel("[A]");
 		lblIconAccelerationHumano.setHorizontalAlignment(SwingConstants.CENTER);
-		lblIconAccelerationHumano.setBorder(new LineBorder(Color.LIGHT_GRAY));
+		// lblIconAccelerationHumano.setBorder(new LineBorder(Color.LIGHT_GRAY));
 		lblIconAccelerationHumano.setBounds(230, 240, 24, 24);
 		lblIconAccelerationHumano.setVisible(false);
 		contentPane.add(lblIconAccelerationHumano);
@@ -252,7 +252,7 @@ public class ViewJogo extends JFrame implements IViewJogo
 		
 		lblIconHandlingHumano = new JLabel("[H]");
 		lblIconHandlingHumano.setHorizontalAlignment(SwingConstants.CENTER);
-		lblIconHandlingHumano.setBorder(new LineBorder(Color.LIGHT_GRAY));
+		// lblIconHandlingHumano.setBorder(new LineBorder(Color.LIGHT_GRAY));
 		lblIconHandlingHumano.setBounds(230, 275, 24, 24);
 		lblIconHandlingHumano.setVisible(false);
 		contentPane.add(lblIconHandlingHumano);
@@ -269,7 +269,7 @@ public class ViewJogo extends JFrame implements IViewJogo
 		
 		lblIconDriftHumano = new JLabel("[D]");
 		lblIconDriftHumano.setHorizontalAlignment(SwingConstants.CENTER);
-		lblIconDriftHumano.setBorder(new LineBorder(Color.LIGHT_GRAY));
+		// lblIconDriftHumano.setBorder(new LineBorder(Color.LIGHT_GRAY));
 		lblIconDriftHumano.setBounds(230, 310, 24, 24);
 		lblIconDriftHumano.setVisible(false);
 		contentPane.add(lblIconDriftHumano);
@@ -286,7 +286,7 @@ public class ViewJogo extends JFrame implements IViewJogo
 		
 		lblIconOffroadHumano = new JLabel("[O]");
 		lblIconOffroadHumano.setHorizontalAlignment(SwingConstants.CENTER);
-		lblIconOffroadHumano.setBorder(new LineBorder(Color.LIGHT_GRAY));
+		// lblIconOffroadHumano.setBorder(new LineBorder(Color.LIGHT_GRAY));
 		lblIconOffroadHumano.setBounds(230, 345, 24, 24);
 		lblIconOffroadHumano.setVisible(false);
 		contentPane.add(lblIconOffroadHumano);
@@ -303,7 +303,7 @@ public class ViewJogo extends JFrame implements IViewJogo
 		
 		lblIconMTHumano = new JLabel("[M]");
 		lblIconMTHumano.setHorizontalAlignment(SwingConstants.CENTER);
-		lblIconMTHumano.setBorder(new LineBorder(Color.LIGHT_GRAY));
+		// lblIconMTHumano.setBorder(new LineBorder(Color.LIGHT_GRAY));
 		lblIconMTHumano.setBounds(230, 380, 24, 24);
 		lblIconMTHumano.setVisible(false);
 		contentPane.add(lblIconMTHumano);
@@ -325,7 +325,7 @@ public class ViewJogo extends JFrame implements IViewJogo
 		
 		lblIconSpeedMaquina = new JLabel("[S]");
 		lblIconSpeedMaquina.setHorizontalAlignment(SwingConstants.CENTER);
-		lblIconSpeedMaquina.setBorder(new LineBorder(Color.LIGHT_GRAY));
+		// lblIconSpeedMaquina.setBorder(new LineBorder(Color.LIGHT_GRAY));
 		lblIconSpeedMaquina.setBounds(530, 170, 24, 24);
 		lblIconSpeedMaquina.setVisible(false);
 		contentPane.add(lblIconSpeedMaquina);
@@ -342,7 +342,7 @@ public class ViewJogo extends JFrame implements IViewJogo
 		
 		lblIconWeightMaquina = new JLabel("[W]");
 		lblIconWeightMaquina.setHorizontalAlignment(SwingConstants.CENTER);
-		lblIconWeightMaquina.setBorder(new LineBorder(Color.LIGHT_GRAY));
+		// lblIconWeightMaquina.setBorder(new LineBorder(Color.LIGHT_GRAY));
 		lblIconWeightMaquina.setBounds(530, 205, 24, 24);
 		lblIconWeightMaquina.setVisible(false);
 		contentPane.add(lblIconWeightMaquina);
@@ -359,7 +359,7 @@ public class ViewJogo extends JFrame implements IViewJogo
 		
 		lblIconAccelerationMaquina = new JLabel("[A]");
 		lblIconAccelerationMaquina.setHorizontalAlignment(SwingConstants.CENTER);
-		lblIconAccelerationMaquina.setBorder(new LineBorder(Color.LIGHT_GRAY));
+		// lblIconAccelerationMaquina.setBorder(new LineBorder(Color.LIGHT_GRAY));
 		lblIconAccelerationMaquina.setBounds(530, 240, 24, 24);
 		lblIconAccelerationMaquina.setVisible(false);
 		contentPane.add(lblIconAccelerationMaquina);
@@ -376,7 +376,7 @@ public class ViewJogo extends JFrame implements IViewJogo
 		
 		lblIconHandlingMaquina = new JLabel("[H]");
 		lblIconHandlingMaquina.setHorizontalAlignment(SwingConstants.CENTER);
-		lblIconHandlingMaquina.setBorder(new LineBorder(Color.LIGHT_GRAY));
+		// lblIconHandlingMaquina.setBorder(new LineBorder(Color.LIGHT_GRAY));
 		lblIconHandlingMaquina.setBounds(530, 275, 24, 24);
 		lblIconHandlingMaquina.setVisible(false);
 		contentPane.add(lblIconHandlingMaquina);
@@ -393,7 +393,7 @@ public class ViewJogo extends JFrame implements IViewJogo
 		
 		lblIconDriftMaquina = new JLabel("[D]");
 		lblIconDriftMaquina.setHorizontalAlignment(SwingConstants.CENTER);
-		lblIconDriftMaquina.setBorder(new LineBorder(Color.LIGHT_GRAY));
+		// lblIconDriftMaquina.setBorder(new LineBorder(Color.LIGHT_GRAY));
 		lblIconDriftMaquina.setBounds(530, 310, 24, 24);
 		lblIconDriftMaquina.setVisible(false);
 		contentPane.add(lblIconDriftMaquina);
@@ -410,7 +410,7 @@ public class ViewJogo extends JFrame implements IViewJogo
 		
 		lblIconOffroadMaquina = new JLabel("[O]");
 		lblIconOffroadMaquina.setHorizontalAlignment(SwingConstants.CENTER);
-		lblIconOffroadMaquina.setBorder(new LineBorder(Color.LIGHT_GRAY));
+		// lblIconOffroadMaquina.setBorder(new LineBorder(Color.LIGHT_GRAY));
 		lblIconOffroadMaquina.setBounds(530, 345, 24, 24);
 		lblIconOffroadMaquina.setVisible(false);
 		contentPane.add(lblIconOffroadMaquina);
@@ -427,7 +427,7 @@ public class ViewJogo extends JFrame implements IViewJogo
 		
 		lblIconMTMaquina = new JLabel("[M]");
 		lblIconMTMaquina.setHorizontalAlignment(SwingConstants.CENTER);
-		lblIconMTMaquina.setBorder(new LineBorder(Color.LIGHT_GRAY));
+		// lblIconMTMaquina.setBorder(new LineBorder(Color.LIGHT_GRAY));
 		lblIconMTMaquina.setBounds(530, 380, 24, 24);
 		lblIconMTMaquina.setVisible(false);
 		contentPane.add(lblIconMTMaquina);
