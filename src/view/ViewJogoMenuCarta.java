@@ -20,9 +20,10 @@ public class ViewJogoMenuCarta extends JFrame
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
     private JPanel panelCartasContainer;
-    private JScrollPane scrollPane; 
+    private JScrollPane scrollPane;
     private JLabel lblRodadaValores;
     private JLabel lblPlacar;
+    private JLabel lblTextoRodada;
     private ViewJogo viewJogo;
     private ControleJogo controleJogo;
     private ControleMao controleMao;
@@ -48,19 +49,23 @@ public class ViewJogoMenuCarta extends JFrame
         lblTitulo.setBounds(10, 11, 1100, 25);
         contentPane.add(lblTitulo);
 
+        lblTextoRodada = new JLabel("Rodada", SwingConstants.CENTER);
+        lblTextoRodada.setBounds(10, 32, 1100, 20);
+        contentPane.add(lblTextoRodada);
+
         lblRodadaValores = new JLabel("", SwingConstants.CENTER);
-        lblRodadaValores.setBounds(10, 32, 1100, 20);
+        lblRodadaValores.setBounds(10, 50, 1100, 20);
         contentPane.add(lblRodadaValores);
 
         lblPlacar = new JLabel("", SwingConstants.CENTER);
-        lblPlacar.setBounds(10, 60, 1100, 20);
+        lblPlacar.setBounds(10, 75, 1100, 20);
         contentPane.add(lblPlacar);
 
         panelCartasContainer = new JPanel();
         panelCartasContainer.setLayout(null);
 
         scrollPane = new JScrollPane(panelCartasContainer);
-        scrollPane.setBounds(10, 90, 1115, 550);
+        scrollPane.setBounds(10, 105, 1115, 545);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
         contentPane.add(scrollPane);
@@ -78,7 +83,7 @@ public class ViewJogoMenuCarta extends JFrame
         List<Carta> listaCartas = controleMao.getCartasMao(TipoJogador.HUMANO);
         int cartasPorLinha = 6;
         int totalLinhas = (int) Math.ceil(listaCartas.size() / (double)cartasPorLinha);
-        
+
         int novaAltura = (totalLinhas * 270) + 40;
         panelCartasContainer.setPreferredSize(new Dimension(1000, novaAltura));
 
@@ -95,12 +100,13 @@ public class ViewJogoMenuCarta extends JFrame
         panelCartasContainer.revalidate();
         panelCartasContainer.repaint();
         scrollPane.revalidate();
-        
-        SwingUtilities.invokeLater(() -> {
+
+        SwingUtilities.invokeLater(() ->
+        {
             JScrollBar verticalBar = scrollPane.getVerticalScrollBar();
             verticalBar.setValue(verticalBar.getMinimum());
         });
-        
+
         setVisible(true);
     }
 
@@ -127,7 +133,10 @@ public class ViewJogoMenuCarta extends JFrame
                 Image img = ImageIO.read(bis);
                 lblImagem.setIcon(new ImageIcon(img.getScaledInstance(140, 60, Image.SCALE_SMOOTH)));
             }
-            catch (Exception e) { lblImagem.setIcon(null); }
+            catch (Exception e)
+            {
+                lblImagem.setIcon(null);
+            }
         }
         panelCarta.add(lblImagem);
 
