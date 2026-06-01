@@ -239,10 +239,16 @@ public class ControleJogo
 		
 		String quacker = "Quacker";
 		String piranhaPlowler = "Piranha Prowler";
+		String flameRunner = "Flame Runner";
+		String machBike = "Mach Bike";
 		
 		if ((nomeCartaHumano.equals(quacker) && nomeCartaMaquina.equals(piranhaPlowler)) || (nomeCartaHumano.equals(piranhaPlowler) && nomeCartaMaquina.equals(quacker)))
 		{
 			viewJogo.mostrarTextoEasterEggBumpfest();
+		}
+		else if ((nomeCartaHumano.equals(machBike) && nomeCartaMaquina.equals(flameRunner)) || (nomeCartaHumano.equals(flameRunner) && nomeCartaMaquina.equals(machBike)))
+		{
+			viewJogo.mostrarTextoEasterEggMeta();
 		}
 	}
 	
