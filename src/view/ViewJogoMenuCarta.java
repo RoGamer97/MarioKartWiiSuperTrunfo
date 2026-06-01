@@ -57,17 +57,21 @@ public class ViewJogoMenuCarta extends JFrame
 		lblTitulo.setBounds(10, 11, larguraUtil, 25);
 		contentPane.add(lblTitulo);
 
-		JLabel lblRodadaTexto = new JLabel("Rodada: " + rodadaAtual + " / " + totalRodadas, SwingConstants.CENTER);
-		lblRodadaTexto.setBounds(10, 42, larguraUtil, 20);
-		contentPane.add(lblRodadaTexto);
+		JLabel lblRodadaTitulo = new JLabel("Rodada", SwingConstants.CENTER);
+		lblRodadaTitulo.setBounds(10, 32, larguraUtil, 20);
+		contentPane.add(lblRodadaTitulo);
+
+		JLabel lblRodadaValores = new JLabel(rodadaAtual + " / " + totalRodadas, SwingConstants.CENTER);
+		lblRodadaValores.setBounds(10, 52, larguraUtil, 20);
+		contentPane.add(lblRodadaValores);
 
 		JLabel lblPontosTitulo = new JLabel("Pontos da Partida", SwingConstants.CENTER);
-		lblPontosTitulo.setBounds(10, 65, larguraUtil, 20);
+		lblPontosTitulo.setBounds(10, 75, larguraUtil, 20);
 		contentPane.add(lblPontosTitulo);
 
 		String placarTexto = "Humano " + pontosHumano + "  -   " + pontosMaquina + " Maquina";
 		JLabel lblPlacar = new JLabel(placarTexto, SwingConstants.CENTER);
-		lblPlacar.setBounds(10, 85, larguraUtil, 20);
+		lblPlacar.setBounds(10, 95, larguraUtil, 20);
 		contentPane.add(lblPlacar);
 
 		JPanel panelCartasContainer = new JPanel();

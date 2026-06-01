@@ -100,6 +100,8 @@ public class ViewJogo extends JFrame
 	
 	private JLabel labelPontoMaisMaquina;
 	private JLabel labelPontoMaisHumano;
+	
+	private JLabel textLabelDesempate;
 
 	public ViewJogo(ViewMenuPrincipal viewMenuPrincipal, int totalRodadas, boolean mostrarCartasMaquina) 
 	{
@@ -152,43 +154,45 @@ public class ViewJogo extends JFrame
 		
 		textTotalRodadas = new JLabel(Integer.toString(totalRodadas), SwingConstants.LEFT);
 		textTotalRodadas.setFont(FONTE_TITULO);
-		textTotalRodadas.setBounds(414, 32, 46, 18);
+		textTotalRodadas.setBounds(414, 32, 28, 18);
 		contentPane.add(textTotalRodadas);
 		
 		textFim = new JLabel("FIM!", SwingConstants.CENTER);
 		textFim.setFont(FONTE_FIM);
-		textFim.setBounds(340, 175, 120, 28);
+		textFim.setBounds(340, 248, 120, 28);
 		contentPane.add(textFim);
 		textFim.setVisible(false);
 		
 		textVencedor = new JLabel("(Tipo Jogador Vencedor) ganhou!", SwingConstants.CENTER);
 		textVencedor.setFont(FONTE_VENCEDOR);
-		textVencedor.setBounds(250, 210, 300, 24);
+		textVencedor.setBounds(254, 378, 300, 24);
 		contentPane.add(textVencedor);
 		textVencedor.setVisible(false);
 		
 		textEasterEgg = new JLabel("(Texto de Easter Egg)", SwingConstants.CENTER);
 		textEasterEgg.setFont(FONTE_ATRIBUTO);
-		textEasterEgg.setBounds(280, 240, 240, 26);
+		textEasterEgg.setBounds(275, 253, 240, 26);
 		contentPane.add(textEasterEgg);
 		textEasterEgg.setVisible(false);
 
 		if (Debug.DEBUG_MENU_ENABLED)
 		{
 			textLabelDirty = new JLabel("(D)");
-			textLabelDirty.setFont(FONTE_ATRIBUTO);
+			textLabelDirty.setFont(FONTE_FIM);
 			textLabelDirty.setForeground(new Color(255, 0, 0));
-			textLabelDirty.setBounds(10, 0, 30, 25);
+			textLabelDirty.setBounds(10, 0, 30, 50);
 			contentPane.add(textLabelDirty);
 			textLabelDirty.setVisible(false);
 		}
 		
 		JLabel lblTituloVoce = new JLabel("Você", SwingConstants.CENTER);
+		lblTituloVoce.setForeground(new Color(0, 0, 255));
 		lblTituloVoce.setFont(FONTE_TITULO);
 		lblTituloVoce.setBounds(40, 15, 170, 20);
 		contentPane.add(lblTituloVoce);
 		
 		JLabel lblTituloMaquina = new JLabel("Máquina", SwingConstants.CENTER);
+		lblTituloMaquina.setForeground(new Color(255, 0, 0));
 		lblTituloMaquina.setFont(FONTE_TITULO);
 		lblTituloMaquina.setBounds(570, 15, 170, 20);
 		contentPane.add(lblTituloMaquina);
@@ -472,11 +476,13 @@ public class ViewJogo extends JFrame
 		contentPane.add(textLabelPR);
 		
 		textPontosRodadaHumano = new JLabel("0", SwingConstants.RIGHT);
+		textPontosRodadaHumano.setForeground(new Color(0, 0, 255));
 		textPontosRodadaHumano.setFont(FONTE_TITULO);
 		textPontosRodadaHumano.setBounds(275, 432, 55, 20);
 		contentPane.add(textPontosRodadaHumano);
 		
 		textPontosRodadaMaquina = new JLabel("0", SwingConstants.LEFT);
+		textPontosRodadaMaquina.setForeground(new Color(255, 0, 0));
 		textPontosRodadaMaquina.setFont(FONTE_TITULO);
 		textPontosRodadaMaquina.setBounds(470, 432, 55, 20);
 		contentPane.add(textPontosRodadaMaquina);
@@ -487,16 +493,18 @@ public class ViewJogo extends JFrame
 		contentPane.add(textLabelPP);
 		
 		textPontosPartidaHumano = new JLabel("0", SwingConstants.RIGHT);
+		textPontosPartidaHumano.setForeground(new Color(0, 0, 255));
 		textPontosPartidaHumano.setFont(FONTE_TITULO);
 		textPontosPartidaHumano.setBounds(275, 457, 55, 20);
 		contentPane.add(textPontosPartidaHumano);
 		
 		textPontosPartidaMaquina = new JLabel("0", SwingConstants.LEFT);
+		textPontosPartidaMaquina.setForeground(new Color(255, 0, 0));
 		textPontosPartidaMaquina.setFont(FONTE_TITULO);
 		textPontosPartidaMaquina.setBounds(470, 457, 55, 20);
 		contentPane.add(textPontosPartidaMaquina);
 
-		btnTrocarCarta = new JButton("Trocar Carta");
+		btnTrocarCarta = new JButton("Trocar de carta");
 		btnTrocarCarta.setFont(FONTE_ATRIBUTO);
 		btnTrocarCarta.setBounds(30, 495, 160, 45);
 		contentPane.add(btnTrocarCarta);
@@ -511,6 +519,17 @@ public class ViewJogo extends JFrame
 		labelPontoMaisMaquina.setBounds(516, 430, 75, 55);
 		contentPane.add(labelPontoMaisMaquina);
 		
+		textNomeCartaHumano.setText("");
+		textNomeCartaMaquina.setText("");
+		
+		setImagemLabel(crownHumano, "/imagens/crown.png");
+		setImagemLabel(crownMaquina, "/imagens/crown.png");
+		
+		textLabelDesempate = new JLabel("Desempate!", SwingConstants.CENTER);
+		textLabelDesempate.setFont(new Font("SansSerif", Font.BOLD, 14));
+		textLabelDesempate.setBounds(340, 52, 120, 18);
+		contentPane.add(textLabelDesempate);
+		
 		setCoroaHumanoIsVisible(false);
 		setCoroaMaquinaIsVisible(false);
 		
@@ -519,6 +538,8 @@ public class ViewJogo extends JFrame
 		
 		setIsBtnTrocarCartaEnabled(false);
 		limparElementosRodada();
+		
+		textLabelDesempate.setVisible(false);
 		
 		btnTrocarCarta.addActionListener(new ActionListener()
 		{
@@ -542,7 +563,7 @@ public class ViewJogo extends JFrame
 			}
 		});
 		
-		btnAbandonarPartida = new JButton("Abandonar Partida");
+		btnAbandonarPartida = new JButton("Abandonar partida");
 		btnAbandonarPartida.setFont(FONTE_ATRIBUTO);
 		btnAbandonarPartida.setBounds(594, 495, 160, 45);
 		contentPane.add(btnAbandonarPartida);
@@ -559,12 +580,6 @@ public class ViewJogo extends JFrame
 				}
 			}
 		});
-		
-		textNomeCartaHumano.setText("");
-		textNomeCartaMaquina.setText("");
-		
-		setImagemLabel(crownHumano, "/imagens/crown.png");
-		setImagemLabel(crownMaquina, "/imagens/crown.png");
 		
 		setLocationRelativeTo(null);
 	}
@@ -668,14 +683,18 @@ public class ViewJogo extends JFrame
 		setImagemComparacaoAtribIsVisible(true);
 	}
 	
-	public void mostrarElementosFimPartida()
+	public void mostrarEsconderElementosFimPartida()
 	{
-		textFim.setVisible(true);
-		textVencedor.setText(controleJogo.getStringVencedor() + " ganhou!");
-		textVencedor.setVisible(true);
-		btnAbandonarPartida.setVisible(false);
 		btnJogar.setText("Voltar ao menu principal");
-		JOptionPane.showMessageDialog(null, controleJogo.getStringVencedor() + " venceu!", "Fim!", JOptionPane.INFORMATION_MESSAGE);
+		textVencedor.setText(controleJogo.getStringVencedor() + " ganhou!");
+		
+		textFim.setVisible(true);
+		textVencedor.setVisible(true);
+		btnTrocarCarta.setVisible(false);
+		btnAbandonarPartida.setVisible(false);
+		labelPontoMaisHumano.setVisible(false);
+		labelPontoMaisMaquina.setVisible(false);
+		textEasterEgg.setVisible(false);
 	}
 	
 	public void atualizarTextoRodada()
@@ -788,7 +807,8 @@ public class ViewJogo extends JFrame
 	
 	public void setTextoTotalRodadasDesempate()
 	{
-		textTotalRodadas.setText(controleJogo.getTotalRodadas() + " (Desempate)");
+		textTotalRodadas.setText(Integer.toString(controleJogo.getTotalRodadas()));
+		textLabelDesempate.setVisible(true);
 	}
 	
 	public void setIsBtnTrocarCartaEnabled(boolean isEnabled)
