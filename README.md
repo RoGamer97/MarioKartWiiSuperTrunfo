@@ -41,6 +41,6 @@ O arquivo `veiculos.sql`, presente na pasta `/db`, não é utilizado em tempo de
 
 1. **Clone o repositório:**
    ```bash
-   git clone [https://github.com/RoGamer97/MarioKartWiiSuperTrunfo](https://github.com/RoGamer97/MarioKartWiiSuperTrunfo)
+   git clone https://github.com/RoGamer97/MarioKartWiiSuperTrunfo
 2. Abra o repositório clonado em sua IDE
 3. Execute o arquivo Main.java
