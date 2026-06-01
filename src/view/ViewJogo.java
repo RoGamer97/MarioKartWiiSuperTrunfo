@@ -808,22 +808,12 @@ public class ViewJogo extends JFrame
 	{
 		textEasterEgg.setVisible(true);
 		textEasterEgg.setText("Blast off to Quacker Island!!");
-		
-		if (Debug.DEBUG_PRINTS_ENABLED)
-		{
-			System.out.println("[ViewJogo] Easter Egg bumpfest executado!");
-		}
 	}
 	
 	public void mostrarTextoEasterEggMeta()
 	{
 		textEasterEgg.setVisible(true);
 		textEasterEgg.setText("The Meta Duo!");
-		
-		if (Debug.DEBUG_PRINTS_ENABLED)
-		{
-			System.out.println("[ViewJogo] Easter Egg meta executado!");
-		}
 	}
 
 	private void setImagemLabel(JLabel label, String caminhoImagem)

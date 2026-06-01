@@ -179,11 +179,6 @@ public class ControleJogo
 		}
 		
 		jogo.setEstadoJogo(estado);
-		
-		if (Debug.DEBUG_PRINTS_ENABLED)
-		{
-			System.out.println("[ControleJogo] setEstadoJogo: " + estado);
-		}
 	}
 	
 	public void finalizarPartida()
@@ -254,16 +249,16 @@ public class ControleJogo
 	
 	public void setImagemsComparacaoAtributos() 
 	{
-		compararSetarImagemComparacaoAtributos(controleCarta.getResultadoComparacaoAtrib(TipoAtributoCarta.SPEED), TipoAtributoCarta.SPEED);
-		compararSetarImagemComparacaoAtributos(controleCarta.getResultadoComparacaoAtrib(TipoAtributoCarta.WEIGHT), TipoAtributoCarta.WEIGHT);
-		compararSetarImagemComparacaoAtributos(controleCarta.getResultadoComparacaoAtrib(TipoAtributoCarta.ACCEL), TipoAtributoCarta.ACCEL);
-		compararSetarImagemComparacaoAtributos(controleCarta.getResultadoComparacaoAtrib(TipoAtributoCarta.HANDLING), TipoAtributoCarta.HANDLING);
-	    compararSetarImagemComparacaoAtributos(controleCarta.getResultadoComparacaoAtrib(TipoAtributoCarta.DRIFT), TipoAtributoCarta.DRIFT);
-	    compararSetarImagemComparacaoAtributos(controleCarta.getResultadoComparacaoAtrib(TipoAtributoCarta.OFFROAD), TipoAtributoCarta.OFFROAD);
-	    compararSetarImagemComparacaoAtributos(controleCarta.getResultadoComparacaoAtrib(TipoAtributoCarta.MINITURBO), TipoAtributoCarta.MINITURBO);
+		setImagemBaseadoComparacaoAtributos(controleCarta.getResultadoComparacaoAtrib(TipoAtributoCarta.SPEED), TipoAtributoCarta.SPEED);
+		setImagemBaseadoComparacaoAtributos(controleCarta.getResultadoComparacaoAtrib(TipoAtributoCarta.WEIGHT), TipoAtributoCarta.WEIGHT);
+		setImagemBaseadoComparacaoAtributos(controleCarta.getResultadoComparacaoAtrib(TipoAtributoCarta.ACCEL), TipoAtributoCarta.ACCEL);
+		setImagemBaseadoComparacaoAtributos(controleCarta.getResultadoComparacaoAtrib(TipoAtributoCarta.HANDLING), TipoAtributoCarta.HANDLING);
+		setImagemBaseadoComparacaoAtributos(controleCarta.getResultadoComparacaoAtrib(TipoAtributoCarta.DRIFT), TipoAtributoCarta.DRIFT);
+		setImagemBaseadoComparacaoAtributos(controleCarta.getResultadoComparacaoAtrib(TipoAtributoCarta.OFFROAD), TipoAtributoCarta.OFFROAD);
+		setImagemBaseadoComparacaoAtributos(controleCarta.getResultadoComparacaoAtrib(TipoAtributoCarta.MINITURBO), TipoAtributoCarta.MINITURBO);
 	}
 
-	private void compararSetarImagemComparacaoAtributos(ResultadoComparacao resultado, TipoAtributoCarta tipoAtrib) 
+	private void setImagemBaseadoComparacaoAtributos(ResultadoComparacao resultado, TipoAtributoCarta tipoAtrib) 
 	{
 	    String maior = "/imagens/maior.png";
 	    String menor = "/imagens/menor.png";
