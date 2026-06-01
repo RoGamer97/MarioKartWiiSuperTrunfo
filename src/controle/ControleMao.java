@@ -23,6 +23,12 @@ public class ControleMao
 		this.controleBaralho = controleBaralho;
 	}
 	
+	public void removerTodasCartas()
+	{
+		maoHumano.removerTodasCartas();
+		maoMaquina.removerTodasCartas();
+	}
+	
 	public Mao getMaoPorTipoJogador(TipoJogador tipoJogador)
 	{
 		return (tipoJogador == TipoJogador.HUMANO) ? maoHumano : maoMaquina;
@@ -64,7 +70,7 @@ public class ControleMao
 	{
 		int totalCartas = controleBaralho.getNumCartasBaralho();
 		int idCarta = random.nextInt(totalCartas);
-		return controleBaralho.getCartaPorId(idCarta, tipoJogador);
+		return controleBaralho.getCartaPorId(idCarta);
 	}
 	
 	public Carta getCartaEscolhida(TipoJogador tipoJogador)

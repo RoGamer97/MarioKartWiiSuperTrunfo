@@ -29,4 +29,10 @@ public class Jogador
 	{
 		pontosRodada = 0;
 	}
+	
+	public void resetPontos()
+	{
+		pontosPartida = 0;
+		pontosRodada = 0;
+	}
 }

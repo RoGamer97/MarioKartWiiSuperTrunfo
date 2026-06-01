@@ -26,13 +26,13 @@ import modelo.Debug;
 import modelo.EstadoJogo;
 import modelo.TipoJogador;
 
-public class ViewJogo extends JFrame 
+public class ViewJogo extends JFrame implements IViewJogo
 {	
 	private ViewMenuPrincipal viewMenuPrincipal;
-	private ControleBaralho controleBaralho = new ControleBaralho();
-	private ControleMao controleMao = new ControleMao(controleBaralho);
-	private ControleCarta controleCarta = new ControleCarta(controleMao);
-	private ControleJogo controleJogo = new ControleJogo(this, controleBaralho, controleCarta, controleMao);
+	private ControleBaralho controleBaralho;
+	private ControleMao controleMao;
+	private ControleCarta controleCarta;
+	private ControleJogo controleJogo;
 	
 	private ViewJogoMenuCarta viewJogoMenuCarta = null; 
 	
@@ -101,18 +101,17 @@ public class ViewJogo extends JFrame
 	
 	private JLabel textLabelDesempate;
 
-	public ViewJogo(ViewMenuPrincipal viewMenuPrincipal, int totalRodadas, boolean mostrarCartasMaquina) 
+	public ViewJogo(ViewMenuPrincipal viewMenuPrincipal, ControleMao controleMao, ControleCarta controleCarta, ControleBaralho controleBaralho, ControleJogo controleJogo) 
 	{
+		this.viewMenuPrincipal = viewMenuPrincipal;
+		this.controleMao = controleMao;
+		this.controleCarta = controleCarta;
+		this.controleBaralho = controleBaralho;
+		this.controleJogo = controleJogo;
+		
 		controleJogo.setEstadoJogo(EstadoJogo.CARTA_NAO_ESCOLHIDA);
-		controleJogo.setTotalRodadas(totalRodadas);
-		controleJogo.setMostrarCartaMaquina(mostrarCartasMaquina);
 		
 		viewMenuPrincipal.setVisible(false);
-		
-		controleBaralho.setTotalCartas(totalRodadas);
-		controleBaralho.prepararBaralho();
-		controleMao.distribuirCartasMao(TipoJogador.HUMANO);
-		controleMao.distribuirCartasMao(TipoJogador.MAQUINA);
 		
 		this.viewMenuPrincipal = viewMenuPrincipal;
 		
@@ -145,7 +144,7 @@ public class ViewJogo extends JFrame
 		textDash.setBounds(386, 32, 28, 18);
 		contentPane.add(textDash);
 		
-		textTotalRodadas = new JLabel(Integer.toString(totalRodadas), SwingConstants.LEFT);
+		textTotalRodadas = new JLabel("X", SwingConstants.LEFT);
 		textTotalRodadas.setFont(FONTE_TITULO);
 		textTotalRodadas.setBounds(414, 32, 28, 18);
 		contentPane.add(textTotalRodadas);
@@ -202,7 +201,7 @@ public class ViewJogo extends JFrame
 		
 		lblIconSpeedHumano = new JLabel("[S]");
 		lblIconSpeedHumano.setHorizontalAlignment(SwingConstants.CENTER);
-		lblIconSpeedHumano.setBorder(new LineBorder(Color.LIGHT_GRAY));
+		// lblIconSpeedHumano.setBorder(new LineBorder(Color.LIGHT_GRAY));
 		lblIconSpeedHumano.setBounds(230, 170, 24, 24);
 		lblIconSpeedHumano.setVisible(false);
 		contentPane.add(lblIconSpeedHumano);
@@ -219,7 +218,7 @@ public class ViewJogo extends JFrame
 		
 		lblIconWeightHumano = new JLabel("[W]");
 		lblIconWeightHumano.setHorizontalAlignment(SwingConstants.CENTER);
-		lblIconWeightHumano.setBorder(new LineBorder(Color.LIGHT_GRAY));
+		// lblIconWeightHumano.setBorder(new LineBorder(Color.LIGHT_GRAY));
 		lblIconWeightHumano.setBounds(230, 205, 24, 24);
 		lblIconWeightHumano.setVisible(false);
 		contentPane.add(lblIconWeightHumano);
@@ -236,7 +235,7 @@ public class ViewJogo extends JFrame
 		
 		lblIconAccelerationHumano = new JLabel("[A]");
 		lblIconAccelerationHumano.setHorizontalAlignment(SwingConstants.CENTER);
-		lblIconAccelerationHumano.setBorder(new LineBorder(Color.LIGHT_GRAY));
+		// lblIconAccelerationHumano.setBorder(new LineBorder(Color.LIGHT_GRAY));
 		lblIconAccelerationHumano.setBounds(230, 240, 24, 24);
 		lblIconAccelerationHumano.setVisible(false);
 		contentPane.add(lblIconAccelerationHumano);
@@ -253,7 +252,7 @@ public class ViewJogo extends JFrame
 		
 		lblIconHandlingHumano = new JLabel("[H]");
 		lblIconHandlingHumano.setHorizontalAlignment(SwingConstants.CENTER);
-		lblIconHandlingHumano.setBorder(new LineBorder(Color.LIGHT_GRAY));
+		// lblIconHandlingHumano.setBorder(new LineBorder(Color.LIGHT_GRAY));
 		lblIconHandlingHumano.setBounds(230, 275, 24, 24);
 		lblIconHandlingHumano.setVisible(false);
 		contentPane.add(lblIconHandlingHumano);
@@ -270,7 +269,7 @@ public class ViewJogo extends JFrame
 		
 		lblIconDriftHumano = new JLabel("[D]");
 		lblIconDriftHumano.setHorizontalAlignment(SwingConstants.CENTER);
-		lblIconDriftHumano.setBorder(new LineBorder(Color.LIGHT_GRAY));
+		// lblIconDriftHumano.setBorder(new LineBorder(Color.LIGHT_GRAY));
 		lblIconDriftHumano.setBounds(230, 310, 24, 24);
 		lblIconDriftHumano.setVisible(false);
 		contentPane.add(lblIconDriftHumano);
@@ -287,7 +286,7 @@ public class ViewJogo extends JFrame
 		
 		lblIconOffroadHumano = new JLabel("[O]");
 		lblIconOffroadHumano.setHorizontalAlignment(SwingConstants.CENTER);
-		lblIconOffroadHumano.setBorder(new LineBorder(Color.LIGHT_GRAY));
+		// lblIconOffroadHumano.setBorder(new LineBorder(Color.LIGHT_GRAY));
 		lblIconOffroadHumano.setBounds(230, 345, 24, 24);
 		lblIconOffroadHumano.setVisible(false);
 		contentPane.add(lblIconOffroadHumano);
@@ -304,7 +303,7 @@ public class ViewJogo extends JFrame
 		
 		lblIconMTHumano = new JLabel("[M]");
 		lblIconMTHumano.setHorizontalAlignment(SwingConstants.CENTER);
-		lblIconMTHumano.setBorder(new LineBorder(Color.LIGHT_GRAY));
+		// lblIconMTHumano.setBorder(new LineBorder(Color.LIGHT_GRAY));
 		lblIconMTHumano.setBounds(230, 380, 24, 24);
 		lblIconMTHumano.setVisible(false);
 		contentPane.add(lblIconMTHumano);
@@ -326,7 +325,7 @@ public class ViewJogo extends JFrame
 		
 		lblIconSpeedMaquina = new JLabel("[S]");
 		lblIconSpeedMaquina.setHorizontalAlignment(SwingConstants.CENTER);
-		lblIconSpeedMaquina.setBorder(new LineBorder(Color.LIGHT_GRAY));
+		// lblIconSpeedMaquina.setBorder(new LineBorder(Color.LIGHT_GRAY));
 		lblIconSpeedMaquina.setBounds(530, 170, 24, 24);
 		lblIconSpeedMaquina.setVisible(false);
 		contentPane.add(lblIconSpeedMaquina);
@@ -343,7 +342,7 @@ public class ViewJogo extends JFrame
 		
 		lblIconWeightMaquina = new JLabel("[W]");
 		lblIconWeightMaquina.setHorizontalAlignment(SwingConstants.CENTER);
-		lblIconWeightMaquina.setBorder(new LineBorder(Color.LIGHT_GRAY));
+		// lblIconWeightMaquina.setBorder(new LineBorder(Color.LIGHT_GRAY));
 		lblIconWeightMaquina.setBounds(530, 205, 24, 24);
 		lblIconWeightMaquina.setVisible(false);
 		contentPane.add(lblIconWeightMaquina);
@@ -360,7 +359,7 @@ public class ViewJogo extends JFrame
 		
 		lblIconAccelerationMaquina = new JLabel("[A]");
 		lblIconAccelerationMaquina.setHorizontalAlignment(SwingConstants.CENTER);
-		lblIconAccelerationMaquina.setBorder(new LineBorder(Color.LIGHT_GRAY));
+		// lblIconAccelerationMaquina.setBorder(new LineBorder(Color.LIGHT_GRAY));
 		lblIconAccelerationMaquina.setBounds(530, 240, 24, 24);
 		lblIconAccelerationMaquina.setVisible(false);
 		contentPane.add(lblIconAccelerationMaquina);
@@ -377,7 +376,7 @@ public class ViewJogo extends JFrame
 		
 		lblIconHandlingMaquina = new JLabel("[H]");
 		lblIconHandlingMaquina.setHorizontalAlignment(SwingConstants.CENTER);
-		lblIconHandlingMaquina.setBorder(new LineBorder(Color.LIGHT_GRAY));
+		// lblIconHandlingMaquina.setBorder(new LineBorder(Color.LIGHT_GRAY));
 		lblIconHandlingMaquina.setBounds(530, 275, 24, 24);
 		lblIconHandlingMaquina.setVisible(false);
 		contentPane.add(lblIconHandlingMaquina);
@@ -394,7 +393,7 @@ public class ViewJogo extends JFrame
 		
 		lblIconDriftMaquina = new JLabel("[D]");
 		lblIconDriftMaquina.setHorizontalAlignment(SwingConstants.CENTER);
-		lblIconDriftMaquina.setBorder(new LineBorder(Color.LIGHT_GRAY));
+		// lblIconDriftMaquina.setBorder(new LineBorder(Color.LIGHT_GRAY));
 		lblIconDriftMaquina.setBounds(530, 310, 24, 24);
 		lblIconDriftMaquina.setVisible(false);
 		contentPane.add(lblIconDriftMaquina);
@@ -411,7 +410,7 @@ public class ViewJogo extends JFrame
 		
 		lblIconOffroadMaquina = new JLabel("[O]");
 		lblIconOffroadMaquina.setHorizontalAlignment(SwingConstants.CENTER);
-		lblIconOffroadMaquina.setBorder(new LineBorder(Color.LIGHT_GRAY));
+		// lblIconOffroadMaquina.setBorder(new LineBorder(Color.LIGHT_GRAY));
 		lblIconOffroadMaquina.setBounds(530, 345, 24, 24);
 		lblIconOffroadMaquina.setVisible(false);
 		contentPane.add(lblIconOffroadMaquina);
@@ -428,7 +427,7 @@ public class ViewJogo extends JFrame
 		
 		lblIconMTMaquina = new JLabel("[M]");
 		lblIconMTMaquina.setHorizontalAlignment(SwingConstants.CENTER);
-		lblIconMTMaquina.setBorder(new LineBorder(Color.LIGHT_GRAY));
+		// lblIconMTMaquina.setBorder(new LineBorder(Color.LIGHT_GRAY));
 		lblIconMTMaquina.setBounds(530, 380, 24, 24);
 		lblIconMTMaquina.setVisible(false);
 		contentPane.add(lblIconMTMaquina);
@@ -513,17 +512,9 @@ public class ViewJogo extends JFrame
 		textLabelDesempate.setBounds(340, 52, 120, 18);
 		contentPane.add(textLabelDesempate);
 		
-		setCoroaHumanoIsVisible(false);
-		setCoroaMaquinaIsVisible(false);
-		
 		setImagemLabel(labelPontoMaisHumano, "/imagens/+1b.png");
 		setImagemLabel(labelPontoMaisMaquina, "/imagens/+1r.png");
-		
-		setIsBtnTrocarCartaEnabled(false);
-		limparElementosRodada();
-		
-		textLabelDesempate.setVisible(false);
-		
+	
 		btnTrocarCarta.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
@@ -565,6 +556,13 @@ public class ViewJogo extends JFrame
 		});
 		
 		setLocationRelativeTo(null);
+		
+		resetElementos();
+	}
+	
+	public void setViewJogoMenuCarta(ViewJogoMenuCarta viewJogoMenuCarta)
+	{
+		this.viewJogoMenuCarta = viewJogoMenuCarta;
 	}
 	
 	public void atualizarImagemCarta(byte[] imagem, JLabel labelCarta)
@@ -607,6 +605,23 @@ public class ViewJogo extends JFrame
 	{
 	    atualizarImagemCarta(imagem, imagemCartaMaquina);
 	}
+	
+	public void resetElementos()
+	{
+		limparElementosRodada();
+		labelPontoMaisHumano.setVisible(false);
+		labelPontoMaisMaquina.setVisible(false);
+		textFim.setVisible(false);
+		textVencedor.setVisible(false);
+		textLabelDesempate.setVisible(false);
+		atualizarTextoPontos();
+		atualizarTextoRodada();
+		btnTrocarCarta.setVisible(true);
+		btnAbandonarPartida.setVisible(true);
+		setIsBtnJogarEnabled(false);
+		crownHumano.setVisible(false);
+		crownMaquina.setVisible(false);
+	}
 
 	public void limparElementosRodada()
 	{
@@ -646,13 +661,8 @@ public class ViewJogo extends JFrame
 	public void abrirMenuSelecaoCarta() 
 	{
 		setVisible(true);
-		String rodadaAtual = textLabelRodadaAtual.getText();
-		String totalRodadas = textTotalRodadas.getText();
-		String ptsHumano = textPontosPartidaHumano.getText();
-		String ptsMaquina = textPontosPartidaMaquina.getText();
-		
-		viewJogoMenuCarta = new ViewJogoMenuCarta(this, controleJogo, controleMao, controleCarta, rodadaAtual, totalRodadas, ptsHumano, ptsMaquina);
-		viewJogoMenuCarta.setVisible(true); 
+		viewJogoMenuCarta.atualizarMostrarMenu();
+		viewJogoMenuCarta.setVisible(true);
 		setIsBtnTrocarCartaEnabled(false);
 	}
 	
@@ -680,6 +690,11 @@ public class ViewJogo extends JFrame
 		textEasterEgg.setVisible(false);
 	}
 	
+	public void atualizarTextoTotalRodadas()
+	{
+		textTotalRodadas.setText(Integer.toString(controleJogo.getTotalRodadas()));
+	}
+	
 	public void atualizarTextoRodada()
 	{
 		textLabelRodadaAtual.setText(Integer.toString(controleJogo.getRodadaAtual()));
@@ -687,9 +702,9 @@ public class ViewJogo extends JFrame
 	
 	public void voltarMenuTitulo()
 	{
-		if (viewJogoMenuCarta != null) viewJogoMenuCarta.setVisible(false);
+		viewJogoMenuCarta.setVisible(false);
 		viewMenuPrincipal.setVisible(true);
-	    this.setVisible(false);
+	    setVisible(false);
 	}
 	
 	public void atualizarTextoPontos() 

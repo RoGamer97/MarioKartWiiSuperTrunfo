@@ -13,8 +13,6 @@ public class Jogo
 	
 	private EstadoJogo estadoJogo;
 	
-	private boolean mostrarCartaMaquina;
-	
 	public Jogo(Jogador humano, Jogador maquina)
 	{
 		this.humano = humano;
@@ -24,6 +22,11 @@ public class Jogo
 	public int getRodadaAtual()
 	{
 		return rodadaAtual;
+	}
+	
+	public void resetRodadaAtual()
+	{
+		rodadaAtual = 1;
 	}
 	
 	public int getTotalRodadas()
@@ -54,16 +57,6 @@ public class Jogo
 	public boolean isUltimaRodada()
 	{
 		return rodadaAtual >= totalRodadas;
-	}
-	
-	public boolean isMostrarCartaMaquina()
-	{
-		return mostrarCartaMaquina;
-	}
-	 
-	public void setMostrarCartaMaquina(boolean deveMostrar)
-	{
-		this.mostrarCartaMaquina = deveMostrar;
 	}
 	
 	public EstadoJogo getEstadoJogo()

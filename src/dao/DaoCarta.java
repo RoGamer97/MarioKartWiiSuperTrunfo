@@ -5,11 +5,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
-
-import modelo.Baralho;
 import modelo.Carta;
-import modelo.Debug;
 
 public class DaoCarta
 {
@@ -21,7 +20,6 @@ public class DaoCarta
         {
             FileInputStream arquivo = new FileInputStream("db.properties");
             properties.load(arquivo);
-
             Class.forName(properties.getProperty("db.driver"));
         }
         catch (Exception e)
@@ -30,18 +28,15 @@ public class DaoCarta
         }
     }
 
-    public void adicionarCartasBaralho(Baralho baralho)
+    public List<Carta> getTodasCartas()
     {
         String query = "SELECT * FROM veiculos";
+        List<Carta> listaCartas = new ArrayList<>();
 
-        try
+        try (Connection conexao = DriverManager.getConnection(properties.getProperty("db.url"));
+             PreparedStatement operacao = conexao.prepareStatement(query);
+             ResultSet resultado = operacao.executeQuery())
         {
-            Connection conexao = DriverManager.getConnection(properties.getProperty("db.url"));
-            PreparedStatement operacao = conexao.prepareStatement(query);
-            ResultSet resultado = operacao.executeQuery();
-
-            int idx = 0;
-            
             while (resultado.next())
             {
                 Carta carta = new Carta(
@@ -55,19 +50,16 @@ public class DaoCarta
                     resultado.getFloat("offroad"),
                     resultado.getFloat("miniturbo")
                 );
-                
-                carta.setImagem(resultado.getBytes("imagem"));
-                
-                baralho.adicionarCarta(carta);
-            }
 
-            resultado.close();
-            operacao.close();
-            conexao.close();
+                carta.setImagem(resultado.getBytes("imagem"));
+                listaCartas.add(carta);
+            }
         }
         catch (Exception e)
         {
-            throw new RuntimeException("[DaoCarta] Erro ao obter cartas do Banco de Dados! " + e);
+            throw new RuntimeException("[DaoCarta] Erro ao obter cartas do banco!", e);
         }
+
+        return listaCartas;
     }
 }

@@ -1,7 +1,6 @@
 package controle;
 
 import modelo.Carta;
-import modelo.Debug;
 import modelo.EstadoJogo;
 import modelo.Jogador;
 import modelo.Jogo;
@@ -9,6 +8,7 @@ import modelo.ResultadoComparacao;
 import modelo.TipoAtributoCarta;
 import modelo.TipoJogador;
 import modelo.TipoJogadorString;
+import view.IViewJogo;
 import view.ViewJogo;
 
 public class ControleJogo 
@@ -19,22 +19,47 @@ public class ControleJogo
 	private Jogo jogo = new Jogo(humano, maquina);
 	private TipoJogadorString tjString = new TipoJogadorString();
 	
-	private ViewJogo viewJogo;
+	private IViewJogo viewJogo;
 	private ControleCarta controleCarta;
 	private ControleBaralho controleBaralho;
 	private ControleMao controleMao;
 	
-	public ControleJogo(ViewJogo viewJogo, ControleBaralho controleBaralho, ControleCarta controleCarta, ControleMao controleMao)
+	public ControleJogo(ControleBaralho controleBaralho, ControleCarta controleCarta, ControleMao controleMao)
 	{
-		this.viewJogo = viewJogo;
 		this.controleBaralho = controleBaralho;
 		this.controleCarta = controleCarta;
 		this.controleMao = controleMao;
 	}
 	
+	public void setViewJogo(IViewJogo viewJogo)
+	{
+		this.viewJogo = viewJogo;
+	}
+	
 	public Jogador getJogadorPorTipo(TipoJogador tipoJogador)
 	{
 		return (tipoJogador == TipoJogador.HUMANO) ? humano : maquina;
+	}
+	
+	public void resetTudo()
+	{
+		controleBaralho.removerTodasCartas();
+		controleMao.removerTodasCartas();
+		jogo.resetRodadaAtual();
+		humano.resetPontos();
+		maquina.resetPontos();
+		viewJogo.resetElementos();
+	}
+	
+	public void iniciarPartida()
+	{
+		resetTudo();
+		controleBaralho.setTotalCartas(getTotalRodadas());
+		viewJogo.atualizarTextoTotalRodadas();
+		controleBaralho.prepararBaralho();
+		controleMao.distribuirCartasMao(TipoJogador.HUMANO);
+		controleMao.distribuirCartasMao(TipoJogador.MAQUINA);
+		viewJogo.abrirMenuSelecaoCarta();
 	}
 	
 	public void jogarRodada()
@@ -91,7 +116,10 @@ public class ControleJogo
 		humano.adicionarPontosRodada(totalAtribMaiorHumano);
 		maquina.adicionarPontosRodada(totalAtribMaiorMaquina);
 		
-		getJogadorPorTipo(controleCarta.getJogadorVencedorAtributos()).adicionarPontoPartida();
+		if (totalAtribMaiorHumano != totalAtribMaiorMaquina)
+		{
+			getJogadorPorTipo(controleCarta.getJogadorVencedorAtributos()).adicionarPontoPartida();
+		}
 		
 		EstadoJogo estadoJogo = EstadoJogo.RODADA_FINALIZADA;
 		
@@ -139,16 +167,6 @@ public class ControleJogo
 	public void setTotalRodadas(int quantidade)
 	{
 		jogo.setTotalRodadas(quantidade);
-	}
-	
-	public boolean isMostrarCartaMaquina()
-	{
-		return jogo.isMostrarCartaMaquina();
-	}
-	
-	public void setMostrarCartaMaquina(boolean deveMostrar)
-	{
-		jogo.setMostrarCartaMaquina(deveMostrar);
 	}
 	
 	public int getPontosRodada(TipoJogador tipoJogador)
