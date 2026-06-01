@@ -7,7 +7,7 @@ public class Jogo
 	private Jogador humano;
 	private Jogador maquina;
 
-	private int rodadaAtual;
+	private int rodadaAtual = 1;
 	private int totalRodadas;
 	private boolean isRodadaDesempate = false;
 	

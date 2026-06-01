@@ -46,18 +46,4 @@ public class ControleBaralho
 	{
 		baralho.removerCarta(carta);
 	}
-	
-	public void printarCartasSobrando()
-	{
-		if (!Debug.DEBUG_PRINTS_ENABLED)
-		{
-			return;
-		}
-		
-		for (int i = 0; i < baralho.getNumCartasBaralho(); i++)
-		{
-			Carta carta = baralho.getCartaPorId(i);
-			System.out.println("Cartas sobrando no baralho: " + carta);
-		}
-	}
 }

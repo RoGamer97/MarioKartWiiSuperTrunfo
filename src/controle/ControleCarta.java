@@ -59,11 +59,6 @@ public class ControleCarta
 		return getCartaEscolhidaPorTipoJogador(tipoJogador).getNome();
 	}
 	
-	public float getSomaTodosAtributos(TipoJogador tipoJogador)
-	{
-		return getCartaEscolhidaPorTipoJogador(tipoJogador).getSomaTodosAtributos();
-	}
-	
 	public int getTotalAtributosMaiores(TipoJogador tipoJogador)
 	{
 		int totalAtribMaiores = 0;

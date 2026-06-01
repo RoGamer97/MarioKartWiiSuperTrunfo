@@ -43,20 +43,6 @@ public class Baralho
     
     public void embaralharCartas()
     {
-    	Collections.shuffle(cartas);   	
-    	
-    	if (!Debug.DEBUG_PRINTS_ENABLED)
-    	{
-    		return;
-    	}
-    	
-    	int idx = 0;
-    	
-    	for (Carta carta : cartas)
-    	{
-            System.out.println("[Baralho] Carta embaralhada (" + carta.getNome() + " | Index Array Velho: " + (carta.getId() - 1) + " | Index Array Novo: " + idx + ")");
-            
-            idx++;
-    	}
+    	Collections.shuffle(cartas);
     }
 }

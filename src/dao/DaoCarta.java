@@ -59,27 +59,11 @@ public class DaoCarta
                 carta.setImagem(resultado.getBytes("imagem"));
                 
                 baralho.adicionarCarta(carta);
-                
-                if (!Debug.DEBUG_PRINTS_ENABLED)
-                {
-                    continue;
-                }
-                
-                System.out.println("[DaoCarta] Carta adicionada ao baralho (" + resultado.getString("nome") + " | Index BD: " + resultado.getInt("id") + " | Index Array: " + idx + ")");
-                
-                idx++;
             }
 
             resultado.close();
             operacao.close();
             conexao.close();
-            
-            if (!Debug.DEBUG_PRINTS_ENABLED)
-            {
-                return;
-            }
-            
-            System.out.println("[DaoCarta] Todas as cartas foram sorteadas\n");
         }
         catch (Exception e)
         {

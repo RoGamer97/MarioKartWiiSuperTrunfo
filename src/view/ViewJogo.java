@@ -34,7 +34,6 @@ public class ViewJogo extends JFrame
 	private ControleCarta controleCarta = new ControleCarta(controleMao);
 	private ControleJogo controleJogo = new ControleJogo(this, controleBaralho, controleCarta, controleMao);
 	
-	private ViewJogoDebugMenu viewJogoDebugMenu = null;
 	private ViewJogoMenuCarta viewJogoMenuCarta = null; 
 	
 	private static final long serialVersionUID = 1L;
@@ -88,7 +87,6 @@ public class ViewJogo extends JFrame
 	
 	private JLabel textNomeCartaHumano;
 	private JLabel textNomeCartaMaquina;
-	private JLabel textLabelDirty;
 	
 	private JLabel imagemCartaHumano;
 	private JLabel imagemCartaMaquina;
@@ -108,6 +106,7 @@ public class ViewJogo extends JFrame
 		controleJogo.setEstadoJogo(EstadoJogo.CARTA_NAO_ESCOLHIDA);
 		controleJogo.setTotalRodadas(totalRodadas);
 		controleJogo.setMostrarCartaMaquina(mostrarCartasMaquina);
+		
 		viewMenuPrincipal.setVisible(false);
 		
 		controleBaralho.setTotalCartas(totalRodadas);
@@ -116,12 +115,6 @@ public class ViewJogo extends JFrame
 		controleMao.distribuirCartasMao(TipoJogador.MAQUINA);
 		
 		this.viewMenuPrincipal = viewMenuPrincipal;
-		
-		if (Debug.DEBUG_MENU_ENABLED)
-		{
-			viewJogoDebugMenu = new ViewJogoDebugMenu(this, controleJogo);
-			viewJogoDebugMenu.setVisible(true);
-		}
 		
 		final Font FONTE_TITULO = new Font(Font.SANS_SERIF, Font.BOLD, 14);
 		final Font FONTE_ATRIBUTO = new Font(Font.SANS_SERIF, Font.PLAIN, 13);
@@ -174,16 +167,6 @@ public class ViewJogo extends JFrame
 		textEasterEgg.setBounds(275, 253, 240, 26);
 		contentPane.add(textEasterEgg);
 		textEasterEgg.setVisible(false);
-
-		if (Debug.DEBUG_MENU_ENABLED)
-		{
-			textLabelDirty = new JLabel("(D)");
-			textLabelDirty.setFont(FONTE_FIM);
-			textLabelDirty.setForeground(new Color(255, 0, 0));
-			textLabelDirty.setBounds(10, 0, 30, 50);
-			contentPane.add(textLabelDirty);
-			textLabelDirty.setVisible(false);
-		}
 		
 		JLabel lblTituloVoce = new JLabel("Você", SwingConstants.CENTER);
 		lblTituloVoce.setForeground(new Color(0, 0, 255));
@@ -707,11 +690,6 @@ public class ViewJogo extends JFrame
 		if (viewJogoMenuCarta != null) viewJogoMenuCarta.setVisible(false);
 		viewMenuPrincipal.setVisible(true);
 	    this.setVisible(false);
-	    
-	    if (Debug.DEBUG_MENU_ENABLED && viewJogoDebugMenu != null)
-	    {
-	    	viewJogoDebugMenu.setVisible(false);
-	    }
 	}
 	
 	public void atualizarTextoPontos() 
@@ -823,23 +801,19 @@ public class ViewJogo extends JFrame
 	
 	public void mostrarAvisoDesempate()
 	{
-		JOptionPane.showMessageDialog(null, "Por causa do empate na pontuação final, haverá mais uma rodada com cartas distribuidas do baralho", "Empate!", JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog(null, "Você empatou com a Máquina nos pontos da partida! Uma carta do baralho foi dada a você e a Máquina para desempatar. Tente ganhar!.", "Empate!", JOptionPane.INFORMATION_MESSAGE);
 	}
 		
 	public void mostrarTextoEasterEggBumpfest()
 	{
 		textEasterEgg.setVisible(true);
 		textEasterEgg.setText("Blast off to Quacker Island!!");
-		
-		if (Debug.DEBUG_PRINTS_ENABLED)
-		{
-			System.out.println("[ViewJogo] Easter Egg bumpfest executado!");
-		}
 	}
 	
-	public void displayDebugMark()
+	public void mostrarTextoEasterEggMeta()
 	{
-		if (textLabelDirty != null) textLabelDirty.setVisible(true);
+		textEasterEgg.setVisible(true);
+		textEasterEgg.setText("The Meta Duo!");
 	}
 
 	private void setImagemLabel(JLabel label, String caminhoImagem)
