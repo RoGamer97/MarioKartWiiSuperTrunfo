@@ -97,6 +97,9 @@ public class ViewJogo extends JFrame
 	
 	private JLabel crownHumano;
 	private JLabel crownMaquina;
+	
+	private JLabel labelPontoMaisMaquina;
+	private JLabel labelPontoMaisHumano;
 
 	public ViewJogo(ViewMenuPrincipal viewMenuPrincipal, int totalRodadas, boolean mostrarCartasMaquina) 
 	{
@@ -498,11 +501,24 @@ public class ViewJogo extends JFrame
 		btnTrocarCarta.setBounds(30, 495, 160, 45);
 		contentPane.add(btnTrocarCarta);
 		
+		labelPontoMaisHumano = new JLabel("");
+		labelPontoMaisHumano.setHorizontalAlignment(SwingConstants.CENTER);
+		labelPontoMaisHumano.setBounds(201, 430, 75, 55);
+		contentPane.add(labelPontoMaisHumano);
+		
+		labelPontoMaisMaquina = new JLabel("");
+		labelPontoMaisMaquina.setHorizontalAlignment(SwingConstants.CENTER);
+		labelPontoMaisMaquina.setBounds(516, 430, 75, 55);
+		contentPane.add(labelPontoMaisMaquina);
+		
+		setCoroaHumanoIsVisible(false);
+		setCoroaMaquinaIsVisible(false);
+		
+		setImagemLabel(labelPontoMaisHumano, "/imagens/+1b.png");
+		setImagemLabel(labelPontoMaisMaquina, "/imagens/+1r.png");
 		
 		setIsBtnTrocarCartaEnabled(false);
 		limparElementosRodada();
-		
-		
 		
 		btnTrocarCarta.addActionListener(new ActionListener()
 		{
@@ -547,8 +563,8 @@ public class ViewJogo extends JFrame
 		textNomeCartaHumano.setText("");
 		textNomeCartaMaquina.setText("");
 		
-		atualizarImagemComparacaoAtrib(crownHumano, "/imagens/crown.png");
-		atualizarImagemComparacaoAtrib(crownMaquina, "/imagens/crown.png");
+		setImagemLabel(crownHumano, "/imagens/crown.png");
+		setImagemLabel(crownMaquina, "/imagens/crown.png");
 		
 		setLocationRelativeTo(null);
 	}
@@ -624,6 +640,9 @@ public class ViewJogo extends JFrame
 		textEasterEgg.setVisible(false);
 		
 		setImagemComparacaoAtribIsVisible(false);
+		
+		labelPontoMaisHumano.setVisible(false);
+		labelPontoMaisMaquina.setVisible(false);
 	}
 
 	public void abrirMenuSelecaoCarta() 
@@ -803,7 +822,7 @@ public class ViewJogo extends JFrame
 		if (textLabelDirty != null) textLabelDirty.setVisible(true);
 	}
 
-	private void atualizarImagemComparacaoAtrib(JLabel label, String caminhoImagem)
+	private void setImagemLabel(JLabel label, String caminhoImagem)
 	{
 		if (caminhoImagem == null || caminhoImagem.isEmpty()) 
 		{
@@ -824,43 +843,65 @@ public class ViewJogo extends JFrame
 
 	public void setImagemComparacaoSpeed(String caminhoHumano, String caminhoMaquina) 
 	{
-		atualizarImagemComparacaoAtrib(lblIconSpeedHumano, caminhoHumano);
-		atualizarImagemComparacaoAtrib(lblIconSpeedMaquina, caminhoMaquina);
+		setImagemLabel(lblIconSpeedHumano, caminhoHumano);
+		setImagemLabel(lblIconSpeedMaquina, caminhoMaquina);
 	}
 
 	public void setImagemComparacaoWeight(String caminhoHumano, String caminhoMaquina) 
 	{
-		atualizarImagemComparacaoAtrib(lblIconWeightHumano, caminhoHumano);
-		atualizarImagemComparacaoAtrib(lblIconWeightMaquina, caminhoMaquina);
+		setImagemLabel(lblIconWeightHumano, caminhoHumano);
+		setImagemLabel(lblIconWeightMaquina, caminhoMaquina);
 	}
 
 	public void setImagemComparacaoAccel(String caminhoHumano, String caminhoMaquina) 
 	{
-		atualizarImagemComparacaoAtrib(lblIconAccelerationHumano, caminhoHumano);
-		atualizarImagemComparacaoAtrib(lblIconAccelerationMaquina, caminhoMaquina);
+		setImagemLabel(lblIconAccelerationHumano, caminhoHumano);
+		setImagemLabel(lblIconAccelerationMaquina, caminhoMaquina);
 	}
 
 	public void setImagemComparacaoHandling(String caminhoHumano, String caminhoMaquina) 
 	{
-		atualizarImagemComparacaoAtrib(lblIconHandlingHumano, caminhoHumano);
-		atualizarImagemComparacaoAtrib(lblIconHandlingMaquina, caminhoMaquina);
+		setImagemLabel(lblIconHandlingHumano, caminhoHumano);
+		setImagemLabel(lblIconHandlingMaquina, caminhoMaquina);
 	}
 
 	public void setImagemComparacaoDrift(String caminhoHumano, String caminhoMaquina) 
 	{
-		atualizarImagemComparacaoAtrib(lblIconDriftHumano, caminhoHumano);
-		atualizarImagemComparacaoAtrib(lblIconDriftMaquina, caminhoMaquina);
+		setImagemLabel(lblIconDriftHumano, caminhoHumano);
+		setImagemLabel(lblIconDriftMaquina, caminhoMaquina);
 	}
 
 	public void setImagemComparacaoOffroad(String caminhoHumano, String caminhoMaquina) 
 	{
-		atualizarImagemComparacaoAtrib(lblIconOffroadHumano, caminhoHumano);
-		atualizarImagemComparacaoAtrib(lblIconOffroadMaquina, caminhoMaquina);
+		setImagemLabel(lblIconOffroadHumano, caminhoHumano);
+		setImagemLabel(lblIconOffroadMaquina, caminhoMaquina);
 	}
 
 	public void setImagemComparacaoMT(String caminhoHumano, String caminhoMaquina) 
 	{
-		atualizarImagemComparacaoAtrib(lblIconMTHumano, caminhoHumano);
-		atualizarImagemComparacaoAtrib(lblIconMTMaquina, caminhoMaquina);
+		setImagemLabel(lblIconMTHumano, caminhoHumano);
+		setImagemLabel(lblIconMTMaquina, caminhoMaquina);
+	}
+	
+	public void setCoroaHumanoIsVisible(boolean isVisible)
+	{
+		crownHumano.setVisible(isVisible);
+	}
+	
+	public void setCoroaMaquinaIsVisible(boolean isVisible)
+	{
+		crownMaquina.setVisible(isVisible);
+	}
+	
+	public void mostrarIncrementoPontoHumano()
+	{
+		labelPontoMaisHumano.setVisible(true);
+		labelPontoMaisMaquina.setVisible(false);
+	}
+	
+	public void mostrarIncrementoPontoMaquina()
+	{
+		labelPontoMaisHumano.setVisible(false);
+		labelPontoMaisMaquina.setVisible(true);
 	}
 }

@@ -95,6 +95,8 @@ public class ControleJogo
 		viewJogo.setIsBtnJogarEnabled(true);
 		
 		viewJogo.atualizarElementosRodada();
+		mostrarCoroaGanhando();
+		mostrarIncrementoPonto();
 	}
 	
 	public void removerCartaJogadaMao()
@@ -307,6 +309,45 @@ public class ControleJogo
 	        case MINITURBO:  
 	        	viewJogo.setImagemComparacaoMT(pathHumano, pathMaquina); 
 	    }
+	}
+	
+	public void mostrarCoroaGanhando()
+	{
+		int pontosPartidaHumano = humano.getPontosPartida();
+		int pontosPartidaMaquina = maquina.getPontosPartida();
+		
+		if (pontosPartidaHumano > pontosPartidaMaquina)
+		{
+			viewJogo.setCoroaHumanoIsVisible(true);
+			viewJogo.setCoroaMaquinaIsVisible(false);
+		}
+		else if (pontosPartidaHumano < pontosPartidaMaquina)
+		{
+			viewJogo.setCoroaHumanoIsVisible(false);
+			viewJogo.setCoroaMaquinaIsVisible(true);
+		}
+		else
+		{
+			viewJogo.setCoroaHumanoIsVisible(false);
+			viewJogo.setCoroaMaquinaIsVisible(false);
+		}
+	}
+	
+	public void mostrarIncrementoPonto()
+	{
+		int pontosRodadaHumano = humano.getPontosRodada();
+		int pontosRodadaMaquina = maquina.getPontosRodada();
+		
+		if (pontosRodadaHumano > pontosRodadaMaquina)
+		{
+			viewJogo.mostrarIncrementoPontoHumano();
+			System.out.println("Humano");
+		}
+		else if (pontosRodadaHumano < pontosRodadaMaquina)
+		{
+			viewJogo.mostrarIncrementoPontoMaquina();
+			System.out.println("Maquina");
+		}
 	}
 	
 	// USADAS NO DEBUG MENU!
