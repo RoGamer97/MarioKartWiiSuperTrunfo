@@ -8,17 +8,15 @@ Este projeto foi desenvolvido como parte de uma avaliação da disciplina de Pro
 
 ## Funcionalidades do Jogo
 
-No menu inicial, o jogador define o número de rodadas da partida. Ao início de cada rodada, você seleciona a carta da sua mão e clica em "Jogar"; a máquina escolhe uma carta automaticamente e o sistema compara os atributos, contabilizando os pontos.
+No menu inicial, você define o número de rodadas da partida. Ao início de cada rodada, você seleciona a carta da sua mão e clica em "Jogar"; a máquina escolhe uma carta automaticamente e o sistema compara os atributos, contabilizando os pontos. Se algum atributo empatar, nenhum ponto é contabilizado.
 
-**Regras de desempate:**
-* **Empate nos atributos:** Nenhum ponto é adicionado.
-* **Empate na partida:** Cada jogador recebe uma carta extra do baralho para uma rodada final de desempate.
+Se empatar os pontos da partida na última rodada, cada jogador recebe uma carta extra do baralho e uma rodada final de desempate é jogada.
 
 ## Lógica dos Atributos
 
-Os valores das cartas seguem as estatísticas oficiais do jogo. Como muitos atributos do Mario Kart Wii são formados por múltiplos dados físicos combinados, foi necessário realizar cálculos de normalização para transformá-los em índices únicos e comparáveis.
+Os valores das cartas seguem as estatísticas oficiais do jogo. Como alguns atributos são formados por múltiplos dados físicos combinados, foi necessário realizar cálculos de normalização para transformá-los em índices únicos e comparáveis.
 
-O objetivo desses ajustes foi criar valores visualmente adequados para o jogo de cartas, mantendo a máxima fidelidade possível ao comportamento real dos veículos. Os cálculos foram baseados na engenharia reversa da física do jogo, extraindo os dados diretamente dos arquivos originais.
+O objetivo desses ajustes foi criar valores visualmente adequados para o jogo de cartas, mantendo a máxima fidelidade possível ao comportamento real dos veículos. Os cálculos foram baseados na engenharia reversa da física do jogo, e os atributos foram extrados diretamente dos arquivos originais.
 
 **Fontes:**
 * [kartParam.bin Vehicle Statistics (Custom Mario Kart Wiiki)](https://wiki.tockdom.com/wiki/KartParam.bin#Vehicle_Statistics)
@@ -29,7 +27,7 @@ O objetivo desses ajustes foi criar valores visualmente adequados para o jogo de
 * **Acceleration:** Média dos quatro estágios de arrancada (A0 a A3) multiplicada por 10.
 * **Handling:** Manual Handling Tightness multiplicado por 1000.
 * **Drift:** Manual Drift Tightness multiplicado por 1000.
-* **Offroad:** Média das três categorias de terreno (Weak, Offroad e Heavy) multiplicada por 10.
+* **Offroad:** Média das três categorias de offroad (Weak, Normal e Heavy) multiplicada por 10.
 * **Weight:** Valor original multiplicado por 10.
 * **Miniturbo:** Valor original.
 
