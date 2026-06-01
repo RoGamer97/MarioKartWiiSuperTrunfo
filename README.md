@@ -41,7 +41,7 @@ O arquivo `veiculos.sql`, presente na pasta `/db`, não é utilizado em tempo de
 
 O jogo tem dois textos de easter egg que aparecem quando você e a máquina jogam um combo especifico de cartas, sendo eles:
 
-* `Blast off to Quacker Island!!`: Aparece quando a carta dos veículos `Quacker` e `Piranha Prowler` são jogadas ao mesmo tempo em uma rodada. Referência de um [vídeo classico do Youtuber famoso Troy (TWD98)](https://www.youtube.com/watch?v=HVyMpJ_1YIs) onde os jogadores usam veículos pesados (Piranha Prowler) para bater e lançar veículos leves (Quacker) para partes inacessíveis das pistas.
+* `Blast off to Quacker Island!!`: Aparece quando a carta dos veículos `Quacker` e `Piranha Prowler` são jogadas ao mesmo tempo em uma rodada. Referência a um [vídeo classico do Youtuber famoso Troy (TWD98)](https://www.youtube.com/watch?v=HVyMpJ_1YIs) onde os jogadores usam um veículo pesado (Piranha Prowler) para bater e lançar um veículo leve (Quacker) para partes inacessíveis das pistas.
 
 * `The Meta Duo`: Aparece quando a carta dos veículos `Flame Runner` e `Mach Bike` são jogadas ao mesmo tempo em uma rodada. Referência aos veículos meta do jogo.
 
