@@ -26,7 +26,7 @@ import modelo.Debug;
 import modelo.EstadoJogo;
 import modelo.TipoJogador;
 
-public class ViewJogo extends JFrame 
+public class ViewJogo extends JFrame implements IViewJogo
 {	
 	private ViewMenuPrincipal viewMenuPrincipal;
 	private ControleBaralho controleBaralho;
@@ -621,7 +621,6 @@ public class ViewJogo extends JFrame
 		setIsBtnJogarEnabled(false);
 		crownHumano.setVisible(false);
 		crownMaquina.setVisible(false);
-		
 	}
 
 	public void limparElementosRodada()

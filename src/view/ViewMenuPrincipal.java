@@ -43,7 +43,7 @@ public class ViewMenuPrincipal extends JFrame {
 		(
 			new String[] {"8", "10", "12", "14", "16"}
 		);
-		totalCartas.setBounds(190, 135, 62, 22);
+		totalCartas.setBounds(190, 149, 62, 22);
 		contentPane.add(totalCartas);
 		
 		// 12 selecionado por padrão
@@ -64,7 +64,7 @@ public class ViewMenuPrincipal extends JFrame {
 		contentPane.add(btnJogar);
 		
 		JLabel textInfoQtdCartas = new JLabel("Quantidade de rodadas (Cartas por Jogador)");
-		textInfoQtdCartas.setBounds(104, 120, 265, 18);
+		textInfoQtdCartas.setBounds(104, 129, 265, 18);
 		contentPane.add(textInfoQtdCartas);
 		
 		setLocationRelativeTo(null);

@@ -8,6 +8,7 @@ import modelo.ResultadoComparacao;
 import modelo.TipoAtributoCarta;
 import modelo.TipoJogador;
 import modelo.TipoJogadorString;
+import view.IViewJogo;
 import view.ViewJogo;
 
 public class ControleJogo 
@@ -18,7 +19,7 @@ public class ControleJogo
 	private Jogo jogo = new Jogo(humano, maquina);
 	private TipoJogadorString tjString = new TipoJogadorString();
 	
-	private ViewJogo viewJogo;
+	private IViewJogo viewJogo;
 	private ControleCarta controleCarta;
 	private ControleBaralho controleBaralho;
 	private ControleMao controleMao;
@@ -30,7 +31,7 @@ public class ControleJogo
 		this.controleMao = controleMao;
 	}
 	
-	public void setViewJogo(ViewJogo viewJogo)
+	public void setViewJogo(IViewJogo viewJogo)
 	{
 		this.viewJogo = viewJogo;
 	}
@@ -45,13 +46,14 @@ public class ControleJogo
 		controleBaralho.removerTodasCartas();
 		controleMao.removerTodasCartas();
 		jogo.resetRodadaAtual();
-		humano.resetarPontos();
-		maquina.resetarPontos();
+		humano.resetPontos();
+		maquina.resetPontos();
+		viewJogo.resetElementos();
 	}
 	
 	public void iniciarPartida()
 	{
-		viewJogo.resetElementos();
+		resetTudo();
 		controleBaralho.setTotalCartas(getTotalRodadas());
 		viewJogo.atualizarTextoTotalRodadas();
 		controleBaralho.prepararBaralho();

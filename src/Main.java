@@ -19,7 +19,6 @@ public class Main {
         
         ControleJogo controleJogo = new ControleJogo(controleBaralho, controleCarta, controleMao);
     
-		
         ViewMenuPrincipal viewMenuPrincipal = new ViewMenuPrincipal(controleJogo);
       
         ViewJogo viewJogo = new ViewJogo(viewMenuPrincipal, controleMao, controleCarta, controleBaralho, controleJogo);
