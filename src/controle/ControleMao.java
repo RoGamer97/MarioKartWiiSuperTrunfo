@@ -59,7 +59,6 @@ public class ControleMao
 		maoMaquina.adicionarCartaMao(cartaSorteada);
 		controleBaralho.removerCarta(cartaSorteada);
 		
-		
 		if (!Debug.DEBUG_PRINTS_ENABLED)
 		{
 			return;

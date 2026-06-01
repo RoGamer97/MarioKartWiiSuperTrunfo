@@ -24,8 +24,6 @@ public class ControleJogo
 	private ControleBaralho controleBaralho;
 	private ControleMao controleMao;
 	
-	boolean mostrouMensagemVencedor = false;
-	
 	public ControleJogo(ViewJogo viewJogo, ControleBaralho controleBaralho, ControleCarta controleCarta, ControleMao controleMao)
 	{
 		this.viewJogo = viewJogo;
@@ -39,9 +37,8 @@ public class ControleJogo
 		return (tipoJogador == TipoJogador.HUMANO) ? humano : maquina;
 	}
 	
-	public void processarRodada()
+	public void jogarRodada()
 	{
-		iniciarRodada();
 		escolherCartaMaquina();
 		removerCartaJogadaMao();
 		compararKartsParaEasterEgg();
@@ -54,17 +51,37 @@ public class ControleJogo
 		controleMao.escolherCartaMaquina();
 	}
 	
-	public void iniciarRodada()
-	{	
+	public void proximaRodada()
+	{
 		humano.resetPontosRodada();
 		maquina.resetPontosRodada();
 		jogo.incrementarRodadaAtual();
-		viewJogo.atualizarTextoRodada();
+		viewJogo.limparElementosRodada();
+		viewJogo.setTextoBotaoNenhumaCarta();
 		viewJogo.setIsBtnTrocarCartaEnabled(false);
+		viewJogo.setIsBtnJogarEnabled(false);
+		viewJogo.atualizarTextoPontos();
+		viewJogo.atualizarTextoRodada();
+		viewJogo.abrirMenuSelecaoCarta();
+		
+		setEstadoJogo(EstadoJogo.CARTA_NAO_ESCOLHIDA);
 	}
 	
+	public void proximaRodadaDesempate()
+	{
+		viewJogo.mostrarAvisoDesempate();
+		setTotalRodadas(getTotalRodadas() + 1);
+		viewJogo.setTextoTotalRodadasDesempate();
+		controleMao.distribuirCartasDesempate();
+		proximaRodada();
+	}
+	
+
 	public void finalizarRodada()
 	{
+		viewJogo.atualizarTextoRodada();
+		viewJogo.setIsBtnTrocarCartaEnabled(false);
+		
 		int totalAtribMaiorHumano = controleCarta.getTotalAtributosMaiores(TipoJogador.HUMANO);
 		int totalAtribMaiorMaquina = controleCarta.getTotalAtributosMaiores(TipoJogador.MAQUINA);
 		
@@ -76,17 +93,12 @@ public class ControleJogo
 		
 		getJogadorPorTipo(controleCarta.getJogadorVencedorAtributos()).adicionarPontoPartida();
 		
-		EstadoJogo estadoJogo;
+		EstadoJogo estadoJogo = EstadoJogo.RODADA_FINALIZADA;
 		
-		if (isPartidaFinalizada() && !isPartidaEmpatada())
+		if (deveFinalizarPartida())
 		{
 			viewJogo.setTextoBotaoFinalizarPartida();
-			estadoJogo = EstadoJogo.PARTIDA_FINALIZADA;
-		}
-		else
-		{
-		    viewJogo.setTextoBotaoProximaRodada();
-		    estadoJogo = EstadoJogo.RODADA_FINALIZADA;
+			estadoJogo = isPartidaEmpatada() ? EstadoJogo.RODADA_DESEMPATE : EstadoJogo.PARTIDA_FINALIZADA;
 		}
 		
 		setEstadoJogo(estadoJogo);
@@ -104,7 +116,7 @@ public class ControleJogo
 		controleMao.removerCartaJogadaMao();
 	}
 	
-	public boolean isPartidaFinalizada()
+	public boolean deveFinalizarPartida()
 	{
 		return jogo.isUltimaRodada();
 	}
@@ -167,40 +179,17 @@ public class ControleJogo
 		}
 		
 		jogo.setEstadoJogo(estado);
-	}
-	
-	public void proximaRodada()
-	{
-		viewJogo.limparElementosRodada();
-		viewJogo.setTextoBotaoNenhumaCarta();
-		viewJogo.setIsBtnTrocarCartaEnabled(false);
-		viewJogo.setIsBtnJogarEnabled(false);
-		viewJogo.abrirMenuSelecaoCarta();
+		
+		if (Debug.DEBUG_PRINTS_ENABLED)
+		{
+			System.out.println("[ControleJogo] setEstadoJogo: " + estado);
+		}
 	}
 	
 	public void finalizarPartida()
 	{
-		if (mostrouMensagemVencedor)
-		{
-			viewJogo.voltarMenuTitulo();
-			return;
-		}
-		
-		if (isPartidaEmpatada())
-		{
-			viewJogo.mostrarAvisoDesempate();
-			setEstadoJogo(EstadoJogo.RODADA_FINALIZADA);
-			
-			setTotalRodadas(getTotalRodadas() + 1);
-			viewJogo.setTextoTotalRodadasDesempate();
-			viewJogo.limparElementosRodada();
-			controleMao.distribuirCartasDesempate();
-			viewJogo.abrirMenuSelecaoCarta();
-			return;
-		}
-		
 		viewJogo.mostrarEsconderElementosFimPartida();
-		mostrouMensagemVencedor = true;
+		setEstadoJogo(EstadoJogo.RESULTADO_PARTIDA);
 	}
 	
 	public void selecionarCarta(Carta carta)
@@ -226,13 +215,19 @@ public class ControleJogo
 		switch (estadoJogo)
 		{
 			case CARTA_ESCOLHIDA:
-				processarRodada();
+				jogarRodada();
+				break;
+			case RODADA_DESEMPATE:
+				proximaRodadaDesempate();
 				break;
 			case RODADA_FINALIZADA:
 				proximaRodada();
-				break;
+				break;	
 			case PARTIDA_FINALIZADA:
 				finalizarPartida();
+				break;
+			case RESULTADO_PARTIDA:
+				viewJogo.voltarMenuTitulo();
 			default:	
 		}
 	}
@@ -345,45 +340,6 @@ public class ControleJogo
 		else if (pontosRodadaHumano < pontosRodadaMaquina)
 		{
 			viewJogo.mostrarIncrementoPontoMaquina();
-		}
-	}
-	
-	// USADAS NO DEBUG MENU!
-	public void debugMudarPontosPartida(TipoJogador tipoJogador, boolean aumentar)
-	{
-		if (!Debug.DEBUG_MENU_ENABLED)
-		{
-			return;
-		}
-		
-		if (getPontosPartida(tipoJogador) <= 0 && !aumentar)
-		{
-			return;
-		}
-		
-		int ponto = aumentar ? 1 : -1;
-		
-		getJogadorPorTipo(tipoJogador).debugAdicionarPontoPartida(ponto);
-		viewJogo.atualizarTextoPontos();
-		
-		System.out.println("DEBUG: " + ponto + " ponto para " + tipoJogador);
-		viewJogo.displayDebugMark();
-	}
-	
-	public void debugAumentarRodada()
-	{
-		if (!Debug.DEBUG_MENU_ENABLED)
-		{
-			return;
-		}
-		
-		if (getRodadaAtual() < getTotalRodadas() - 1)
-		{
-			jogo.incrementarRodadaAtual();
-			viewJogo.atualizarTextoRodada();
-			
-			System.out.println("DEBUG: Rodada atual incrementada");
-			viewJogo.displayDebugMark();
 		}
 	}
 }
