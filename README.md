@@ -2,7 +2,7 @@
 
 Mario Kart Wii Super Trunfo é um projeto desenvolvido em Java, utilizando a arquitetura MVC e banco de dados SQLite. O jogo é baseado em um baralho contendo todos os 36 veículos presentes em Mario Kart Wii.
 
-![Imagem do jogo](https://github.com/user-attachments/assets/1475128d-4ec9-4654-8772-343e4a29cdcb)
+![Imagem do jogo](https://github.com/RoGamer97/MarioKartWiiSuperTrunfo/blob/main/mkwst.png))
 
 
 ## Objetivo
